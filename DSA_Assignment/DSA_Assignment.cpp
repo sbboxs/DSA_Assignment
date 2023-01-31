@@ -15,8 +15,8 @@
 
 using namespace std;
 
-void saveUserData();
-void loadUserData();
+void saveUserData(User& user);
+void loadUserData(Dictionary& userDictionary);
 void loadForumData();
 void saveForumData();
 void displayHome();
@@ -35,6 +35,7 @@ string str;
 
 int main()
 {
+	//Initialize the program
 	//Defining variables.
 	Dictionary userDictionary;
 	User currentUser;
@@ -43,6 +44,10 @@ int main()
 	userDictionary.print();
 	bool ifLogin = false;
 	string option = "1";	
+
+	//Load all needed data
+	loadUserData(userDictionary);
+
 
 	//Controlling of Login & Registration
 	while (option != "0") {
@@ -72,25 +77,41 @@ int main()
 	}
 }
 
-void saveUserData() {
-	string username;
-	string password;
-	bool loginStatus = false;
-	outFile.open("user.txt");
-	if (outFile.fail())
-		cout << endl << "Couldn't open the file!" << endl;
+void saveUserData(User& user) {
+	string username = user.getUserName();
+	string password = user.getPassword();
+	bool loginStatus = user.getIsLogin();
+	//Second flag 'ios::app' allows to open the file in append mode.
+	//Therefore, there no need to overwritten the file everytime when save.
+	//Newest data will just be appended at the end of the file.
+	outFile.open("user.txt", ios::app);
+	if (outFile.fail()) {
+		cout << endl << "No user data file is found!" << endl;
+		cout << endl << "Creating user data file..." << endl;
+		ofstream outFile;
+		outFile.open("user.txt");
+		outFile << username << ";" << password << ";" << loginStatus << endl;
+		outFile.close();
+		cout << "User data is saved!" << endl;
+	}
 	else {
 		outFile << username << ";" << password << ";" << loginStatus << endl;
 		outFile.close();
 		cout << "User data is saved!" << endl;
 	}
 }
-void loadUserData() {
+
+void loadUserData(Dictionary& userDictionary) {
 	string username, password;
 	bool loginStatus;
 	inFile.open("user.txt");
-	if (inFile.fail())
-		cout << endl << "File not found!" << endl;
+	if (inFile.fail()) {
+		cout << "No user data exist!" << endl;
+		cout << "Creating user data file..." << endl;
+		ofstream outFile;
+		outFile.open("user.txt");
+		outFile.close();
+	}
 	else {
 		while (!inFile.eof()) {
 			getline(inFile, str);
@@ -98,7 +119,8 @@ void loadUserData() {
 			getline(ss, username, ';');
 			getline(ss, password, ';');
 			ss >> loginStatus;
-
+			User loadUser(username, password, loginStatus);
+			userDictionary.add(username,loadUser);
 		}
 		inFile.close();
 		cout << "User data is loaded!" << endl;
@@ -220,6 +242,7 @@ void registerProcess(Dictionary& userDictionary) {
 				if (newPassword == checkPassword) {
 					User newUser(newUsername, newPassword, false);
 					if (userDictionary.add(newUsername, newUser)) {
+						saveUserData(newUser);
 						cout << "Account is created successfully! ";
 						system("pause");
 						system("cls");
