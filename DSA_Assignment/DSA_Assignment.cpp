@@ -10,6 +10,10 @@
 
 using namespace std;
 
+void saveUserData();
+void loadUserData();
+void loadForumData();
+void saveForumData();
 void displayHome();
 void loginForm();
 bool loginProcess(Dictionary& userDictionary, User& currentUser);
@@ -54,6 +58,12 @@ int main()
 		
 	}
 }
+
+void saveUserData() {}
+void loadUserData() {}
+void loadForumData() {}
+void saveForumData() {}
+
 //=========
 //This function is to print the layout of the homepage. Do not have any input parameters and return value.
 void displayHome() {
@@ -65,6 +75,7 @@ void displayHome() {
 	cout << "[0] Quit the application." << endl;
 	cout << "Enter option: ";
 }
+
 //=========
 //This function is to print the layout of login form. Do not have any input parameters and return value.
 void loginForm() {
@@ -75,6 +86,7 @@ void loginForm() {
 	cout << "[0] Back to login." << endl;
 	cout << "Enter option: ";
 }
+
 //=========
 //This function is to control the flow of login form. 
 //The user can perform logging in into their account by inputing the username and password.
@@ -85,6 +97,7 @@ bool loginProcess(Dictionary &userDictionary, User &currentUser) {
 	string promptPwd = "";
 
 	while (loginOption != "0") {
+		system("cls");
 		loginForm();
 		cin >> loginOption;
 		//Key in login credentials
@@ -121,6 +134,7 @@ bool loginProcess(Dictionary &userDictionary, User &currentUser) {
 	}
 	return false;
 }
+
 //=========
 //This function print the layout of the register form. Do not have any input parameters and return value.
 void registerForm() {
@@ -131,6 +145,7 @@ void registerForm() {
 	cout << "[0] Back to login." << endl;
 	cout << "Enter option: ";
 }
+
 //=========
 //This function control the flow of register form.
 //The user can perform registering account by inputing the "Unique" username, password and confirm his password.
@@ -184,6 +199,9 @@ void registerProcess(Dictionary& userDictionary) {
 		}
 	}
 }
+
+//=========
+//This function print the layout of the user home. Do not have any input parameters and return value.
 void userHome(string userName) {
 	cout << endl;
 	cout << "Welcome back! Dear user: " << userName << endl;
@@ -192,8 +210,13 @@ void userHome(string userName) {
 	cout << "[2] View my posts" << endl;
 	cout << "[3] Create new posts" << endl;
 	cout << "[0] Logout" << endl;
+	cout << "Enter option: ";
 }
 
+//=========
+//This function control the flow of user home.
+//The user can perform view topics and posts, view his post and create new post.
+//The user can also perform logout to main home page.
 bool userHomeProcess(Dictionary& userDictionary, User currentUser) {
 	string userHomeOption = "1";
 	string userName = currentUser.getUserName();
