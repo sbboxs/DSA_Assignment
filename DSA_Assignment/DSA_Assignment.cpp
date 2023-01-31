@@ -52,10 +52,12 @@ int main()
 			displayHome();
 			cin >> option;
 			//Login
-			if (option == "1") {
+			if (option == "1"){
+				system("cls");
 				ifLogin = loginProcess(userDictionary, currentUser);
 			}
 			else if (option == "2") {
+				system("cls");
 				registerProcess(userDictionary);
 			}
 			else if (option == "0")
@@ -73,7 +75,7 @@ int main()
 void saveUserData() {
 	string username;
 	string password;
-	bool loginStatus;
+	bool loginStatus = false;
 	outFile.open("user.txt");
 	if (outFile.fail())
 		cout << endl << "Couldn't open the file!" << endl;
@@ -138,7 +140,6 @@ bool loginProcess(Dictionary &userDictionary, User &currentUser) {
 	string promptPwd = "";
 
 	while (loginOption != "0") {
-		system("cls");
 		loginForm();
 		cin >> loginOption;
 		//Key in login credentials
@@ -198,7 +199,6 @@ void registerProcess(Dictionary& userDictionary) {
 	string checkPassword;
 	User existUser;
 	while (registerOption != "0") {
-		system("cls");
 		registerForm();
 		cin >> registerOption;
 		if (registerOption == "1") {
@@ -219,11 +219,14 @@ void registerProcess(Dictionary& userDictionary) {
 				cin >> checkPassword;
 				if (newPassword == checkPassword) {
 					User newUser(newUsername, newPassword, false);
-					userDictionary.add(newUsername, newUser);
-					cout << "Account is created successfully! ";
-					system("pause");
-					system("cls");
-					break;
+					if (userDictionary.add(newUsername, newUser)) {
+						cout << "Account is created successfully! ";
+						system("pause");
+						system("cls");
+						break;
+					}
+					else
+						cout << "Error: Username is exist." << endl;
 				}
 				else {
 					cout << "Password is not matched." << endl;

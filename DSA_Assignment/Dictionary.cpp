@@ -10,10 +10,10 @@ Dictionary::Dictionary() {
 
 Dictionary::~Dictionary() {
 	for (int i = 0; i < MAX_SIZE; i++) {
-		Node* temp = items[i];
-		while (temp != nullptr) {
-			Node* temp = temp;
-			temp = temp->next;
+		Node* current = items[i];
+		while (current != nullptr) {
+			Node* temp = current;
+			current = current->next;
 			delete temp;
 		}
 	}
