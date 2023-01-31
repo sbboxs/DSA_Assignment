@@ -5,9 +5,13 @@
 //======================================================
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "User.h"
 #include "Dictionary.h"
 #include "LinkedList.h"
+
+
 
 using namespace std;
 
@@ -22,6 +26,12 @@ void registerForm();
 void registerProcess(Dictionary& userDictionary);
 void userHome(string userName);
 bool userHomeProcess(Dictionary& userDictionary, User currentUser);
+
+//===
+//For data reading & writting with file
+ifstream inFile;
+ofstream outFile;
+string str;
 
 int main()
 {
@@ -60,8 +70,38 @@ int main()
 	}
 }
 
-void saveUserData() {}
-void loadUserData() {}
+void saveUserData() {
+	string username;
+	string password;
+	bool loginStatus;
+	outFile.open("user.txt");
+	if (outFile.fail())
+		cout << endl << "Couldn't open the file!" << endl;
+	else {
+		outFile << username << ";" << password << ";" << loginStatus << endl;
+		outFile.close();
+		cout << "User data is saved!" << endl;
+	}
+}
+void loadUserData() {
+	string username, password;
+	bool loginStatus;
+	inFile.open("user.txt");
+	if (inFile.fail())
+		cout << endl << "File not found!" << endl;
+	else {
+		while (!inFile.eof()) {
+			getline(inFile, str);
+			stringstream ss(str);
+			getline(ss, username, ';');
+			getline(ss, password, ';');
+			ss >> loginStatus;
+
+		}
+		inFile.close();
+		cout << "User data is loaded!" << endl;
+	}
+}
 void loadForumData() {}
 void saveForumData() {}
 

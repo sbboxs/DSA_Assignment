@@ -131,6 +131,7 @@
     <ClCompile Include="DSA_Assignment.cpp" />
     <ClCompile Include="Forum.cpp" />
     <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="LinkList.cpp" />
     <ClCompile Include="Post.cpp" />
     <ClCompile Include="Reply.cpp" />
     <ClCompile Include="Topic.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="Forum.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="LinkList.h" />
     <ClInclude Include="Post.h" />
     <ClInclude Include="Reply.h" />
     <ClInclude Include="Topic.h" />
