@@ -7,6 +7,7 @@
 #include <iostream>
 #include "User.h"
 #include "Dictionary.h"
+#include "LinkedList.h"
 
 using namespace std;
 
