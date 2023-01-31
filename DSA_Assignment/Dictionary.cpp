@@ -4,11 +4,19 @@
 Dictionary::Dictionary() {
 	size = 0;
 	for (int i = 0; i < MAX_SIZE; i++) {
-		items[i] = NULL;
+		items[i] = nullptr;
 	}
 }
 
 Dictionary::~Dictionary() {
+	for (int i = 0; i < MAX_SIZE; i++) {
+		Node* temp = items[i];
+		while (temp != nullptr) {
+			Node* temp = temp;
+			temp = temp->next;
+			delete temp;
+		}
+	}
 }
 
 int Dictionary::hash(KeyType key) {
@@ -22,36 +30,23 @@ int Dictionary::hash(KeyType key) {
 }
 
 bool Dictionary::add(KeyType key, ItemType newItem) {
-	int index = hash(key); //compute index
+	int index = hash(key);
 
-	if (items[index] == NULL) {
-		//new node
-		Node* newNode = new Node();
-		newNode->key = key;
-		newNode->item = newItem;
-		newNode->next = NULL;
-		//set list at index to point to new node
-		items[index] = newNode;
-	}
-	else {
-		Node* temp = nullptr;
-		temp = items[index];
-		if (items[index]->key == key)
-			std::cout << "Same key value: " << key << std::endl;
-		return false;
-		while (temp->next != NULL) {
-			temp = temp->next;
-			if (temp->key == key)
-				std::cout << "Same key value!" << std::endl;
+	Node* temp = items[index];
+	while (temp != nullptr) {
+		if (temp->key == key) {
 			return false;
 		}
-		Node* newNode = new Node();
-		newNode->key = key;
-		newNode->item = newItem;
-		newNode->next = NULL;
-		temp->next = newNode;
+		temp = temp->next;
 	}
-	size += 1;
+
+	Node* newNode = new Node();
+	newNode->key = key;
+	newNode->item = newItem;
+	newNode->next = items[index];
+	items[index] = newNode;
+
+	size++;
 	return true;
 }
 
@@ -88,14 +83,19 @@ void Dictionary::remove(KeyType key) {
 
 ItemType Dictionary::get(KeyType key) {
 	int index = hash(key);
-	return items[index]->item;
+
+	Node* temp = items[index];
+	while (temp != nullptr) {
+		if (temp->key == key) {
+			return temp->item;
+		}
+		temp = temp->next;
+	}
+	return ItemType();
 }
 
 bool Dictionary::isEmpty() {
-	if (size == 0)
-		return true;
-	else
-		false;
+	return size == 0;
 }
 
 int Dictionary::getLength() {
@@ -107,12 +107,10 @@ void Dictionary::print() {
 		if (items[i] != NULL) {
 			std::cout << "Index: " << i << std::endl;
 			Node* temp = items[i];
-			while (temp) {
-				std::cout << temp->key << " ";
-				std::cout << temp->item.getPassword() << " ";
+			while (temp != nullptr) {
+				std::cout << temp->key << " " << temp->item.getPassword() << std::endl;
 				temp = temp->next;
 			}
-			std::cout << endl;
 		}
 	}
 }
