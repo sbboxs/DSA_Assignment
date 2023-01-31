@@ -77,6 +77,9 @@ int main()
 	}
 }
 
+//=========
+//This function is to save user data into the file. The newest user data will be appended to the end of the file.
+//The user is the parameter.
 void saveUserData(User& user) {
 	string username = user.getUserName();
 	string password = user.getPassword();
@@ -101,6 +104,9 @@ void saveUserData(User& user) {
 	}
 }
 
+//=========
+//This function is to load all the user data and store into the userDicionary. 
+//The userDictionary is parameter.
 void loadUserData(Dictionary& userDictionary) {
 	string username, password;
 	bool loginStatus;
