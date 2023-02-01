@@ -1,4 +1,6 @@
 #include "PostList.h"
+#include <iomanip>
+
 using namespace std;
 
 PostList::PostList() {
@@ -83,5 +85,14 @@ Post PostList::get(int index) {
 	}
 }
 void PostList::display() {
-	Node* temp = firstNode;
+	cout << left << setw(25) << "Title"
+		 << setw(25) << "Description"
+		 << setw(25) << "Author" << endl;
+	Node* tempNode = firstNode;
+	while (tempNode != NULL) {
+		cout << left << setw(25) << tempNode->item.getTitle()
+			 << setw(25) << tempNode->item.getDescription()
+			 << setw(25) << tempNode->item.getAuthor() << endl;
+		tempNode = tempNode->next;
+	}
 }

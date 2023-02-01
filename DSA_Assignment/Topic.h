@@ -19,18 +19,18 @@ public:
 
 	//Methods 
 	Topic();
-	Topic(string title, string author);
+	Topic(string topic, string author);
 	void addPost(Post& post, PostList& postList);
 	void deletePost(Post& post, PostList& postList);
 	void print();
 
 	//Getter
-	string getTitle();
-	string getUserName();
+	string getTopic();
+	string getAuthor();
 	PostList& getPosts();
 
 	//Setter
-	void setTitle(string title);
+	void setTopic(string topic);
 	void setAuthor(string author);
 
 };

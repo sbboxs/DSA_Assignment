@@ -4,14 +4,13 @@
 
 Post::Post() {}
 
-Post::Post(string id, string t, string user, string desc, ReplyList rList)
+Post::Post(string PostID, string Topic, string Title, string Author, string Desc)
 {
-	postID = id;
-	title = t;
-	username = user;
-	description = desc;
-	replyList = rList;
-
+	postID = PostID;
+	topic = Topic;
+	title = Title;
+	author = Author;
+	description = Desc;
 }
 
 
