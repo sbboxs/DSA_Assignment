@@ -1,5 +1,6 @@
 #include "User.h"
-
+#include "Topic.h"
+#include "TopicList.h"
 User::User() {
     userName = "";
     password = "";
@@ -38,6 +39,12 @@ void User::setIsLogin(bool login)
 {
     isLogin = login;
 }
+
+bool User::checkPassword(string keyPassword) {
+    return (keyPassword == password);
+}
+
+
 void User::print() {
     cout << "User name: " << userName << endl;
     cout << "Password: " << password << endl;

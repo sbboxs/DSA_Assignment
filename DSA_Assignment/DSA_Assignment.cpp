@@ -11,12 +11,14 @@
 #include "Dictionary.h"
 #include "Topic.h"
 #include "TopicList.h"
+#include "Post.h"
+#include "PostList.h"
 
 
 using namespace std;
 
-void saveUserData(User& user);
 void loadUserData();
+void saveUserData(User& user);
 void loadForumData();
 void saveForumData();
 void displayHome();
@@ -31,8 +33,8 @@ bool userHomeProcess();
 //Global variables
 Dictionary userDictionary;
 User currentUser;
-Topic topicList;
-Post postList;
+TopicList topicList;
+PostList postList;
 
 //===
 //File I/O, for data reading & writting with file
@@ -81,6 +83,34 @@ int main()
 }
 
 //=========
+//This function is to load all the user data and store into the userDicionary. 
+void loadUserData() {
+	inFile.open("user.txt");
+	if (inFile.fail()) {
+		cout << "No user data exist!" << endl;
+		cout << "Creating user data file..." << endl;
+		ofstream outFile;
+		outFile.open("user.txt");
+		outFile.close();
+	}
+	else {
+		string username, password;
+		bool loginStatus;
+		while (!inFile.eof()) {
+			getline(inFile, str);
+			stringstream ss(str);
+			getline(ss, username, ';');
+			getline(ss, password, ';');
+			ss >> loginStatus;
+			User loadUser(username, password, loginStatus);
+			userDictionary.add(username, loadUser);
+		}
+		inFile.close();
+		cout << "User data is loaded!" << endl;
+	}
+}
+
+//=========
 //This function is to save user data into the file. The newest user data will be appended to the end of the file.
 //The user is the parameter.
 void saveUserData(User& user) {
@@ -107,36 +137,58 @@ void saveUserData(User& user) {
 	}
 }
 
-//=========
-//This function is to load all the user data and store into the userDicionary. 
-//The userDictionary is parameter.
-void loadUserData() {
-	string username, password;
-	bool loginStatus;
-	inFile.open("user.txt");
+
+void loadForumData() {
+	//Loading topic data
+	inFile.open("topic.txt");
 	if (inFile.fail()) {
-		cout << "No user data exist!" << endl;
-		cout << "Creating user data file..." << endl;
+		cout << "No topic is exist!" << endl;
+		cout << "Creating topic file..." << endl;
 		ofstream outFile;
-		outFile.open("user.txt");
+		outFile.open("topic.txt");
 		outFile.close();
 	}
 	else {
+		string title, author;
 		while (!inFile.eof()) {
 			getline(inFile, str);
 			stringstream ss(str);
-			getline(ss, username, ';');
-			getline(ss, password, ';');
-			ss >> loginStatus;
-			User loadUser(username, password, loginStatus);
-			userDictionary.add(username,loadUser);
+			getline(ss, title, ';');
+			getline(ss, author, ';');
+			Topic newTopic(title, author);
+			topicList.add(newTopic);
 		}
 		inFile.close();
-		cout << "User data is loaded!" << endl;
+		cout << "Topic data is loaded!" << endl;
 	}
+
+	//Loading post data
+	inFile.open("post.txt");
+	if (inFile.fail()) {
+		cout << "No post is exist!" << endl;
+		cout << "Creating post file..." << endl;
+		ofstream outFile;
+		outFile.open("post.txt");
+		outFile.close();
+	}
+	else {
+		string title, author;
+		while (!inFile.eof()) {
+			getline(inFile, str);
+			stringstream ss(str);
+			getline(ss, title, ';');
+			getline(ss, author, ';');
+			Topic newTopic(title, author);
+			topicList.add(newTopic);
+		}
+		inFile.close();
+		cout << "Topic data is loaded!" << endl;
+	}
+
 }
-void loadForumData() {}
-void saveForumData() {}
+void saveForumData() {
+
+}
 
 //=========
 //This function is to print the layout of the homepage. Do not have any input parameters and return value.
@@ -181,7 +233,7 @@ bool loginProcess() {
 			cin >> promptPwd;
 			if (promptUsername != "" && promptPwd != "") {
 				User loginUser = userDictionary.get(promptUsername);
-				if (loginUser.getPassword() == promptPwd) {
+				if (loginUser.checkPassword(promptPwd)) {
 					currentUser = loginUser;
 					cout << "Login Success!" << endl;
 					system("pause");
