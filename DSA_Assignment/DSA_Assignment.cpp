@@ -28,7 +28,7 @@ void userHome(string userName);
 bool userHomeProcess(Dictionary& userDictionary, User currentUser);
 
 //===
-//For data reading & writting with file
+//File I/O, for data reading & writting with file
 ifstream inFile;
 ofstream outFile;
 string str;
@@ -159,7 +159,7 @@ void loginForm() {
 }
 
 //=========
-//This function is to control the flow of login form. 
+//This function is to control the flow of login form & will return true if success login else return false 
 //The user can perform logging in into their account by inputing the username and password.
 //The user can also perform back to home page.
 bool loginProcess(Dictionary &userDictionary, User &currentUser) {
@@ -261,7 +261,7 @@ void registerProcess(Dictionary& userDictionary) {
 					cout << "Password is not matched." << endl;
 				}
 			}
-		}
+		} 
 		else if (registerOption == "0") {
 			system("cls");
 			cout << "Has back to home. ";
@@ -287,7 +287,7 @@ void userHome(string userName) {
 }
 
 //=========
-//This function control the flow of user home.
+//This function control the flow of user home, will return false if logout else true if login
 //The user can perform view topics and posts, view his post and create new post.
 //The user can also perform logout to main home page.
 bool userHomeProcess(Dictionary& userDictionary, User currentUser) {
@@ -314,7 +314,6 @@ bool userHomeProcess(Dictionary& userDictionary, User currentUser) {
 			system("cls");
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
-
 	}
 	return true;
 }

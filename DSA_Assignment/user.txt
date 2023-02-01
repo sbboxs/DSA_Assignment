@@ -1,1 +1,2 @@
 newUser;newUser;0
+new;new;0
