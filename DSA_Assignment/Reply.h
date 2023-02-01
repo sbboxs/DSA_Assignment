@@ -1,4 +1,4 @@
-/*
+
 #pragma once
 // Reply.h - Definition of Reply class
 
@@ -17,5 +17,5 @@ public:
 	Reply();
 	Reply(string d);
 };
-*/
+
 

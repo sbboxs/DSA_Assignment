@@ -2,19 +2,15 @@
 #pragma once
 #include<string>
 #include<iostream>
-//#include "Topic.h"
-
+#include "Topic.h"
 using namespace std;
 
-template<typename ItemType>
-//typedef Topic TopicType;
-
-class LinkedList
+class TopicList
 {
 private:
 	struct Node
 	{
-		ItemType item;	// item
+		Topic item;	// item
 		Node* next;	// pointer pointing to next item
 	};
 	Node* firstNode;	// point to the first item
@@ -22,22 +18,22 @@ private:
 
 public:
 	// constructor
-	LinkedList();
+	TopicList();
 
 	// destructor
-	~LinkedList();
+	~TopicList();
 
 	// add an item to the back of the list (append)
-	bool add(ItemType item);
+	bool add(Topic item);
 
 	// add an item at a specified position in the list (insert)
-	bool add(int index, ItemType item);
+	bool add(int index, Topic item);
 
 	// remove an item at a specified position in the list
 	void remove(int index);
 
 	// get an item at a specified position of the list (retrieve)
-	ItemType get(int index);
+	Topic get(int index);
 
 	// check if the list is empty
 	bool isEmpty();

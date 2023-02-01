@@ -24,9 +24,6 @@
     <ClCompile Include="Dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LinkedList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Forum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,15 +36,21 @@
     <ClCompile Include="Reply.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TopicList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PostList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplyList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dictionary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Forum.h">
@@ -60,6 +63,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Reply.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TopicList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PostList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReplyList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

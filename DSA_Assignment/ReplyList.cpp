@@ -1,14 +1,11 @@
-#include "LinkedList.h"
+#include "ReplyList.h"
 using namespace std;
 
-template<typename ItemType>
-LinkedList<ItemType>::LinkedList() {
+ReplyList::ReplyList() {
 	size = 0;
 	firstNode = NULL;
 }
-
-template<typename ItemType>
-LinkedList<ItemType>::~LinkedList() {
+ReplyList::~ReplyList() {
 	Node* temp = firstNode;
 	while (temp) {
 		Node* next = temp->next;
@@ -16,9 +13,7 @@ LinkedList<ItemType>::~LinkedList() {
 		temp = next;
 	}
 }
-
-template<typename ItemType>
-bool LinkedList<ItemType>::add(ItemType item) {
+bool ReplyList::add(Reply item) {
 	Node* newNode = new Node;
 	newNode->item = item;
 	newNode->next = NULL;
@@ -35,9 +30,7 @@ bool LinkedList<ItemType>::add(ItemType item) {
 	size += 1;
 	return true;
 }
-
-template<typename ItemType>
-bool LinkedList<ItemType>::add(int index, ItemType item) {
+bool ReplyList::add(int index, Reply item) {
 	if (index <= size && index >= 0) {
 		Node* newNode = new Node;
 		newNode->item = item;
@@ -61,9 +54,7 @@ bool LinkedList<ItemType>::add(int index, ItemType item) {
 		return false;
 	}
 }
-
-template<typename ItemType>
-void LinkedList<ItemType>::remove(int index) {
+void ReplyList::remove(int index) {
 	if (index <= size && index >= 0) {
 		if (index == 0) {
 			firstNode = firstNode->next;
@@ -82,9 +73,7 @@ void LinkedList<ItemType>::remove(int index) {
 		size -= 1;
 	}
 }
-
-template<typename ItemType>
-ItemType LinkedList<ItemType>::get(int index) {
+Reply ReplyList::get(int index) {
 	if (index <= size && index >= 0) {
 		Node* temp = firstNode;
 		for (int i = 0; i < index; i++) {
@@ -93,9 +82,6 @@ ItemType LinkedList<ItemType>::get(int index) {
 		return temp->item;
 	}
 }
-
-template<typename ItemType>
-void LinkedList<ItemType>::display() {
+void ReplyList::display() {
 	Node* temp = firstNode;
-
 }
