@@ -4,17 +4,20 @@
 
 #include<string>
 #include<iostream>
+#include "PostList.h"
 
 
 using namespace std;
+
 
 class Topic
 {
 private:
 	string title;
+	PostList postList;
 
 public:
 	Topic();
-	Topic(string t);
+	Topic(string t, PostList pList);
 };
 
