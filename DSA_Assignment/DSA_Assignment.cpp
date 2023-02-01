@@ -9,22 +9,30 @@
 #include <sstream>
 #include "User.h"
 #include "Dictionary.h"
-
+#include "Topic.h"
+#include "TopicList.h"
 
 
 using namespace std;
 
 void saveUserData(User& user);
-void loadUserData(Dictionary& userDictionary);
+void loadUserData();
 void loadForumData();
 void saveForumData();
 void displayHome();
 void loginForm();
-bool loginProcess(Dictionary& userDictionary, User& currentUser);
+bool loginProcess();
 void registerForm();
-void registerProcess(Dictionary& userDictionary);
-void userHome(string userName);
-bool userHomeProcess(Dictionary& userDictionary, User currentUser);
+void registerProcess();
+void userHome();
+bool userHomeProcess();
+
+//===
+//Global variables
+Dictionary userDictionary;
+User currentUser;
+Topic topicList;
+Post postList;
 
 //===
 //File I/O, for data reading & writting with file
@@ -35,34 +43,30 @@ string str;
 int main()
 {
 	//Initialize the program
-	//Defining variables.
-	Dictionary userDictionary;
-	User currentUser;
 	User newUser1("test", "test", false);
 	userDictionary.add(newUser1.getUserName(),newUser1);
 	userDictionary.print();
-	bool ifLogin = false;
-	string option = "1";	
 
 	//Load all needed data
-	loadUserData(userDictionary);
-
+	loadUserData();
 
 	//Controlling of Login & Registration
+	bool ifLogin = false;
+	string option = "1";
 	while (option != "0") {
 		if (ifLogin)
-			ifLogin = userHomeProcess(userDictionary, currentUser);
+			ifLogin = userHomeProcess();
 		else {
 			displayHome();
 			cin >> option;
 			//Login
 			if (option == "1"){
 				system("cls");
-				ifLogin = loginProcess(userDictionary, currentUser);
+				ifLogin = loginProcess();
 			}
 			else if (option == "2") {
 				system("cls");
-				registerProcess(userDictionary);
+				registerProcess();
 			}
 			else if (option == "0")
 				cout << "Bye! " << endl;
@@ -106,7 +110,7 @@ void saveUserData(User& user) {
 //=========
 //This function is to load all the user data and store into the userDicionary. 
 //The userDictionary is parameter.
-void loadUserData(Dictionary& userDictionary) {
+void loadUserData() {
 	string username, password;
 	bool loginStatus;
 	inFile.open("user.txt");
@@ -161,7 +165,7 @@ void loginForm() {
 //This function is to control the flow of login form & will return true if success login else return false 
 //The user can perform logging in into their account by inputing the username and password.
 //The user can also perform back to home page.
-bool loginProcess(Dictionary &userDictionary, User &currentUser) {
+bool loginProcess() {
 	string loginOption = "1";
 	string promptUsername = "";
 	string promptPwd = "";
@@ -219,7 +223,7 @@ void registerForm() {
 //This function control the flow of register form.
 //The user can perform registering account by inputing the "Unique" username, password and confirm his password.
 //The user can also perform back to home page.
-void registerProcess(Dictionary& userDictionary) {
+void registerProcess() {
 	string registerOption = "1";
 	string newUsername;
 	string newPassword;
@@ -274,9 +278,9 @@ void registerProcess(Dictionary& userDictionary) {
 
 //=========
 //This function print the layout of the user home. Do not have any input parameters and return value.
-void userHome(string userName) {
+void userHome() {
 	cout << endl;
-	cout << "Welcome back! Dear user: " << userName << endl;
+	cout << "Welcome back! Dear user: " << currentUser.getUserName() << endl;
 	cout << "---------------------------" << endl;
 	cout << "[1] View all topics and posts " << endl;
 	cout << "[2] View my posts" << endl;
@@ -289,11 +293,10 @@ void userHome(string userName) {
 //This function control the flow of user home, will return false if logout else true if login
 //The user can perform view topics and posts, view his post and create new post.
 //The user can also perform logout to main home page.
-bool userHomeProcess(Dictionary& userDictionary, User currentUser) {
+bool userHomeProcess() {
 	string userHomeOption = "1";
-	string userName = currentUser.getUserName();
 	while (userHomeOption != "0") {
-		userHome(userName);
+		userHome();
 		cin >> userHomeOption;
 		if (userHomeOption == "1"){
 			cout << "All topics and posts" << endl;
