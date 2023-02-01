@@ -5,9 +5,10 @@
 
 Topic::Topic() {}
 
-Topic::Topic(string t, PostList pList)
+Topic::Topic(string topic, string auth, PostList pList)
 {
-	title = t;
+	title = topic;
+	author = auth;
 	postList = pList;
 }
 

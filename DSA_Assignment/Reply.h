@@ -15,7 +15,7 @@ private:
 public:
 	//Methods
 	Reply();
-	Reply(string replyMessage,string author, string replyDate);
+	Reply(string message,string auth, string date);
 	void print();
 
 	//Getter

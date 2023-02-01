@@ -84,15 +84,15 @@ Post PostList::get(int index) {
 		return temp->item;
 	}
 }
-void PostList::display() {
-	cout << left << setw(25) << "Title"
-		 << setw(25) << "Description"
-		 << setw(25) << "Author" << endl;
-	Node* tempNode = firstNode;
-	while (tempNode != NULL) {
-		cout << left << setw(25) << tempNode->item.getTitle()
-			 << setw(25) << tempNode->item.getDescription()
-			 << setw(25) << tempNode->item.getAuthor() << endl;
-		tempNode = tempNode->next;
-	}
-}
+//void PostList::display() {
+//	cout << left << setw(25) << "Title"
+//		 << setw(25) << "Description"
+//		 << setw(25) << "Author" << endl;
+//	Node* tempNode = firstNode;
+//	while (tempNode != NULL) {
+//		cout << left << setw(25) << tempNode->item.getTitle()
+//			 << setw(25) << tempNode->item.getDescription()
+//			 << setw(25) << tempNode->item.getAuthor() << endl;
+//		tempNode = tempNode->next;
+//	}
+//}

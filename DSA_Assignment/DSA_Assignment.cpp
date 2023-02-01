@@ -159,12 +159,13 @@ void loadForumData() {
 	}
 	else {
 		string title, author;
+		PostList pList;
 		while (!inFile.eof()) {
 			getline(inFile, str);
 			stringstream ss(str);
 			getline(ss, title, ';');
 			getline(ss, author, ';');
-			Topic newTopic(title, author);
+			Topic newTopic(title, author, pList);
 			topicList.add(newTopic);
 		}
 		inFile.close();
@@ -341,165 +342,165 @@ void userHome() {
 //This function control the flow of user home, will return false if logout else true if login
 //The user can perform view topics and posts, view his post and create new post.
 //The user can also perform logout to main home page.
-bool userHomeProcess() {
-	string option = "1";
-	while (option != "0") {
-		userHome();
-		cin >> option;
-		if (option == "1"){
-			viewTopicNPostProcess();
-		}
-		else if (option == "2") {
-			cout << "My posts" << endl;
-		}
-		else if (option == "3") {
-			cout << "Create new posts" << endl;
-		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Has logged out. ";
-			return false;
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
-		}
-	}
-	return true;
-}
+//bool userHomeProcess() {
+//	string option = "1";
+//	while (option != "0") {
+//		userHome();
+//		cin >> option;
+//		if (option == "1"){
+//			viewTopicNPostProcess();
+//		}
+//		else if (option == "2") {
+//			cout << "My posts" << endl;
+//		}
+//		else if (option == "3") {
+//			cout << "Create new posts" << endl;
+//		}
+//		else if (option == "0") {
+//			system("cls");
+//			cout << "Has logged out. ";
+//			return false;
+//		}
+//		else {
+//			system("cls");
+//			cout << "Sorry. You have entered an invalid option." << endl;
+//		}
+//	}
+//	return true;
+//}
 
-void viewTopicNPost() {
-	cout << endl;
-	cout << "C++ Programming Forum" << endl;
-	cout << "---------------------------" << endl;
-	if (postList.isEmpty())
-		cout << "No post yet" << endl;
-	else
-		postList.display();
+//void viewTopicNPost() {
+//	cout << endl;
+//	cout << "C++ Programming Forum" << endl;
+//	cout << "---------------------------" << endl;
+//	if (postList.isEmpty())
+//		cout << "No post yet" << endl;
+//	else
+//		postList.display();
+//
+//	cout << "You are now viewing all topics and posts" << endl;
+//	cout << "[1] Search by topics, posts or users " << endl;
+//	cout << "[2] View a post" << endl;
+//	cout << "[3] Next page" << endl;
+//	cout << "[4] Create new posts" << endl;
+//	cout << "[0] Back to user home" << endl;
+//	cout << "Enter option: ";
+//}
+//
+//void viewTopicNPostProcess() {
+//	string option = "1";
+//	while (option != "0") {
+//		viewTopicNPost();
+//		cin >> option;
+//		if (option == "1") {
+//			cout << "Search by topics, posts or users" << endl;
+//		}
+//		else if (option == "2") {
+//			cout << "View a post" << endl;
+//		}
+//		else if (option == "3") {
+//			cout << "Next page" << endl;
+//		}
+//		else if (option == "4") {
+//			cout << "Create new posts" << endl;
+//		}
+//		else if (option == "0") {
+//			system("cls");
+//			cout << "Back to user home. ";
+//		}
+//		else {
+//			system("cls");
+//			cout << "Sorry. You have entered an invalid option." << endl;
+//		}
+//	}
+//}
 
-	cout << "You are now viewing all topics and posts" << endl;
-	cout << "[1] Search by topics, posts or users " << endl;
-	cout << "[2] View a post" << endl;
-	cout << "[3] Next page" << endl;
-	cout << "[4] Create new posts" << endl;
-	cout << "[0] Back to user home" << endl;
-	cout << "Enter option: ";
-}
+//void createPostForm(Post& newPost) {
+//	cout << endl;
+//	cout << "Creating new post!" << endl;
+//	cout << "---------------------------" << endl;
+//	cout << "[1] Select a topic: " << newPost.getTopic() << endl;
+//	cout << "[2] Enter title of post: " << newPost.getTitle() << endl;
+//	cout << "[3] Enter description of post: " <<newPost.getDescription() << endl;
+//	cout << "[0] Back" << endl;
+//	cout << "Enter option: ";
+//}
+//
+//void createPostFormProcess() {
+//	string postID, topic, title, description, author;
+//	Post newPost(postID, topic, title, author ,description);
+//	string option = "1";
+//	while (option != "0") {
+//		createPostForm(newPost);
+//		cin >> option;
+//		if (option == "1") {
+//			cout << "Select a topic" << endl;
+//		}
+//		else if (option == "2") {
+//			cout << "Enter title: ";
+//			cin >> title;
+//			system("cls");
+//			cout << "Title has entered." << endl;
+//		}
+//		else if (option == "3") {
+//			cout << "Enter description: " << endl;
+//			cin >> description;
+//			system("cls");
+//			cout << "Description has entered" << endl;
+//		}
+//		else if (option == "4") {
+//			cout << "Create new posts" << endl;
+//			if (postList.add(newPost)) {
+//				savePostData(newPost);
+//				cout << "New post is created succesfully!" << endl;
+//				break;
+//			}
+//			else
+//				cout << "Saved Error!" << endl;
+//		}
+//		else if (option == "0") {
+//			system("cls");
+//			cout << "Back to user home. ";
+//		}
+//		else {
+//			system("cls");
+//			cout << "Sorry. You have entered an invalid option." << endl;
+//		}
+//	}
+//}
 
-void viewTopicNPostProcess() {
-	string option = "1";
-	while (option != "0") {
-		viewTopicNPost();
-		cin >> option;
-		if (option == "1") {
-			cout << "Search by topics, posts or users" << endl;
-		}
-		else if (option == "2") {
-			cout << "View a post" << endl;
-		}
-		else if (option == "3") {
-			cout << "Next page" << endl;
-		}
-		else if (option == "4") {
-			cout << "Create new posts" << endl;
-		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Back to user home. ";
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
-		}
-	}
-}
-
-void createPostForm(Post& newPost) {
-	cout << endl;
-	cout << "Creating new post!" << endl;
-	cout << "---------------------------" << endl;
-	cout << "[1] Select a topic: " << newPost.getTopic() << endl;
-	cout << "[2] Enter title of post: " << newPost.getTitle() << endl;
-	cout << "[3] Enter description of post: " <<newPost.getDescription() << endl;
-	cout << "[0] Back" << endl;
-	cout << "Enter option: ";
-}
-
-void createPostFormProcess() {
-	string postID, topic, title, description, author;
-	Post newPost(postID, topic, title, author ,description);
-	string option = "1";
-	while (option != "0") {
-		createPostForm(newPost);
-		cin >> option;
-		if (option == "1") {
-			cout << "Select a topic" << endl;
-		}
-		else if (option == "2") {
-			cout << "Enter title: ";
-			cin >> title;
-			system("cls");
-			cout << "Title has entered." << endl;
-		}
-		else if (option == "3") {
-			cout << "Enter description: " << endl;
-			cin >> description;
-			system("cls");
-			cout << "Description has entered" << endl;
-		}
-		else if (option == "4") {
-			cout << "Create new posts" << endl;
-			if (postList.add(newPost)) {
-				savePostData(newPost);
-				cout << "New post is created succesfully!" << endl;
-				break;
-			}
-			else
-				cout << "Saved Error!" << endl;
-		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Back to user home. ";
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
-		}
-	}
-}
-
-void topicSelector() {
-	topicList.display();
-	cout << endl;
-	cout << "[1]Select a topic" << endl;
-	cout << "[2]Create a new topic" << endl;
-	cout << "[0]Back" << endl;
-}
-
-void topicSelectorProcess(string& topic) {
-	string option = "1";
-	int index;
-	while (option != "0") {
-		topicSelector();
-		cin >> option;
-		if (option == "1") {
-			cout << "Enter topic index: " << endl;
-			cin >> index;
-			topic = topicList.get(index).getTopic();
-			system("cls");
-			cout << "Topic has selected." << endl;
-			break;
-		}
-		else if (option == "2") {
-			cout << "Create new topic. " << endl;
-		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Back to create new post. ";
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
-		}
-	}
-}
+//void topicSelector() {
+//	topicList.display();
+//	cout << endl;
+//	cout << "[1]Select a topic" << endl;
+//	cout << "[2]Create a new topic" << endl;
+//	cout << "[0]Back" << endl;
+//}
+//
+//void topicSelectorProcess(string& topic) {
+//	string option = "1";
+//	int index;
+//	while (option != "0") {
+//		topicSelector();
+//		cin >> option;
+//		if (option == "1") {
+//			cout << "Enter topic index: " << endl;
+//			cin >> index;
+//			topic = topicList.get(index).getTopic();
+//			system("cls");
+//			cout << "Topic has selected." << endl;
+//			break;
+//		}
+//		else if (option == "2") {
+//			cout << "Create new topic. " << endl;
+//		}
+//		else if (option == "0") {
+//			system("cls");
+//			cout << "Back to create new post. ";
+//		}
+//		else {
+//			system("cls");
+//			cout << "Sorry. You have entered an invalid option." << endl;
+//		}
+//	}
+//}

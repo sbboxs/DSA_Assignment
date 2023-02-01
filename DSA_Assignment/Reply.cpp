@@ -5,9 +5,11 @@
 
 Reply::Reply() {}
 
-Reply::Reply(string d)
+Reply::Reply(string message, string auth, string date)
 {
-	date = d;
+	replyMessage = message;
+	author = auth;
+	replyDate = date;
 }
 
 

@@ -3,7 +3,6 @@
 
 #include<string>
 #include<iostream>
-#include "Post.h"
 #include "PostList.h"
 
 using namespace std;
@@ -19,7 +18,7 @@ public:
 
 	//Methods 
 	Topic();
-	Topic(string topic, string author);
+	Topic(string topic, string auth, PostList pList);
 	void addPost(Post& post, PostList& postList);
 	void deletePost(Post& post, PostList& postList);
 	void print();
