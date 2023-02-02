@@ -14,6 +14,10 @@ TopicList::~TopicList() {
 		temp = next;
 	}
 }
+bool TopicList::isEmpty() {
+	bool ifEmpty = size = 0;
+	return ifEmpty;
+}
 bool TopicList::add(Topic item) {
 	Node* newNode = new Node;
 	newNode->item = item;
@@ -74,15 +78,22 @@ void TopicList::remove(int index) {
 		size -= 1;
 	}
 }
-Topic TopicList::get(int index) {
-	if (index <= size && index >= 0) {
-		Node* temp = firstNode;
-		for (int i = 0; i < index; i++) {
-			temp = temp->next;
+
+Topic TopicList::get(string topic) {
+	bool success = !isEmpty();
+	Node* tempNode = firstNode;
+	if (success) {
+		while (tempNode != NULL) {
+			if (tempNode->item.getTopic().c_str() == topic) {
+				return tempNode->item;
+			}
+			else {
+				tempNode = tempNode->next;
+			}
 		}
-		return temp->item;
 	}
 }
+
 void TopicList::display() {
 	cout << left << setw(25) << "Discussion Topic"
 		<< setw(25) << "Created By" << endl;

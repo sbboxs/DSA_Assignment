@@ -31,6 +31,7 @@ public:
 	//Setter
 	void setTopic(string topic);
 	void setAuthor(string author);
+	void setPostList(Post pList);
 
 };
 

@@ -1,4 +1,5 @@
 #include "Topic.h"
+#include <iomanip>
 
 Topic::Topic()
 {
@@ -25,10 +26,10 @@ void Topic::addPost(Post& post, PostList& postList)
 
 void Topic::print()
 {
-	cout << "Title: " << topic << endl;
-	cout << "Author: " << author << endl;
-	cout << "Post List: " << endl;
-	postList.display();
+	cout << left << setw(25) << "Topic"
+		<< setw(25) << "Created By" << endl;
+	cout << left << setw(25) << topic
+		<< setw(25) << author << endl;
 }
 
 string Topic::getTopic()
@@ -55,3 +56,4 @@ void Topic::setAuthor(string author)
 {
 	this->author = author;
 }
+

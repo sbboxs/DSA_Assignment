@@ -30,6 +30,8 @@ void registerForm();
 void registerProcess();
 void userHome();
 bool userHomeProcess();
+bool displayTopics();
+void displayATopic(string topic);
 void viewTopicNPost();
 void viewTopicNPostProcess();
 void createPost();
@@ -407,10 +409,10 @@ bool userHomeProcess() {
 		userHome();
 		cin >> option;
 		if (option == "1"){
-			viewTopicNPostProcess();
+			displayTopics();
 		}
 		else if (option == "2") {
-			cout << "My posts" << endl;
+			createTopic();
 		}
 		else if (option == "3") {
 			cout << "Create new posts" << endl;
@@ -428,8 +430,65 @@ bool userHomeProcess() {
 	return true;
 }
 
-void displayTopics() {
+bool displayTopics() {
+	string option = "1";
+	cout << endl;
+	while (option != "0") {
+		cout << "C++ Programming Forum" << endl;
+		cout << "---------------------------" << endl;
+		if (topicList.isEmpty())
+			cout << "No Topics Available" << endl;
+		else
+			topicList.display();
 
+		cout << endl << "[1] Choose topic to view " << endl;
+		cout << "[2] My Topics" << endl;
+		cout << "[0] Back to user home" << endl;
+		cout << "Enter option: ";
+		cin >> option;
+		if (option == "1") {
+			string title;
+			cout << "Name of Topic: " ;
+			cin >> title;
+			system("cls");
+			displayATopic(title);
+		}
+		else if (option == "2") {
+			createTopic();
+		}
+		else if (option == "3") {
+			cout << "Create new posts" << endl;
+		}
+		else if (option == "0") {
+			system("cls");
+			cout << "Has logged out. ";
+			return false;
+		}
+		else {
+			system("cls");
+			cout << "Sorry. You have entered an invalid option." << endl;
+		}
+	}
+	return true;
+}
+
+void displayATopic(string topic) {
+	Topic aTopic = topicList.get(topic);
+	PostList plist = aTopic.getPosts();
+	cout << "Topic: " << aTopic.getTopic() << endl;
+	cout << "---------------------------" << endl;
+	if (plist.isEmpty())
+		cout << "No post yet" << endl;
+	else
+		plist.display();
+
+	cout << "---------------------------" << endl;
+	cout << "[1] Search by topics, posts or users " << endl;
+	cout << "[2] View a post" << endl;
+	cout << "[3] Next page" << endl;
+	cout << "[4] Create new posts" << endl;
+	cout << "[0] Back to user home" << endl;
+	cout << "Enter option: ";
 }
 void viewTopicNPost() {
 	cout << endl;
@@ -506,7 +565,6 @@ void createPost() {
 	newPost.setAuthor(currentUser.getUserName());
 	newPost.setPostID(postID);
 	if (postList.add(newPost)) {
-		savePostData(newPost);
 		cout << "New post is created succesfully!" << endl;
 	}
 	else
@@ -524,6 +582,7 @@ void createTopic() {
 	newTopic.setTopic(title);
 	newTopic.setAuthor(currentUser.getUserName());
 	if (topicList.add(newTopic)) {
+		saveTopicData(newTopic);
 		cout << "New Topic is created succesfully!" << endl;
 	}
 	else
@@ -581,30 +640,30 @@ void topicSelector() {
 	cout << "[0]Back" << endl;
 }
 
-void topicSelectorProcess(string& topic) {
-	string option = "1";
-	int index;
-	while (option != "0") {
-		topicSelector();
-		cin >> option;
-		if (option == "1") {
-			cout << "Enter topic index: " << endl;
-			cin >> index;
-			topic = topicList.get(index).getTopic();
-			system("cls");
-			cout << "Topic has selected." << endl;
-			break;
-		}
-		else if (option == "2") {
-			cout << "Create new topic. " << endl;
-		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Back to create new post. ";
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
-		}
-	}
-}
+//void topicSelectorProcess(string& topic) {
+//	string option = "1";
+//	int index;
+//	while (option != "0") {
+//		topicSelector();
+//		cin >> option;
+//		if (option == "1") {
+//			cout << "Enter topic index: " << endl;
+//			cin >> index;
+//			topic = topicList.get(index).getTopic();
+//			system("cls");
+//			cout << "Topic has selected." << endl;
+//			break;
+//		}
+//		else if (option == "2") {
+//			cout << "Create new topic. " << endl;
+//		}
+//		else if (option == "0") {
+//			system("cls");
+//			cout << "Back to create new post. ";
+//		}
+//		else {
+//			system("cls");
+//			cout << "Sorry. You have entered an invalid option." << endl;
+//		}
+//	}
+//}
