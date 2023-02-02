@@ -1,5 +1,1 @@
-Dictionary;test
 Stack;1
-d;1
-1;1
-newTopic;1

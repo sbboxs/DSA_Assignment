@@ -14,7 +14,7 @@ Topic::Topic(string t, string auth, PostList pList)
 	postList = pList;
 }
 
-bool Topic::addPost(Post& post, PostList& postList)
+bool Topic::addPost(Post& post)
 {
 	return postList.add(post);
 }

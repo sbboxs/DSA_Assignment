@@ -19,7 +19,7 @@ public:
 	//Methods 
 	Topic();
 	Topic(string topic, string auth, PostList pList);
-	bool addPost(Post& post, PostList& postList);
+	bool addPost(Post& post);
 	//void deletePost(Post& post, PostList& postList);
 	void print();
 

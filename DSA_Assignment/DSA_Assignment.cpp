@@ -47,6 +47,7 @@ Dictionary userDictionary;
 User currentUser;
 TopicList topicList;
 PostList postList;
+Topic currentTopic;
 
 //===
 //File I/O, for data reading & writting with file
@@ -534,7 +535,7 @@ void displayATopic(string topic) {
 //}
 void createPost() {
 	cout << endl;
-	string postID, topic, title, description;
+	string postID, title, description;
 	Post newPost;
 	cout << "Creating new post!" << endl;
 	cout << "------------------" << endl;
@@ -544,12 +545,10 @@ void createPost() {
 	cout << "Description: " << endl;
 	cin >> description;
 	newPost.setDescription(description);
-	cout << "Topic: ";
-	cin >> topic;
-	newPost.setTopic(topic);
+	newPost.setTopic(currentTopic.getTopic());
 	newPost.setAuthor(currentUser.getUserName());
 	newPost.setPostID(postID);
-	if (postList.add(newPost)) {
+	if (currentTopic.addPost(newPost)) {
 		cout << "New post is created succesfully!" << endl;
 	}
 	else
@@ -559,13 +558,12 @@ void createPost() {
 void createTopic() {
 	cout << endl;
 	string title;
-	Topic newTopic;
+	PostList pList;
 	cout << "Creating new Topic!" << endl;
 	cout << "------------------" << endl;
 	cout << "Naame of Topic: ";
 	cin >> title;
-	newTopic.setTopic(title);
-	newTopic.setAuthor(currentUser.getUserName());
+	Topic newTopic(title, currentUser.getUserName(), pList);
 	if (topicList.add(newTopic)) {
 		saveTopicData(newTopic);
 		cout << "New Topic is created succesfully!" << endl;
