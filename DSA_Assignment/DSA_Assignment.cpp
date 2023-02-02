@@ -182,13 +182,14 @@ void loadForumData() {
 		outFile.close();
 	}
 	else {
-		string title,description, author;
+		string title, author, description;
 		postList;
 		while (!inFile.eof()) {
 			getline(inFile, str);
 			stringstream ss(str);
 			getline(ss, title, ';');
 			getline(ss, author, ';');
+			getline(ss, description, ',');
 			Post newPost("","",title, author, description);
 			postList.add(newPost);
 		}
