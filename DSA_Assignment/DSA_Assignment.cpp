@@ -33,7 +33,7 @@ bool userHomeProcess();
 bool displayTopics();
 void displayATopic(string topic);
 void viewTopicNPost();
-void viewTopicNPostProcess();
+void viewTopicNPostProcess(Topic aTopic);
 void createPost();
 void createTopic();
 void createPostFormProcess();
@@ -47,6 +47,7 @@ Dictionary userDictionary;
 User currentUser;
 TopicList topicList;
 PostList postList;
+Topic currentTopic;
 
 //===
 //File I/O, for data reading & writting with file
@@ -473,32 +474,9 @@ bool displayTopics() {
 	return true;
 }
 
-void displayATopic(string topic) {
-	Topic aTopic = topicList.get(topic);
-	PostList plist = aTopic.getPosts();
-	cout << "Topic: " << aTopic.getTopic() << endl;
-	cout << "---------------------------" << endl;
-	if (plist.isEmpty())
-		cout << "No post yet" << endl;
-	else
-		plist.display();
 
-	cout << "---------------------------" << endl;
-	cout << "[1] Search by topics, posts or users " << endl;
-	cout << "[2] View a post" << endl;
-	cout << "[3] Next page" << endl;
-	cout << "[4] Create new posts" << endl;
-	cout << "[0] Back to user home" << endl;
-	cout << "Enter option: ";
-}
 void viewTopicNPost() {
 	cout << endl;
-	cout << "C++ Programming Forum" << endl;
-	cout << "---------------------------" << endl;
-	if (postList.isEmpty())
-		cout << "No post yet" << endl;
-	else
-		postList.display();
 
 	cout << "You are now viewing all topics and posts" << endl;
 	cout << "[1] Search by topics, posts or users " << endl;
@@ -509,33 +487,41 @@ void viewTopicNPost() {
 	cout << "Enter option: ";
 }
 
-void viewTopicNPostProcess() {
+void displayATopic(string topic) {
 	string option = "1";
+	currentTopic = topicList.get(topic);
+	postList = currentTopic.getPosts();
 	while (option != "0") {
-		viewTopicNPost();
-		cin >> option;
-		if (option == "1") {
-			cout << "Search by topics, posts or users" << endl;
-		}
-		else if (option == "2") {
-			cout << "View a post" << endl;
-		}
-		else if (option == "3") {
-			cout << "Next page" << endl;
-		}
-		else if (option == "4") {
-			cout << "Create new posts" << endl;
-			createPost();
+		cout << "Topic: " << currentTopic.getTopic() << endl;
+		cout << "---------------------------" << endl;
+		if (postList.isEmpty())
+			cout << "No post yet" << endl;
+		else
+			postList.display();
+			viewTopicNPost();
+			cin >> option;
+			if (option == "1") {
+				cout << "Search by topics, posts or users" << endl;
+			}
+			else if (option == "2") {
+				cout << "View a post" << endl;
+			}
+			else if (option == "3") {
+				cout << "Next page" << endl;
+			}
+			else if (option == "4") {
+				cout << "Create new posts" << endl;
+				createPost();
 			
-		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Back to user home. ";
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
-		}
+			}
+			else if (option == "0") {
+				system("cls");
+				cout << "Back to user home. ";
+			}
+			else {
+				system("cls");
+				cout << "Sorry. You have entered an invalid option." << endl;
+			}
 	}
 }
 //void createPostForm(Post& newPost) {
