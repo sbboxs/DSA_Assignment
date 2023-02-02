@@ -10,7 +10,7 @@ using namespace std;
 class Topic
 {
 private:
-	string title;
+	string topic;
 	string author;
 	PostList postList;
 
