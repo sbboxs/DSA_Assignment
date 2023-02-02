@@ -20,7 +20,7 @@ public:
 	Topic();
 	Topic(string topic, string auth, PostList pList);
 	void addPost(Post& post, PostList& postList);
-	void deletePost(Post& post, PostList& postList);
+	//void deletePost(Post& post, PostList& postList);
 	void print();
 
 	//Getter

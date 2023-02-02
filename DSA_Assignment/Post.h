@@ -22,7 +22,7 @@ public:
 	Post();
 	Post(string PostID, string Topic, string Title, string Author, string Desc);
 	void addReply(Reply& reply, ReplyList& replyList);
-	void deleteReply(Reply& reply, ReplyList& replyList);
+	//void deleteReply(Reply& reply, ReplyList& replyList);
 	void print();
 
 	//Getter
