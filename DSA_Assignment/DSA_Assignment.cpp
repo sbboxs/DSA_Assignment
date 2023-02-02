@@ -47,7 +47,7 @@ Dictionary userDictionary;
 User currentUser;
 TopicList topicList;
 PostList postList;
-
+Topic currentTopic;
 //===
 //File I/O, for data reading & writting with file
 ifstream inFile;
