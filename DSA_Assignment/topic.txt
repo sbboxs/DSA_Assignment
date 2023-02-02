@@ -1,9 +1,3 @@
-List
-Linked List
-Stack
-Queue
-Dictionary & Hash Tables
-Recursion
-Binary Search
-Tree
-Sorting
+Dictionary;test
+Stack;1
+d;1

@@ -86,8 +86,7 @@ Post PostList::get(int index) {
 }
 
 bool PostList::isEmpty() {
-	bool ifEmpty = size = 0;
-	return ifEmpty;
+	return firstNode = NULL;
 }
 
 int PostList::getLength() {
