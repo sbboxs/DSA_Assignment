@@ -173,7 +173,6 @@ void loadForumData() {
 		cout << "Topic data is loaded!" << endl;
 	}
 	//Load post data
-	//Loading topic data
 	inFile.open("post.txt");
 	if (inFile.fail()) {
 		cout << "No post is exist!" << endl;
@@ -190,7 +189,7 @@ void loadForumData() {
 			stringstream ss(str);
 			getline(ss, title, ';');
 			getline(ss, author, ';');
-			getline(ss, description, ',');
+			getline(ss, description, ';');
 			Post newPost("","",title, author, description);
 			postList.add(newPost);
 		}
