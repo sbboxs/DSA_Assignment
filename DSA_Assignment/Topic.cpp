@@ -14,9 +14,9 @@ Topic::Topic(string t, string auth, PostList pList)
 	postList = pList;
 }
 
-void Topic::addPost(Post& post, PostList& postList)
+bool Topic::addPost(Post& post, PostList& postList)
 {
-	postList.add(post);
+	return postList.add(post);
 }
 
 //void Topic::deletePost(Post& post, PostList& postList)
