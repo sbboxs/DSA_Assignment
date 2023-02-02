@@ -2,13 +2,13 @@
 
 Topic::Topic()
 {
-	title = "";
+	topic = "";
 	author = "";
 }
 
-Topic::Topic(string topic, string auth, PostList pList)
+Topic::Topic(string t, string auth, PostList pList)
 {
-	title = topic;
+	topic = t;
 	author = auth;
 	postList = pList;
 }
@@ -25,7 +25,7 @@ void Topic::addPost(Post& post, PostList& postList)
 
 void Topic::print()
 {
-	cout << "Title: " << title << endl;
+	cout << "Title: " << topic << endl;
 	cout << "Author: " << author << endl;
 	cout << "Post List: " << endl;
 	postList.display();
@@ -33,7 +33,7 @@ void Topic::print()
 
 string Topic::getTopic()
 {
-	return title;
+	return topic;
 }
 
 string Topic::getAuthor()
@@ -48,7 +48,7 @@ PostList& Topic::getPosts()
 
 void Topic::setTopic(string topic)
 {
-	title = topic;
+	this->topic = topic;
 }
 
 void Topic::setAuthor(string author)

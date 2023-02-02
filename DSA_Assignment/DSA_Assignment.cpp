@@ -20,7 +20,7 @@ using namespace std;
 void loadUserData();
 void saveUserData(User& newUser);
 void loadForumData();
-//void saveTopicData(Topic& newTopic);
+void saveTopicData(Topic& newTopic);
 void savePostData(Post& newPost);
 void saveReplyData();
 void displayHome();
@@ -172,11 +172,49 @@ void loadForumData() {
 		cout << "Topic data is loaded!" << endl;
 	}
 	//Load post data
-
+	//Loading topic data
+	inFile.open("post.txt");
+	if (inFile.fail()) {
+		cout << "No post is exist!" << endl;
+		cout << "Creating post file..." << endl;
+		ofstream outFile;
+		outFile.open("post.txt");
+		outFile.close();
+	}
+	else {
+		string title,description, author;
+		postList;
+		while (!inFile.eof()) {
+			getline(inFile, str);
+			stringstream ss(str);
+			getline(ss, title, ';');
+			getline(ss, author, ';');
+			Post newPost("","",title, author, description);
+			postList.add(newPost);
+		}
+		inFile.close();
+		cout << "Post data is loaded!" << endl;
+	}
 	//load reply data
 }
-void saveTopicData() {
-
+void saveTopicData(Topic& newTopic) {
+	string topic = newTopic.getTopic();
+	string author = newTopic.getAuthor();
+	outFile.open("topic.txt", ios::app);
+	if (outFile.fail()) {
+		cout << endl << "No topic data file is found!" << endl;
+		cout << endl << "Creating topic data file..." << endl;
+		ofstream outFile;
+		outFile.open("topic.txt");
+		outFile << topic << ";" << author << endl;
+		outFile.close();
+		cout << "Topic data is saved!" << endl;
+	}
+	else {
+		outFile << topic << ";" << author << endl;
+		outFile.close();
+		cout << "Topic data is saved!" << endl;
+	}
 }
 
 void savePostData(Post& newPost) {
@@ -188,10 +226,10 @@ void savePostData(Post& newPost) {
 	//Newest data will just be appended at the end of the file.
 	outFile.open("post.txt", ios::app);
 	if (outFile.fail()) {
-		cout << endl << "No user data file is found!" << endl;
-		cout << endl << "Creating user data file..." << endl;
+		cout << endl << "No post data file is found!" << endl;
+		cout << endl << "Creating post data file..." << endl;
 		ofstream outFile;
-		outFile.open("user.txt");
+		outFile.open("post.txt");
 		outFile << postTitle << ";" << postDescription << ";" << author << endl;
 		outFile.close();
 		cout << "Post data is saved!" << endl;
