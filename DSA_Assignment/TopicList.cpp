@@ -15,8 +15,7 @@ TopicList::~TopicList() {
 	}
 }
 bool TopicList::isEmpty() {
-	bool ifEmpty = size = 0;
-	return ifEmpty;
+	return size == 0;
 }
 bool TopicList::add(Topic item) {
 	Node* newNode = new Node;

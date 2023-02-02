@@ -16,6 +16,7 @@ Topic::Topic(string t, string auth, PostList pList)
 
 bool Topic::addPost(Post& post)
 {
+	
 	return postList.add(post);
 }
 

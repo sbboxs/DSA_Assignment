@@ -489,8 +489,14 @@ void viewTopicNPost() {
 void displayATopic(string topic) {
 	string option = "1";
 	currentTopic = topicList.get(topic);
-	postList = currentTopic.getPosts();
+	//postList = currentTopic.getPosts();
+		
 	while (option != "0") {
+		postList = currentTopic.getPosts();
+		if (!currentTopic.getPosts().isEmpty()) {
+			cout << "Not Empty" << endl;
+			cout << "Length: " << currentTopic.getPosts().getLength() << endl;
+		}
 		cout << "Topic: " << currentTopic.getTopic() << endl;
 		cout << "---------------------------" << endl;
 		if (postList.isEmpty())
