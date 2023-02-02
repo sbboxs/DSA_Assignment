@@ -186,7 +186,7 @@ void savePostData(Post& newPost) {
 	//Second flag 'ios::app' allows to open the file in append mode.
 	//Therefore, there no need to overwritten the file everytime when save.
 	//Newest data will just be appended at the end of the file.
-	outFile.open("post.txt", ios::app);
+	outFile.open("user.txt", ios::app);
 	if (outFile.fail()) {
 		cout << endl << "No user data file is found!" << endl;
 		cout << endl << "Creating user data file..." << endl;
@@ -194,12 +194,12 @@ void savePostData(Post& newPost) {
 		outFile.open("user.txt");
 		outFile << postTitle << ";" << postDescription << ";" << author << endl;
 		outFile.close();
-		cout << "Post data is saved!" << endl;
+		cout << "User data is saved!" << endl;
 	}
 	else {
 		outFile << postTitle << ";" << postDescription << ";" << author << endl;
 		outFile.close();
-		cout << "Post data is saved!" << endl;
+		cout << "User data is saved!" << endl;
 	}
 }
 

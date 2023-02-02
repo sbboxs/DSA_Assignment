@@ -100,9 +100,9 @@ void PostList::display() {
 		 << setw(25) << "Author" << endl;
 	Node* tempNode = firstNode;
 	while (tempNode != NULL) {
-		cout << left << setw(25) << tempNode->item.getTitle()
-			 << setw(25) << tempNode->item.getDescription()
-			 << setw(25) << tempNode->item.getAuthor() << endl;
+		cout << left << setw(25) << tempNode->item.getTitle().c_str()
+			 << setw(25) << tempNode->item.getDescription().c_str()
+			 << setw(25) << tempNode->item.getAuthor().c_str() << endl;
 		tempNode = tempNode->next;
 	}
 }

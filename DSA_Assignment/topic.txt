@@ -1,0 +1,9 @@
+List
+Linked List
+Stack
+Queue
+Dictionary & Hash Tables
+Recursion
+Binary Search
+Tree
+Sorting
