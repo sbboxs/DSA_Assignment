@@ -32,7 +32,8 @@ void userHome();
 bool userHomeProcess();
 void viewTopicNPost();
 void viewTopicNPostProcess();
-void createPostForm();
+void createPost();
+void createTopic();
 void createPostFormProcess();
 void topicSelector();
 void topicSelectorProcess(string& topic);
@@ -352,9 +353,9 @@ void userHome() {
 	cout << endl;
 	cout << "Welcome back! Dear user: " << currentUser.getUserName() << endl;
 	cout << "---------------------------" << endl;
-	cout << "[1] View all topics and posts " << endl;
-	cout << "[2] View my posts" << endl;
-	cout << "[3] Create new posts" << endl;
+	cout << "[1] Dicussion Topics " << endl;
+	cout << "[2] Create New Topic" << endl;
+	cout << "[3] My Posts" << endl;
 	cout << "[0] Logout" << endl;
 	cout << "Enter option: ";
 }
@@ -389,6 +390,9 @@ bool userHomeProcess() {
 	return true;
 }
 
+void displayTopics() {
+
+}
 void viewTopicNPost() {
 	cout << endl;
 	cout << "C++ Programming Forum" << endl;
@@ -423,7 +427,7 @@ void viewTopicNPostProcess() {
 		}
 		else if (option == "4") {
 			cout << "Create new posts" << endl;
-			createPostForm();
+			createPost();
 			
 		}
 		else if (option == "0") {
@@ -446,12 +450,10 @@ void viewTopicNPostProcess() {
 //	cout << "[0] Back" << endl;
 //	cout << "Enter option: ";
 //}
-void createPostForm() {
+void createPost() {
 	cout << endl;
-	string postID, topic, title, description, author;
+	string postID, topic, title, description;
 	Post newPost;
-	string headings[] = { "Title: ", "Description: ", "Topic: " };
-	string variables[] = { title, description, topic };
 	cout << "Creating new post!" << endl;
 	cout << "------------------" << endl;
 	cout << "Title: ";
@@ -473,6 +475,22 @@ void createPostForm() {
 		cout << "Saved Error!" << endl;
 }
 
+void createTopic() {
+	cout << endl;
+	string title;
+	Topic newTopic;
+	cout << "Creating new Topic!" << endl;
+	cout << "------------------" << endl;
+	cout << "Naame of Topic: ";
+	cin >> title;
+	newTopic.setTopic(title);
+	newTopic.setAuthor(currentUser.getUserName());
+	if (topicList.add(newTopic)) {
+		cout << "New Topic is created succesfully!" << endl;
+	}
+	else
+		cout << "Saved Error!" << endl;
+}
 //void createPostFormProcess() {
 //	string postID, topic, title, description, author;
 //	Post newPost(postID, topic, title, author ,description);

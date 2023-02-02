@@ -1,5 +1,4 @@
 #include "TopicList.h"
-#include <iomanip>
 using namespace std;
 
 TopicList::TopicList() {
@@ -84,12 +83,5 @@ Topic TopicList::get(int index) {
 	}
 }
 void TopicList::display() {
-	cout << left << setw(25) << "Discussion Topic"
-		<< setw(25) << "Created By" << endl;
-	Node* tempNode = firstNode;
-	while (tempNode != NULL) {
-		cout << left << setw(25) << tempNode->item.getTopic().c_str()
-			<< setw(25) << tempNode->item.getAuthor().c_str() << endl;
-		tempNode = tempNode->next;
-	}
+	Node* temp = firstNode;
 }
