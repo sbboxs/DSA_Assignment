@@ -44,5 +44,6 @@ public:
 	void display();
 	// display all the items in the list
 	void userDisplay(string username);
+	void topicDisplay(string topic);
 };
 

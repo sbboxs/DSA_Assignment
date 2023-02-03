@@ -46,5 +46,5 @@ public:
 	void display(string username);
 
 	//TopicList userDisplay(string username);
-
+	void userDisplay(string username);
 };

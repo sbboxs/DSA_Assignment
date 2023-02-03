@@ -9,7 +9,7 @@ Post::Post()
 	description = "";
 }
 
-Post::Post(string msg, string top, string t, string user, string desc)
+Post::Post(string t, string desc, string msg, string user, string top)
 {
 	message = msg;
 	topic = top;

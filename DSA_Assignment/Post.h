@@ -20,7 +20,7 @@ private:
 public:
 	//Methods
 	Post();
-	Post(string msg, string Topic, string Title, string Author, string Desc);
+	Post(string t, string desc, string msg, string user, string top);
 	void addReply(Reply& reply, ReplyList& replyList);
 	//void deleteReply(Reply& reply, ReplyList& replyList);
 	void print();

@@ -113,7 +113,7 @@ void PostList::display() {
 }
 
 void PostList::userDisplay(string username) {
-	int count = 1;
+	int count = 1001;
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
@@ -123,6 +123,27 @@ void PostList::userDisplay(string username) {
 			if (tempNode->item.getAuthor().c_str() == username) {
 				cout << left << setw(20) << count << setw(20) << tempNode->item.getTitle().c_str() << setw(30)
 					 << tempNode->item.getDescription().c_str() << setw(25) << tempNode->item.getTopic().c_str() << endl;
+			}
+			tempNode = tempNode->next;
+			count += 1;
+		}
+	}
+	else {
+		cout << "No Topics yet" << endl;
+	}
+}
+
+void PostList::topicDisplay(string topic) {
+	int count = 1001;
+	bool success = !isEmpty();
+	Node* tempNode = firstNode;
+	if (success) {
+		cout << left << setw(20) << "ID" << setw(20) << "Title"
+			<< setw(30) << "Description" << setw(25) << "Author" << endl;
+		while (tempNode != NULL) {
+			if (tempNode->item.getTopic().c_str() == topic) {
+				cout << left << setw(20) << count << setw(20) << tempNode->item.getTitle().c_str() << setw(30)
+					<< tempNode->item.getDescription().c_str() << setw(25) << tempNode->item.getAuthor().c_str() << endl;
 			}
 			tempNode = tempNode->next;
 			count += 1;

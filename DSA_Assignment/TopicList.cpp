@@ -108,7 +108,7 @@ int TopicList::getLength() {
 //}
 
 void TopicList::display(string username) {
-	int count = 1;
+	int count = 1001;
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
@@ -122,6 +122,27 @@ void TopicList::display(string username) {
 			else if (tempNode->item.getAuthor().c_str() == username) {
 				cout << left << setw(20) << count
 					<< setw(30) << tempNode->item.getTopic().c_str() << setw(25) << tempNode->item.getAuthor().c_str() << endl; 
+			}
+			tempNode = tempNode->next;
+			count += 1;
+		}
+	}
+	else {
+		cout << "No Topics yet" << endl;
+	}
+}
+
+void TopicList::userDisplay(string username) {
+	int count = 1001;
+	bool success = !isEmpty();
+	Node* tempNode = firstNode;
+	if (success) {
+		cout << left << setw(20) << "ID"
+			<< setw(30) << "Discussion Topic" << setw(25) << endl;
+		while (tempNode != NULL) {
+			if (tempNode->item.getAuthor().c_str() == username) {
+				cout << left << setw(20) << count
+					<< setw(30) << tempNode->item.getTopic().c_str() << setw(25) << endl;
 			}
 			tempNode = tempNode->next;
 			count += 1;

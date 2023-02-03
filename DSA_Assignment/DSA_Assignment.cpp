@@ -49,6 +49,7 @@ void topicCreated();
 Dictionary userDictionary;
 User currentUser;
 TopicList topicList;
+PostList postList;
 Topic currentTopic;
 
 //===
@@ -67,6 +68,7 @@ int main()
 	//Load all needed data
 	loadUserData();
 	loadTopicData();
+	loadPostData();
 
 	//Controlling of Login & Registration
 	bool ifLogin = false;
@@ -182,7 +184,8 @@ void loadTopicData() {
 
 void loadPostData() {
 	//Load post data
-	string filename = "topic_" + currentTopic.getTopic() + "_Postdata.txt";
+	/*string filename = "topic_" + currentTopic.getTopic() + "_Postdata.txt";*/
+	string filename = "post.txt"; 
 	inFile.open(filename);
 	if (inFile.fail()) {
 		cout << "No post is exist!" << endl;
@@ -192,17 +195,18 @@ void loadPostData() {
 		outFile.close();
 	}
 	else {
-		string postID,topic,title, author, description;
+		string message,topic,title, author, description;
 		while (!inFile.eof()) {
 			getline(inFile, str);
 			stringstream ss(str);
-			getline(ss, postID, ';');
-			getline(ss, topic, ';');
 			getline(ss, title, ';');
-			getline(ss, author, ';');
 			getline(ss, description, ';');
-			Post newPost(postID, topic, title, author, description);
+			getline(ss, message, ';');
+			getline(ss, author, ';');
+			getline(ss, topic, ';');
+			Post newPost(title, description, message, author, topic);
 			currentTopic.addPost(newPost);
+			postList.add(newPost);
 		}
 		inFile.close();
 		cout << "Post data is loaded!" << endl;
@@ -229,7 +233,7 @@ void saveTopicData(Topic& newTopic) {
 }
 
 void savePostData(Post& newPost) {
-	string postID = newPost.getPostID();
+	string message = newPost.getMessage();
 	string topic = newPost.getTopic();
 	string postTitle = newPost.getTitle();
 	string author = newPost.getAuthor();
@@ -237,7 +241,7 @@ void savePostData(Post& newPost) {
 	//Second flag 'ios::app' allows to open the file in append mode.
 	//Therefore, there no need to overwritten the file everytime when save.
 	//Newest data will just be appended at the end of the file.
-	string filename = "topic_" + currentTopic.getTopic() + "_PostData.txt";
+	string filename = "post.txt";
 	//string filename = "topic_" + currentTopic.getTopic() + "_post_" + newPost.getPostID() + ".txt";
 	outFile.open(filename, ios::app);
 	if (outFile.fail()) {
@@ -245,12 +249,12 @@ void savePostData(Post& newPost) {
 		cout << endl << "Creating post data file..." << endl;
 		ofstream outFile;
 		outFile.open(filename);
-		outFile << postID << ";" << topic << " " << postTitle << ";" << author << ";" << postDescription << endl;
+		outFile << postTitle << ";" << postDescription << ";" << message << ";" << author << ";" << topic << endl;
 		outFile.close();
 		cout << "Post data is saved!" << endl;
 	}
 	else {
-		outFile << postID << ";" << topic << " " << postTitle << ";" << author << ";" << postDescription << endl;
+		outFile << postTitle << ";" << postDescription << ";" << message << ";" << author << ";" << topic << endl;
 		outFile.close();
 		cout << "Post data is saved!" << endl;
 	}
@@ -412,7 +416,7 @@ void userHome() {
 	cout << "---------------------------" << endl;
 	cout << "[1] Dicussion Topics " << endl;
 	cout << "[2] Create New Topic" << endl;
-	cout << "[3] My Posts" << endl;
+	cout << "[3] My Own Topics" << endl;
 	cout << "[0] Logout" << endl;
 	cout << "---------------------------" << endl;
 	cout << "Enter option: ";
@@ -436,7 +440,7 @@ bool userHomeProcess() {
 		}
 		else if (option == "3") {
 			system("cls");
-			displayUserPosts();
+			displayUserTopics();
 		}
 		else if (option == "0") {
 			system("cls");
@@ -460,7 +464,7 @@ bool displayTopics() {
 		cout << "--------------------------------------------------------------" << endl;
 
 		cout << "[1] View a Topic " << endl;
-		cout << "[2] My Topics" << endl;
+		cout << "[2] My Own Posts" << endl;
 		cout << "[0] Back to user home" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
@@ -474,7 +478,7 @@ bool displayTopics() {
 		}
 		else if (option == "2") {
 			system("cls");
-			displayUserTopics();
+			displayUserPosts();
 		}
 		else if (option == "3") {
 			system("cls");
@@ -507,9 +511,9 @@ bool displayUserTopics() {
 	string option = "1";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
-		cout << "-------------------------------------------------------------" << endl;
-		topicList.display(currentUser.getUserName());
-		cout << "-------------------------------------------------------------" << endl;
+		cout << "--------------------------------" << endl;
+		topicList.userDisplay(currentUser.getUserName());
+		cout << "--------------------------------" << endl;
 		cout << "[1] Choose topic to view " << endl;
 		cout << "[2] Delete a Topic" << endl;
 		cout << "[0] Back to user home" << endl;
@@ -582,15 +586,13 @@ bool displayUserPosts() {
 
 void displayATopic(int topicID) {
 	string option = "1";
-	currentTopic = topicList.get(topicID-1);
-	loadPostData();
+	currentTopic = topicList.get(topicID-1001);
 
 	while (option != "0") {
 		cout << "Topic: " << currentTopic.getTopic() << endl;
 		cout << "---------------------------" << endl;
-		currentTopic.getPosts().display();
+		postList.topicDisplay(currentTopic.getTopic());
 		cout << "----------------------------------------------------------" << endl;
-		postList.display();
 		viewTopicNPost();
 		cin >> option;
 		if (option == "1") {
@@ -630,30 +632,25 @@ void displayATopic(int topicID) {
 //}
 void createPost() {
 	cout << endl;
-	string postID, title, description;
-	postID = currentUser.getUserName() +"_" + to_string(currentTopic.getPosts().getLength());
 	string message, title, description;
 	Post newPost;
 	cout << "Creating new post!" << endl;
 	cout << "------------------" << endl;
-	cout << "Title: ";
-	cin >> title;
-	cout << "Description: " << endl;
-	cin >> description;
-	Post newPost(postID, currentTopic.getTopic(), title, currentUser.getUserName(), description);
+	cout << "Title of Post: ";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	getline(cin, title);
 	newPost.setTitle(title);
-	cout << "Description of Post: " << endl;
+	cout << "Description of Post: " << endl;;
 	getline(cin, description);
 	newPost.setDescription(description);
-	cout << "Post your message here: " << endl;
+	cout << "Post your message here: " << endl;;
 	getline(cin, message);
 	newPost.setMessage(message);
 	newPost.setTopic(currentTopic.getTopic());
 	newPost.setAuthor(currentUser.getUserName());
 	if (currentTopic.addPost(newPost)) {
 		savePostData(newPost);
+		postList.add(newPost);
 		cout << "New post is created succesfully!" << endl;
 	}
 	else
