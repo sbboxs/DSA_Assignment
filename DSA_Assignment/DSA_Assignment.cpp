@@ -166,14 +166,14 @@ void loadTopicData() {
 		outFile.close();
 	}
 	else {
-		string title, author;
+		string topic, author;
 		PostList pList;
-		while (!inFile.eof()) {
+		while (getline(inFile, str) && str != "") {
 			getline(inFile, str);
 			stringstream ss(str);
-			getline(ss, title, ';');
+			getline(ss, topic, ';');
 			getline(ss, author, ';');
-			Topic newTopic(title, author, pList);
+			Topic newTopic(topic, author, pList);
 			topicList.add(newTopic);
 		}
 		inFile.close();
@@ -196,7 +196,7 @@ void loadPostData() {
 	}
 	else {
 		string message,topic,title, author, description;
-		while (!inFile.eof()) {
+		while (getline(inFile, str) && str != "") {
 			getline(inFile, str);
 			stringstream ss(str);
 			getline(ss, title, ';');
@@ -212,6 +212,7 @@ void loadPostData() {
 		cout << "Post data is loaded!" << endl;
 	}
 }
+
 void saveTopicData(Topic& newTopic) {
 	string topic = newTopic.getTopic();
 	string author = newTopic.getAuthor();
