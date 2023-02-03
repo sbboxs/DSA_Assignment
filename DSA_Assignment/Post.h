@@ -10,7 +10,7 @@ using namespace std;
 class Post
 {
 private:
-	string postID;
+	string message;
 	string topic;
 	string title;
 	string author;
@@ -20,13 +20,13 @@ private:
 public:
 	//Methods
 	Post();
-	Post(string PostID, string Topic, string Title, string Author, string Desc);
+	Post(string msg, string Topic, string Title, string Author, string Desc);
 	void addReply(Reply& reply, ReplyList& replyList);
 	//void deleteReply(Reply& reply, ReplyList& replyList);
 	void print();
 
 	//Getter
-	string getPostID();
+	string getMessage();
 	string getTopic();
 	string getTitle();
 	string getAuthor();
@@ -34,7 +34,7 @@ public:
 	ReplyList& getReplies();
 
 	//Setter
-	void setPostID(string pID);
+	void setMessage(string msg);
 	void setTopic(string topic);
 	void setTitle(string title);
 	void setAuthor(string author);

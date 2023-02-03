@@ -2,20 +2,20 @@
 
 Post::Post()
 {
-	postID = "";
+	message = "";
 	topic = "";
 	title = "";
 	author = "";
 	description = "";
 }
 
-Post::Post(string PostID, string Topic, string Title, string Author, string Desc)
+Post::Post(string msg, string top, string t, string user, string desc)
 {
-	postID = PostID;
-	topic = Topic;
-	title = Title;
-	author = Author;
-	description = Desc;
+	message = msg;
+	topic = top;
+	title = t;
+	author = user;
+	description = desc;
 }
 
 void Post::addReply(Reply& reply, ReplyList& replyList)
@@ -30,16 +30,16 @@ void Post::addReply(Reply& reply, ReplyList& replyList)
 
 void Post::print()
 {
-	cout << "Post ID: " << postID << endl;
+	cout << "Message: " << message << endl;
 	cout << "Topic: " << topic << endl;
 	cout << "Title: " << title << endl;
 	cout << "Author: " << author << endl;
 	cout << "Description: " << description << endl;
 }
 
-string Post::getPostID()
+string Post::getMessage()
 {
-	return postID;
+	return message;
 }
 
 string Post::getTopic()
@@ -67,9 +67,9 @@ ReplyList& Post::getReplies()
 	return replyList;
 }
 
-void Post::setPostID(string pID)
+void Post::setMessage(string msg)
 {
-	postID = pID;
+	this->message = msg;
 }
 
 void Post::setTopic(string topic)

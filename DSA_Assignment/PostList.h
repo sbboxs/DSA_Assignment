@@ -41,7 +41,8 @@ public:
 	// check the size of the list
 	int getLength();
 
-	// display all the items in the list
 	void display();
+	// display all the items in the list
+	void userDisplay(string username);
 };
 
