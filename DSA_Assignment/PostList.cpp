@@ -94,14 +94,20 @@ int PostList::getLength() {
 }
 
 void PostList::display() {
-	cout << left << setw(25) << "Title"
-		 << setw(25) << "Description"
-		 << setw(25) << "Author" << endl;
+	bool success = !isEmpty();
 	Node* tempNode = firstNode;
-	while (tempNode != NULL) {
-		cout << left << setw(25) << tempNode->item.getTitle().c_str()
-			 << setw(25) << tempNode->item.getDescription().c_str()
-			 << setw(25) << tempNode->item.getAuthor().c_str() << endl;
-		tempNode = tempNode->next;
+	if (success) {
+		cout << left << setw(25) << "Title"
+			<< setw(25) << "Description"
+			<< setw(25) << "Author" << endl;
+		while (tempNode != NULL) {
+			cout << left << setw(25) << tempNode->item.getTitle().c_str()
+				<< setw(25) << tempNode->item.getDescription().c_str()
+				<< setw(25) << tempNode->item.getAuthor().c_str() << endl;
+			tempNode = tempNode->next;
+		}
+	}
+	else {
+		cout << "No Posts yet" << endl;
 	}
 }

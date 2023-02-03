@@ -3,6 +3,7 @@
 #include<string>
 #include<iostream>
 #include "Topic.h"
+#include "User.h"
 using namespace std;
 
 class TopicList
@@ -33,7 +34,7 @@ public:
 	void remove(int index);
 
 	// get an item at a specified position of the list (retrieve)
-	Topic get(string topic);
+	Topic get(int index);
 
 	// check if the list is empty
 	bool isEmpty();
@@ -42,6 +43,8 @@ public:
 	int getLength();
 
 	// display all the items in the list
-	void display();
-};
+	void display(string username);
 
+	//TopicList userDisplay(string username);
+
+};

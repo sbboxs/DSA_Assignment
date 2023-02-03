@@ -15,7 +15,7 @@ TopicList::~TopicList() {
 	}
 }
 bool TopicList::isEmpty() {
-	return size == 0;
+	return firstNode == NULL;
 }
 bool TopicList::add(Topic item) {
 	Node* newNode = new Node;
@@ -78,28 +78,59 @@ void TopicList::remove(int index) {
 	}
 }
 
-Topic TopicList::get(string topic) {
-	bool success = !isEmpty();
-	Node* tempNode = firstNode;
-	if (success) {
-		while (tempNode != NULL) {
-			if (tempNode->item.getTopic().c_str() == topic) {
-				return tempNode->item;
-			}
-			else {
-				tempNode = tempNode->next;
-			}
+Topic TopicList::get(int index) {
+	if (index <= size && index >= 0) {
+		Node* temp = firstNode;
+		for (int i = 0; i < index; i++) {
+			temp = temp->next;
 		}
+		return temp->item;
 	}
 }
 
-void TopicList::display() {
-	cout << left << setw(25) << "Discussion Topic"
-		<< setw(25) << "Created By" << endl;
+int TopicList::getLength() {
+	return size;
+}
+
+//Topic TopicList::userDisplay(string username) {
+//	bool success = !isEmpty();
+//	Node* tempNode = firstNode;
+//	if (success) {
+//		while (tempNode != NULL) {
+//			if (tempNode->item.getAuthor().c_str() == username) {
+//				return tempNode->item;
+//			}
+//			else {
+//				tempNode = tempNode->next;
+//			}
+//		}
+//	}
+//}
+
+void TopicList::display(string username) {
+	int count = 1;
+	bool success = !isEmpty();
 	Node* tempNode = firstNode;
-	while (tempNode != NULL) {
-		cout << left << setw(25) << tempNode->item.getTopic().c_str()
-			<< setw(25) << tempNode->item.getAuthor().c_str() << endl;
-		tempNode = tempNode->next;
+	if (success) {
+		cout << left << setw(20) << "ID"
+			<< setw(30) << "Discussion Topic" << setw(25) << "Created By" << endl;
+		while (tempNode != NULL) {
+			if (username == "") {
+				cout << left << setw(20) << count
+					<< setw(30) << tempNode->item.getTopic().c_str() << setw(25) << tempNode->item.getAuthor().c_str() << endl; 
+			}
+			else if (tempNode->item.getAuthor().c_str() == username) {
+				cout << left << setw(20) << count
+					<< setw(30) << tempNode->item.getTopic().c_str() << setw(25) << tempNode->item.getAuthor().c_str() << endl; 
+			}
+			tempNode = tempNode->next;
+			count += 1;
+		}
+	}
+	else {
+		cout << "No Topics yet" << endl;
 	}
 }
+
+
+
