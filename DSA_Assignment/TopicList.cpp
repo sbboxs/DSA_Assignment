@@ -114,14 +114,17 @@ void TopicList::display(string username) {
 	if (success) {
 		cout << left << setw(20) << "ID"
 			<< setw(30) << "Discussion Topic" << setw(25) << "Created By" << endl;
+
 		while (tempNode != NULL) {
 			if (username == "") {
 				cout << left << setw(20) << count
-					<< setw(30) << tempNode->item.getTopic().c_str() << setw(25) << tempNode->item.getAuthor().c_str() << endl; 
+					<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getAuthor() << endl; 
 			}
-			else if (tempNode->item.getAuthor().c_str() == username) {
-				cout << left << setw(20) << count
-					<< setw(30) << tempNode->item.getTopic().c_str() << setw(25) << tempNode->item.getAuthor().c_str() << endl; 
+			else {
+				if (tempNode->item.getAuthor() == username) {
+					cout << left << setw(20) << count
+						<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getAuthor() << endl;
+				}
 			}
 			tempNode = tempNode->next;
 			count += 1;
@@ -140,9 +143,9 @@ void TopicList::userDisplay(string username) {
 		cout << left << setw(20) << "ID"
 			<< setw(30) << "Discussion Topic" << setw(25) << endl;
 		while (tempNode != NULL) {
-			if (tempNode->item.getAuthor().c_str() == username) {
+			if (tempNode->item.getAuthor() == username) {
 				cout << left << setw(20) << count
-					<< setw(30) << tempNode->item.getTopic().c_str() << setw(25) << endl;
+					<< setw(30) << tempNode->item.getTopic() << setw(25) << endl;
 			}
 			tempNode = tempNode->next;
 			count += 1;

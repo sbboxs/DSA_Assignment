@@ -21,8 +21,10 @@ void loadUserData();
 void saveUserData(User& newUser);
 void loadTopicData();
 void saveTopicData(Topic& newTopic);
+void updateTopicData();
 void loadPostData();
 void savePostData(Post& newPost);
+void updatePostData();
 void saveReplyData();
 void displayHome();
 void loginForm();
@@ -132,9 +134,6 @@ void loadUserData() {
 //This function is to save user data into the file. The newest user data will be appended to the end of the file.
 //The user is the parameter.
 void saveUserData(User& newUser) {
-	string username = newUser.getUserName();
-	string password = newUser.getPassword();
-	bool loginStatus = newUser.getIsLogin();
 	//Second flag 'ios::app' allows to open the file in append mode.
 	//Therefore, there no need to overwritten the file everytime when save.
 	//Newest data will just be appended at the end of the file.
@@ -144,12 +143,12 @@ void saveUserData(User& newUser) {
 		cout << endl << "Creating user data file..." << endl;
 		ofstream outFile;
 		outFile.open("user.txt");
-		outFile << username << ";" << password << ";" << loginStatus << endl;
+		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
 		outFile.close();
 		cout << "User data is saved!" << endl;
 	}
 	else {
-		outFile << username << ";" << password << ";" << loginStatus << endl;
+		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
 		outFile.close();
 		cout << "User data is saved!" << endl;
 	}
@@ -169,17 +168,16 @@ void loadTopicData() {
 		string topic, author;
 		PostList pList;
 		while (getline(inFile, str) && str != "") {
-			getline(inFile, str);
 			stringstream ss(str);
 			getline(ss, topic, ';');
 			getline(ss, author, ';');
-			Topic newTopic(topic, author, pList);
-			topicList.add(newTopic);
+			Topic currentTopic(topic, author, pList);
+			topicList.add(currentTopic);
+			cout << "Topic load: " << currentTopic.getTopic();
 		}
 		inFile.close();
 		cout << "Topic data is loaded!" << endl;
 	}
-	//load reply data
 }
 
 void loadPostData() {
@@ -197,16 +195,14 @@ void loadPostData() {
 	else {
 		string message,topic,title, author, description;
 		while (getline(inFile, str) && str != "") {
-			getline(inFile, str);
 			stringstream ss(str);
 			getline(ss, title, ';');
 			getline(ss, description, ';');
 			getline(ss, message, ';');
 			getline(ss, author, ';');
 			getline(ss, topic, ';');
-			Post newPost(title, description, message, author, topic);
-			currentTopic.addPost(newPost);
-			postList.add(newPost);
+			Post currentPost(title, description, message, author, topic);
+			postList.add(currentPost);
 		}
 		inFile.close();
 		cout << "Post data is loaded!" << endl;
@@ -214,31 +210,24 @@ void loadPostData() {
 }
 
 void saveTopicData(Topic& newTopic) {
-	string topic = newTopic.getTopic();
-	string author = newTopic.getAuthor();
 	outFile.open("topic.txt", ios::app);
 	if (outFile.fail()) {
 		cout << endl << "No topic data file is found!" << endl;
 		cout << endl << "Creating topic data file..." << endl;
 		ofstream outFile;
 		outFile.open("topic.txt");
-		outFile << topic << ";" << author << endl;
+		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << endl;
 		outFile.close();
 		cout << "Topic data is saved!" << endl;
 	}
 	else {
-		outFile << topic << ";" << author << endl;
+		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << endl;
 		outFile.close();
 		cout << "Topic data is saved!" << endl;
 	}
 }
 
 void savePostData(Post& newPost) {
-	string message = newPost.getMessage();
-	string topic = newPost.getTopic();
-	string postTitle = newPost.getTitle();
-	string author = newPost.getAuthor();
-	string postDescription = newPost.getDescription();
 	//Second flag 'ios::app' allows to open the file in append mode.
 	//Therefore, there no need to overwritten the file everytime when save.
 	//Newest data will just be appended at the end of the file.
@@ -250,12 +239,12 @@ void savePostData(Post& newPost) {
 		cout << endl << "Creating post data file..." << endl;
 		ofstream outFile;
 		outFile.open(filename);
-		outFile << postTitle << ";" << postDescription << ";" << message << ";" << author << ";" << topic << endl;
+		outFile << newPost.getTitle() << ";" << newPost.getDescription() << ";" << newPost.getMessage() << ";" << newPost.getAuthor() << ";" << newPost.getTopic() << endl;
 		outFile.close();
 		cout << "Post data is saved!" << endl;
 	}
 	else {
-		outFile << postTitle << ";" << postDescription << ";" << message << ";" << author << ";" << topic << endl;
+		outFile << newPost.getTitle() << ";" << newPost.getDescription() << ";" << newPost.getMessage() << ";" << newPost.getAuthor() << ";" << newPost.getTopic() << endl;
 		outFile.close();
 		cout << "Post data is saved!" << endl;
 	}
@@ -263,6 +252,35 @@ void savePostData(Post& newPost) {
 
 void saveReplyData() {
 
+}
+
+void updateTopicData() {
+	Topic currentTopic;
+	outFile.open("topic.txt");
+	if (outFile.fail()) {
+		cout << endl << "No topic data file is found!" << endl;
+		cout << endl << "Creating topic data file..." << endl;
+	}
+	for (int i = 0; i < topicList.getLength(); i++) {
+		currentTopic = topicList.get(i);
+		outFile << currentTopic.getTopic() << ";" << currentTopic.getAuthor() << endl;
+	}
+	outFile.close();
+	cout << "Topic data is updated!" << endl;
+}
+void updatePostData() {
+	Post currentPost;
+	outFile.open("post.txt");
+	if (outFile.fail()) {
+		cout << endl << "No post data file is found!" << endl;
+		cout << endl << "Creating post data file..." << endl;
+	}
+	for (int i = 0; i < postList.getLength(); i++) {
+		currentPost = postList.get(i);
+		outFile << currentPost.getTitle() << ";" << currentPost.getDescription() << ";" << currentPost.getMessage() << ";" << currentPost.getAuthor() << ";" << currentPost.getTopic() << endl;
+	}
+	outFile.close();
+	cout << "Post data is updated!" << endl;
 }
 
 //=========
@@ -528,7 +546,34 @@ bool displayUserTopics() {
 			displayATopic(topicID);
 		}
 		else if (option == "2") {
-			system("cls");
+			int topicID;
+			string confirmDelete;
+			Topic topicDeleted;
+			cout << "Enter Topic ID to be deleted: ";
+			cin >> topicID;
+			if (topicID - 1001 <= topicList.getLength() && topicID-1001 >= 0) {
+				topicDeleted = topicList.get(topicID - 1001);
+				if (topicDeleted.getAuthor() == currentUser.getUserName()) {
+					cout << "Do you sure want to remove topic index of " << topicID << "? (Y/N): ";
+					cin >> confirmDelete;
+					if (confirmDelete == "Y" || confirmDelete == "y")
+					{
+						topicList.remove(topicID - 1001);
+						updateTopicData();
+						system("cls");
+						cout << topicDeleted.getTopic() << " is deleted." << endl;
+					}
+				}
+				else {
+					system("cls");
+					cout << "You do not have the permission to delete other user' topic" << endl;
+				}
+
+			}
+			else {
+				system("cls");
+				cout << "Invalid Topic ID." << endl;
+			}
 		}
 		else if (option == "3") {
 			cout << "Create new posts" << endl;

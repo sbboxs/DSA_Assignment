@@ -3,4 +3,4 @@ idk;1
 Dictionary;1
 asda;1
 C;1
-newTopic;1
+topicByNewUser;Imnew
