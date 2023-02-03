@@ -21,6 +21,7 @@ public:
 	Topic(string topic, string auth, PostList pList);
 	bool addPost(Post& post);
 	//void deletePost(Post& post, PostList& postList);
+	bool load(string topic);
 	void print();
 
 	//Getter
