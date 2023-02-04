@@ -42,6 +42,6 @@ public:
 	int getLength();
 
 	// display all the items in the list
-	void display();
+	void display(string title, string topic, string author);
 };
 

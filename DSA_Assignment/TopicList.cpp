@@ -107,25 +107,17 @@ int TopicList::getLength() {
 //	}
 //}
 
-void TopicList::display(string username) {
+void TopicList::display() {
 	int count = 1001;
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
 		cout << left << setw(20) << "ID"
 			<< setw(30) << "Discussion Topic" << setw(25) << "Created By" << endl;
-
 		while (tempNode != NULL) {
-			if (username == "") {
-				cout << left << setw(20) << count
-					<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getAuthor() << endl; 
-			}
-			else {
-				if (tempNode->item.getAuthor() == username) {
-					cout << left << setw(20) << count
-						<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getAuthor() << endl;
-				}
-			}
+			cout << left << setw(20) << count
+				<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getAuthor() << endl; 
+
 			tempNode = tempNode->next;
 			count += 1;
 		}

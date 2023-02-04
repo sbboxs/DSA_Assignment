@@ -43,7 +43,7 @@ public:
 	int getLength();
 
 	// display all the items in the list
-	void display(string username);
+	void display();
 
 	//TopicList userDisplay(string username);
 	void userDisplay(string username);

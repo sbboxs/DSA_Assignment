@@ -4,24 +4,28 @@ Reply::Reply()
 {
 	replyMessage = "";
 	author = "";
-	replyDate = "";
+	topic = "";
+	postTitle = "";
+	date = "";
 }
 
-Reply::Reply(string message, string auth, string date)
+Reply::Reply(string message, string auth, string top, string title, string dateTime)
 {
 	replyMessage = message;
 	author = auth;
-	replyDate = date;
+	topic = top;
+	postTitle = title;
+	date = dateTime;
 }
 
 void Reply::print()
 {
 	cout << "Reply Message: " << replyMessage << endl;
 	cout << "Author: " << author << endl;
-	cout << "Reply Date: " << replyDate << endl;
+	cout << "Reply Date: " << date << endl;
 }
 
-string Reply::getReplyMessage()
+string Reply::getReply()
 {
 	return replyMessage;
 }
@@ -31,7 +35,42 @@ string Reply::getAuthor()
 	return author;
 }
 
-string Reply::getReplyDate()
+string Reply::getTopic()
 {
-	return replyDate;
+	return topic;
+}
+
+string Reply::getTitle()
+{
+	return postTitle;
+}
+
+string Reply::getDate()
+{
+	return date;
+}
+
+void Reply::setReply(string reply)
+{
+	this->replyMessage = reply;
+}
+
+void Reply::setAuthor(string author)
+{
+	this->author = author;
+}
+
+void Reply::setTopic(string topic)
+{
+	this->topic = topic;
+}
+
+void Reply::setTitle(string title)
+{
+	this->postTitle = title;
+}
+
+void Reply::setDate(string date)
+{
+	this->date = date;
 }

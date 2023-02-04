@@ -10,18 +10,29 @@ class Reply
 private:
 	string replyMessage;
 	string author;
-	string replyDate;
+	string topic;
+	string postTitle;
+	string date;
 
 public:
 	//Methods
 	Reply();
-	Reply(string message,string auth, string date);
+	Reply(string message,string auth, string top, string title, string dateTime);
 	void print();
 
 	//Getter
-	string getReplyMessage();
+	string getReply();
 	string getAuthor();
-	string getReplyDate();
+	string getTopic();
+	string getTitle();
+	string getDate();
+
+
+	void setReply(string reply);
+	void setAuthor(string author);
+	void setTopic(string topic);
+	void setTitle(string title);
+	void setDate(string date);
 };
 
 

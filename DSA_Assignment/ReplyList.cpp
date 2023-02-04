@@ -1,4 +1,5 @@
 #include "ReplyList.h"
+#include <iomanip>
 using namespace std;
 
 ReplyList::ReplyList() {
@@ -12,6 +13,9 @@ ReplyList::~ReplyList() {
 		delete temp;
 		temp = next;
 	}
+}
+bool ReplyList::isEmpty() {
+	return firstNode == NULL;
 }
 bool ReplyList::add(Reply item) {
 	Node* newNode = new Node;
@@ -82,6 +86,23 @@ Reply ReplyList::get(int index) {
 		return temp->item;
 	}
 }
-void ReplyList::display() {
-	Node* temp = firstNode;
+void ReplyList::display(string title, string topic, string author) {
+	bool success = !isEmpty();
+	Node* tempNode = firstNode;
+	if (success) {
+		cout << "Topic - " + topic << endl;
+		cout << "----------------------------------------------------" << endl;
+		while (tempNode != NULL) {
+			if (tempNode->item.getTitle() == title && tempNode->item.getTopic() == topic) {
+				printf("@%s has replied: ", tempNode->item.getAuthor().c_str());
+				cout << endl << tempNode->item.getReply().c_str() << endl << endl;
+				cout << "Replied on " << tempNode->item.getDate().c_str();
+				cout << "----------------------------------------------------" << endl;
+			}
+			tempNode = tempNode->next;
+		}
+	}
+	else {
+		cout << "There has been no replies yet for this post" << endl;
+	}
 }

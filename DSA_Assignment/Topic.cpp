@@ -7,17 +7,10 @@ Topic::Topic()
 	author = "";
 }
 
-Topic::Topic(string t, string auth, PostList pList)
+Topic::Topic(string t, string auth)
 {
 	topic = t;
 	author = auth;
-	postList = pList;
-}
-
-bool Topic::addPost(Post& post)
-{
-	
-	return postList.add(post);
 }
 
 //void Topic::deletePost(Post& post, PostList& postList)
@@ -43,10 +36,6 @@ string Topic::getAuthor()
 	return author;
 }
 
-PostList& Topic::getPosts()
-{
-	return postList;
-}
 
 void Topic::setTopic(string topic)
 {
