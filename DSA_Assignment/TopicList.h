@@ -48,4 +48,6 @@ public:
 	//TopicList userDisplay(string username);
 	void userDisplay(string username);
 
+	//To display topics by pages
+	void displayPages(int page, string username);
 };
