@@ -173,7 +173,6 @@ void loadTopicData() {
 			getline(ss, author, ';');
 			Topic currentTopic(topic, author, pList);
 			topicList.add(currentTopic);
-			cout << "Topic load: " << currentTopic.getTopic();
 		}
 		inFile.close();
 		cout << "Topic data is loaded!" << endl;
@@ -493,7 +492,13 @@ bool displayTopics() {
 			cout << "Enter ID: " ;
 			cin >> topicID;
 			system("cls");
-			displayATopic(topicID);
+			if (topicID - 1001 < topicList.getLength() && topicID - 1001 >= 0)
+				displayATopic(topicID);
+			else
+			{
+				system("cls");
+				cout << "Invalid Topic ID." << endl;
+			}
 		}
 		else if (option == "2") {
 			system("cls");
@@ -551,7 +556,7 @@ bool displayUserTopics() {
 			Topic topicDeleted;
 			cout << "Enter Topic ID to be deleted: ";
 			cin >> topicID;
-			if (topicID - 1001 <= topicList.getLength() && topicID-1001 >= 0) {
+			if (topicID - 1001 < topicList.getLength() && topicID-1001 >= 0) {
 				topicDeleted = topicList.get(topicID - 1001);
 				if (topicDeleted.getAuthor() == currentUser.getUserName()) {
 					cout << "Do you sure want to remove topic index of " << topicID << "? (Y/N): ";
