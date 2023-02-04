@@ -33,9 +33,9 @@ void registerForm();
 void registerProcess();
 void userHome();
 bool userHomeProcess();
-bool displayTopics();
-bool displayUserTopics();
-bool displayUserPosts();
+void displayTopics();
+void displayUserTopics();
+void displayUserPosts();
 void displayATopic(int topicID);
 void viewTopicNPost();
 void viewTopicNPostProcess(Topic aTopic);
@@ -337,8 +337,8 @@ bool loginProcess() {
 					return true;
 				}
 				else {
-					cout << "Login credentials invalid!" << endl;
-					system("pause");
+					system("cls");
+					cout << "Login credentials invalid!";
 				}
 			}
 			else
@@ -350,7 +350,7 @@ bool loginProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option.";
 		}
 	}
 	return false;
@@ -382,17 +382,11 @@ void registerProcess() {
 		registerForm();
 		cin >> registerOption;
 		if (registerOption == "1") {
-			while (true) {
-				cout << "Enter Username: ";
-				cin >> newUsername;
-				existUser = userDictionary.get(newUsername);
-				if (existUser.getUserName() != newUsername)
-					break;
-				else
-					cout << "Username is exist! Please enter another unique username." << endl;
-			}
-			
-			while (true) {
+			cout << "Enter Username: ";
+			cin >> newUsername;
+			existUser = userDictionary.get(newUsername);
+			if (existUser.getUserName() != newUsername)
+			{
 				cout << "Enter Password: ";
 				cin >> newPassword;
 				cout << "Confirm your password: ";
@@ -410,9 +404,18 @@ void registerProcess() {
 						cout << "Save Error!." << endl;
 				}
 				else {
-					cout << "Password is not matched." << endl;
+					system("cls");
+					cout << "Password is not matched.";
 				}
 			}
+			else
+			{
+				system("cls");
+				cout << "Username is exist! Please enter another unique username.";
+			}
+
+			
+			
 		} 
 		else if (registerOption == "0") {
 			system("cls");
@@ -420,7 +423,7 @@ void registerProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option.";
 		}
 	}
 }
@@ -467,13 +470,13 @@ bool userHomeProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option.";
 		}
 	}
 	return true;
 }
 
-bool displayTopics() {
+void displayTopics() {
 	string option = "1";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
@@ -483,7 +486,7 @@ bool displayTopics() {
 
 		cout << "[1] View a Topic " << endl;
 		cout << "[2] My Own Posts" << endl;
-		cout << "[0] Back to user home" << endl;
+		cout << "[0] Back to discussion topics" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
@@ -509,15 +512,13 @@ bool displayTopics() {
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Has logged out. ";
-			return false;
+			cout << "Back to user home. ";
 		}
 		else {
 			system("cls");
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
-	return true;
 }
 
 void viewTopicNPost() {
@@ -531,7 +532,7 @@ void viewTopicNPost() {
 	cout << "Enter option: ";
 }
 
-bool displayUserTopics() {
+void displayUserTopics() {
 	string option = "1";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
@@ -575,6 +576,9 @@ bool displayUserTopics() {
 						system("cls");
 						cout << topicDeleted.getTopic() << " is deleted." << endl;
 					}
+					else {
+						system("cls");
+					}
 				}
 				else {
 					system("cls");
@@ -592,18 +596,16 @@ bool displayUserTopics() {
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Has logged out. ";
-			return false;
+			cout << "Back to user home. ";
 		}
 		else {
 			system("cls");
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
-	return true;
 }
 
-bool displayUserPosts() {
+void displayUserPosts() {
 	string option = "1";
 	TopicList userTList;
 	while (option != "0") {
@@ -624,22 +626,57 @@ bool displayUserPosts() {
 			displayATopic(topicID);
 		}
 		else if (option == "2") {
-			system("cls");
+			int postID;
+			string confirmDelete;
+			Post postDeleted;
+			cout << "Enter Post ID to be deleted: ";
+			cin >> postID;
+			if (postID - 1001 < postList.getLength() && postID - 1001 >= 0) {
+				postDeleted = postList.get(postID - 1001);
+				if (postDeleted.getAuthor() == currentUser.getUserName()) {
+					cout << "Do you sure want to remove post index of " << postID << "? (Y/N): ";
+					cin >> confirmDelete;
+					if (confirmDelete == "Y" || confirmDelete == "y")
+					{
+						topicList.remove(postID - 1001);
+
+						for (int i = 0; i < postList.getLength(); i++) {
+							Post currentPost = postList.get(i);
+							if (currentPost.getTopic() == postDeleted.getTopic())
+								postList.remove(i);
+						}
+						updateTopicData();
+						updatePostData();
+						system("cls");
+						cout << postDeleted.getTopic() << " is deleted." << endl;
+					}
+					else {
+						system("cls");
+					}
+				}
+				else {
+					system("cls");
+					cout << "You do not have the permission to delete other user' post" << endl;
+				}
+
+			}
+			else {
+				system("cls");
+				cout << "Invalid Post ID." << endl;
+			}
 		}
 		else if (option == "3") {
 			cout << "Create new posts" << endl;
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Has logged out. ";
-			return false;
+			cout << "Back to all topics. ";
 		}
 		else {
 			system("cls");
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
-	return true;
 }
 
 void displayATopic(int topicID) {
@@ -670,7 +707,7 @@ void displayATopic(int topicID) {
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Back to user home. ";
+			cout << "Back to discussion topic. ";
 		}
 		else {
 			system("cls");
