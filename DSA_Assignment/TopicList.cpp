@@ -156,64 +156,76 @@ void TopicList::userDisplay(string username) {
 	}
 }
 
-void TopicList::displayPages(int page, string username) {
+int TopicList::displayPages(int targetPage, string username) {
 	int count = 1001;
 	int topicsPerPage = 7;
-	int totalPages = ceil(size / (double)topicsPerPage); //Round Up
-	int currentPage;
+	int totalTopics = 0;
+	int totalPages = 0;
+	int topicsFound = 0;
+	int topicsBeSkipped = (targetPage-1) * 7 ;
 	bool success = !isEmpty();
-
 	Node* tempNode = firstNode; 
 	if (success) {
+		//Header
 		cout << left << setw(20) << "ID"
 			<< setw(30) << "Discussion Topic" << setw(25) << endl;
 
-	int topicsPrinted = 0;
-	if (username != "") {
-		while (tempNode != NULL) {
-			if (tempNode->item.getAuthor() == username) {
-				cout << left << setw(20) << count
-					<< setw(30) << tempNode->item.getTopic() << setw(25) << endl;
-				topicsPrinted += 1;
-				if ((topicsPrinted*page) % topicsPerPage == 0) {
-					currentPage = (topicsPrinted + topicsPerPage - 1) / topicsPerPage;
-					cout << endl << "Total Pages: " << currentPage << " of " << totalPages;
-					cout << "Press enter to display the next page or q to quit: ";
-					char decision;
-					cin >> decision;
-					if (decision == 'q') 
-						break;
+		int topicsPrinted = 0;
+		if (username != "") {
+			//Get total topics created by user
+			while (tempNode != NULL) {
+				if(tempNode->item.getAuthor() == username)
+				{
+					totalTopics += 1;	
 				}
 				tempNode = tempNode->next;
+			}
+			//Reset the to the first node
+			tempNode = firstNode;
+			//Make total pages as double then round it up.
+			totalPages = ceil(totalTopics / (double)topicsPerPage);
+			while (tempNode != NULL) {
+				if (tempNode->item.getAuthor() == username) {
+					//Check if in the range of target page
+					if (topicsFound >= topicsBeSkipped) {
+						cout << left << setw(20) << count
+							<< setw(30) << tempNode->item.getTopic() << endl;
+						topicsPrinted += 1;
+					}
+					if (topicsPrinted == topicsPerPage)
+						break;
+					topicsFound += 1;
+					
+				}
 				count += 1;
+				tempNode = tempNode->next;
+
 			}
 		}
-	}
-	else {
-		while (tempNode != NULL) {
-			cout << left << setw(20) << count
-				<< setw(30) << tempNode->item.getTopic() << setw(25) << endl;
-			topicsPrinted += 1;
-			if ((topicsPrinted * page) % topicsPerPage == 0) {
-				currentPage = (topicsPrinted + topicsPerPage - 1) / topicsPerPage;
-				cout << endl << "Total Pages: " << currentPage << " of " << totalPages;
-				cout << "Press enter to display the next page or q to quit: ";
-				char decision;
-				cin >> decision;
-				if (decision == 'q')
+		else {
+			totalPages = ceil(size / (double)topicsPerPage);
+			while (tempNode != NULL) {
+				if (topicsFound >= topicsBeSkipped) {
+					cout << left << setw(20) << count
+						<< setw(30) << tempNode->item.getTopic() << endl;
+					topicsPrinted++;
+				}
+				if (topicsPrinted == topicsPerPage) {
 					break;
+				}
+				topicsFound += 1;
+				count += 1;
+				tempNode = tempNode->next;
+				
 			}
-			tempNode = tempNode->next;
-			count += 1;
+
 		}
-		
-	}
-			
-	
-		
+		cout << endl << "Total Pages: " << targetPage << " of " << totalPages << endl;
+
 	}
 	else {
 		cout << "No Topics yet" << endl;
 	}
+	return totalPages;
 }
 

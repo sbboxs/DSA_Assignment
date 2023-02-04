@@ -49,5 +49,5 @@ public:
 	void userDisplay(string username);
 
 	//To display topics by pages
-	void displayPages(int page, string username);
+	int displayPages(int targetPage, string username);
 };

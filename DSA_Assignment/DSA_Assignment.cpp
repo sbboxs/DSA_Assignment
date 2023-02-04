@@ -534,16 +534,23 @@ void viewTopicNPost() {
 
 void displayUserTopics() {
 	string option = "1";
+	int totalPages = 0;
+	int currentPage = 1;
+	int targetPage = 1;
+	string sortingMethod = "Default";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
 		cout << "--------------------------------" << endl;
-		topicList.userDisplay(currentUser.getUserName());
+		totalPages = topicList.displayPages(currentPage, currentUser.getUserName());
 		cout << "--------------------------------" << endl;
 		cout << "[1] Choose topic to view " << endl;
 		cout << "[2] Delete a Topic" << endl;
+		cout << "[3] Sort by popularity" << endl;
+		cout << "[4] View page number" << endl;
 		cout << "[0] Back to user home" << endl;
 		cout << "Enter option: ";
 		cin >> option;
+		//View Topic
 		if (option == "1") {
 			int topicID;
 			cout << "Enter ID: ";
@@ -551,13 +558,14 @@ void displayUserTopics() {
 			system("cls");
 			displayATopic(topicID);
 		}
+		//Delete Topic
 		else if (option == "2") {
 			int topicID;
 			string confirmDelete;
 			Topic topicDeleted;
 			cout << "Enter Topic ID to be deleted: ";
 			cin >> topicID;
-			if (topicID - 1001 < topicList.getLength() && topicID-1001 >= 0) {
+			if (topicID - 1001 < topicList.getLength() && topicID - 1001 >= 0) {
 				topicDeleted = topicList.get(topicID - 1001);
 				if (topicDeleted.getAuthor() == currentUser.getUserName()) {
 					cout << "Do you sure want to remove topic index of " << topicID << "? (Y/N): ";
@@ -591,16 +599,25 @@ void displayUserTopics() {
 				cout << "Invalid Topic ID." << endl;
 			}
 		}
+		//Sort by popularity
 		else if (option == "3") {
-			cout << "Create new posts" << endl;
+			sortingMethod = "Popularity";
+			cout << "Sorted by Popularity.";
 		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Back to user home. ";
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+		else if (option == "4") {
+			cout << "Enter page number: ";
+			cin >> targetPage;
+			if (targetPage <= totalPages && targetPage != 0)
+			{
+				currentPage = targetPage;
+				system("cls");
+				cout << "Now viewing page: " << targetPage << endl;
+			}
+			else {
+				system("cls");
+				cout << "Page is not found." << endl;
+			}
+
 		}
 	}
 }
@@ -762,10 +779,14 @@ void createTopic() {
 	Topic newTopic(title, currentUser.getUserName(), pList);
 	if (topicList.add(newTopic)) {
 		saveTopicData(newTopic);
+		system("cls");
 		cout << "New Topic is created succesfully!" << endl;
 	}
 	else
+	{
+		system("cls");
 		cout << "Saved Error!" << endl;
+	}
 }
 //void createPostFormProcess() {
 //	string postID, topic, title, description, author;
