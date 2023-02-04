@@ -565,7 +565,7 @@ void displayUserTopics() {
 					if (confirmDelete == "Y" || confirmDelete == "y")
 					{
 						topicList.remove(topicID - 1001);
-						
+						//Remove relavant post list
 						for (int i = 0; i < postList.getLength(); i++) {
 							Post currentPost = postList.get(i);
 							if (currentPost.getTopic() == topicDeleted.getTopic())
@@ -638,14 +638,13 @@ void displayUserPosts() {
 					cin >> confirmDelete;
 					if (confirmDelete == "Y" || confirmDelete == "y")
 					{
-						topicList.remove(postID - 1001);
-
-						for (int i = 0; i < postList.getLength(); i++) {
+						postList.remove(postID - 1001);
+						//Should look for relavant replies and delete
+						/*for (int i = 0; i < postList.getLength(); i++) {
 							Post currentPost = postList.get(i);
 							if (currentPost.getTopic() == postDeleted.getTopic())
 								postList.remove(i);
-						}
-						updateTopicData();
+						}*/
 						updatePostData();
 						system("cls");
 						cout << postDeleted.getTopic() << " is deleted." << endl;
@@ -677,7 +676,7 @@ void displayUserPosts() {
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
-}
+ }
 
 void displayATopic(int topicID) {
 	string option = "1";
