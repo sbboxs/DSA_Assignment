@@ -1,3 +1,9 @@
+//======================================================
+//Student Number :S10222651F, S10223421D
+//Student Name   :Chia Jiun Hong, Syahmi Mirhan Bin Zulkiflee
+//Module  Group  :P02       
+//Feature highlighted: Display all topics by pages
+//======================================================
 #include "TopicList.h"
 #include <iomanip>
 using namespace std;
@@ -90,70 +96,6 @@ Topic TopicList::get(int index) {
 
 int TopicList::getLength() {
 	return size;
-}
-
-//Topic TopicList::userDisplay(string username) {
-//	bool success = !isEmpty();
-//	Node* tempNode = firstNode;
-//	if (success) {
-//		while (tempNode != NULL) {
-//			if (tempNode->item.getAuthor().c_str() == username) {
-//				return tempNode->item;
-//			}
-//			else {
-//				tempNode = tempNode->next;
-//			}
-//		}
-//	}
-//}
-
-void TopicList::display(string username) {
-	int count = 1001;
-	bool success = !isEmpty();
-	Node* tempNode = firstNode;
-	if (success) {
-		cout << left << setw(20) << "ID"
-			<< setw(30) << "Discussion Topic" << setw(25) << "Created By" << endl;
-
-		while (tempNode != NULL) {
-			if (username == "") {
-				cout << left << setw(20) << count
-					<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getAuthor() << endl; 
-			}
-			else {
-				if (tempNode->item.getAuthor() == username) {
-					cout << left << setw(20) << count
-						<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getAuthor() << endl;
-				}
-			}
-			tempNode = tempNode->next;
-			count += 1;
-		}
-	}
-	else {
-		cout << "No Topics yet" << endl;
-	}
-}
-
-void TopicList::userDisplay(string username) {
-	int count = 1001;
-	bool success = !isEmpty();
-	Node* tempNode = firstNode;
-	if (success) {
-		cout << left << setw(20) << "ID"
-			<< setw(30) << "Discussion Topic" << setw(25) << endl;
-		while (tempNode != NULL) {
-			if (tempNode->item.getAuthor() == username) {
-				cout << left << setw(20) << count
-					<< setw(30) << tempNode->item.getTopic() << setw(25) << endl;
-			}
-			tempNode = tempNode->next;
-			count += 1;
-		}
-	}
-	else {
-		cout << "No Topics yet" << endl;
-	}
 }
 
 int TopicList::displayPages(int targetPage, string username) {

@@ -1,3 +1,8 @@
+//======================================================
+//Student Number :S10222651F, S10223421D
+//Student Name   :Chia Jiun Hong, Syahmi Mirhan Bin Zulkiflee
+//Module  Group  :P02       
+//======================================================
 // List.h - - Specification of List ADT (implemented using Pointers)
 #pragma once
 #include<string>
@@ -41,12 +46,6 @@ public:
 
 	// check the size of the list
 	int getLength();
-
-	// display all the items in the list
-	void display(string username);
-
-	//TopicList userDisplay(string username);
-	void userDisplay(string username);
 
 	//To display topics by pages
 	int displayPages(int targetPage, string username);

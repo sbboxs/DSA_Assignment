@@ -18,33 +18,31 @@
 using namespace std;
 
 void loadUserData();
-void saveUserData(User& newUser);
 void loadTopicData();
-void saveTopicData(Topic& newTopic);
-void updateTopicData();
 void loadPostData();
+
+void saveUserData(User& newUser);
+void saveTopicData(Topic& newTopic);
 void savePostData(Post& newPost);
-void updatePostData();
 void saveReplyData();
+
+void updateTopicData();
+void updatePostData();
+
 void displayHome();
-void loginForm();
 bool loginProcess();
-void registerForm();
 void registerProcess();
-void userHome();
+
 bool userHomeProcess();
 void displayTopics();
 void displayUserTopics();
 void displayUserPosts();
 void displayATopic(int topicID);
-void viewTopicNPost();
-void viewTopicNPostProcess(Topic aTopic);
 void createPost();
 void createTopic();
-void createPostFormProcess();
-void topicSelector();
-void topicSelectorProcess(string& topic);
-void topicCreated();
+
+bool topicIDValidation(int& topicID);
+bool postIDValidation(int& postID);
 
 //===
 //Global variables
@@ -131,29 +129,7 @@ void loadUserData() {
 }
 
 //=========
-//This function is to save user data into the file. The newest user data will be appended to the end of the file.
-//The user is the parameter.
-void saveUserData(User& newUser) {
-	//Second flag 'ios::app' allows to open the file in append mode.
-	//Therefore, there no need to overwritten the file everytime when save.
-	//Newest data will just be appended at the end of the file.
-	outFile.open("user.txt", ios::app);
-	if (outFile.fail()) {
-		cout << endl << "No user data file is found!" << endl;
-		cout << endl << "Creating user data file..." << endl;
-		ofstream outFile;
-		outFile.open("user.txt");
-		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
-		outFile.close();
-		cout << "User data is saved!" << endl;
-	}
-	else {
-		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
-		outFile.close();
-		cout << "User data is saved!" << endl;
-	}
-}
-
+//Document me please.
 void loadTopicData() {
 	//Loading topic data
 	inFile.open("topic.txt");
@@ -179,10 +155,12 @@ void loadTopicData() {
 	}
 }
 
+//=========
+//Document me please.
 void loadPostData() {
 	//Load post data
 	/*string filename = "topic_" + currentTopic.getTopic() + "_Postdata.txt";*/
-	string filename = "post.txt"; 
+	string filename = "post.txt";
 	inFile.open(filename);
 	if (inFile.fail()) {
 		cout << "No post is exist!" << endl;
@@ -192,7 +170,7 @@ void loadPostData() {
 		outFile.close();
 	}
 	else {
-		string message,topic,title, author, description;
+		string message, topic, title, author, description;
 		while (getline(inFile, str) && str != "") {
 			stringstream ss(str);
 			getline(ss, title, ';');
@@ -208,6 +186,32 @@ void loadPostData() {
 	}
 }
 
+//=========
+//This function is to save user data into the file. The newest user data will be appended to the end of the file.
+//The user is the parameter.
+void saveUserData(User& newUser) {
+	//Second flag 'ios::app' allows to open the file in append mode.
+	//Therefore, there no need to overwritten the file everytime when save.
+	//Newest data will just be appended at the end of the file.
+	outFile.open("user.txt", ios::app);
+	if (outFile.fail()) {
+		cout << endl << "No user data file is found!" << endl;
+		cout << endl << "Creating user data file..." << endl;
+		ofstream outFile;
+		outFile.open("user.txt");
+		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
+		outFile.close();
+		cout << "User data is saved!" << endl;
+	}
+	else {
+		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
+		outFile.close();
+		cout << "User data is saved!" << endl;
+	}
+}
+
+//=========
+//Document me please.
 void saveTopicData(Topic& newTopic) {
 	outFile.open("topic.txt", ios::app);
 	if (outFile.fail()) {
@@ -226,6 +230,8 @@ void saveTopicData(Topic& newTopic) {
 	}
 }
 
+//=========
+//Document me please.
 void savePostData(Post& newPost) {
 	//Second flag 'ios::app' allows to open the file in append mode.
 	//Therefore, there no need to overwritten the file everytime when save.
@@ -249,10 +255,14 @@ void savePostData(Post& newPost) {
 	}
 }
 
+//=========
+//Document me please.
 void saveReplyData() {
 
 }
 
+//=========
+//Document me please.
 void updateTopicData() {
 	Topic currentTopic;
 	outFile.open("topic.txt");
@@ -267,6 +277,9 @@ void updateTopicData() {
 	outFile.close();
 	cout << "Topic data is updated!" << endl;
 }
+
+//=========
+//Document me please.
 void updatePostData() {
 	Post currentPost;
 	outFile.open("post.txt");
@@ -296,18 +309,6 @@ void displayHome() {
 }
 
 //=========
-//This function is to print the layout of login form. Do not have any input parameters and return value.
-void loginForm() {
-	cout << endl;
-	cout << "Login Place!" << endl;
-	cout << "----------------------------" << endl;
-	cout << "[1] Key in login credentials. " << endl;
-	cout << "[0] Back to login." << endl;
-	cout << "----------------------------" << endl;
-	cout << "Enter option: ";
-}
-
-//=========
 //This function is to control the flow of login form & will return true if success login else return false 
 //The user can perform logging in into their account by inputing the username and password.
 //The user can also perform back to home page.
@@ -317,14 +318,20 @@ bool loginProcess() {
 	string promptPwd = "";
 
 	while (loginOption != "0") {
-		loginForm();
+		cout << endl;
+		cout << "Login Place!" << endl;
+		cout << "----------------------------" << endl;
+		cout << "[1] Key in login credentials. " << endl;
+		cout << "[0] Back." << endl;
+		cout << "----------------------------" << endl;
+		cout << "Enter option: ";
 		cin >> loginOption;
 		//Key in login credentials
 		if (loginOption == "1") {
 			cout << "----------------------------" << endl;
-			cout << "Username: ";
+			cout << "Your Username: ";
 			cin >> promptUsername;
-			cout << "Password: ";
+			cout << "Your Password: ";
 			cin >> promptPwd;
 			if (promptUsername != "" && promptPwd != "") {
 				User loginUser = userDictionary.get(promptUsername);
@@ -357,18 +364,6 @@ bool loginProcess() {
 }
 
 //=========
-//This function print the layout of the register form. Do not have any input parameters and return value.
-void registerForm() {
-	cout << endl;
-	cout << "Registration Place!" << endl;
-	cout << "-----------------------" << endl;
-	cout << "[1] Key in registration credentials: " << endl;
-	cout << "[0] Back to login." << endl;
-	cout << "-----------------------" << endl;
-	cout << "Enter option: ";
-}
-
-//=========
 //This function control the flow of register form.
 //The user can perform registering account by inputing the "Unique" username, password and confirm his password.
 //The user can also perform back to home page.
@@ -379,7 +374,13 @@ void registerProcess() {
 	string checkPassword;
 	User existUser;
 	while (registerOption != "0") {
-		registerForm();
+		cout << endl;
+		cout << "Registration Place!" << endl;
+		cout << "-----------------------" << endl;
+		cout << "[1] Key in registration credentials: " << endl;
+		cout << "[0] Back to login." << endl;
+		cout << "-----------------------" << endl;
+		cout << "Enter option: ";
 		cin >> registerOption;
 		if (registerOption == "1") {
 			cout << "Enter Username: ";
@@ -428,20 +429,7 @@ void registerProcess() {
 	}
 }
 
-//=========
 
-//This function print the layout of the user home. Do not have any input parameters and return value.
-void userHome() {
-	cout << endl;
-	cout << "Welcome back! Dear user: " << currentUser.getUserName() << endl;
-	cout << "---------------------------" << endl;
-	cout << "[1] Dicussion Topics " << endl;
-	cout << "[2] Create New Topic" << endl;
-	cout << "[3] My Own Topics" << endl;
-	cout << "[0] Logout" << endl;
-	cout << "---------------------------" << endl;
-	cout << "Enter option: ";
-}
 //=========
 //This function control the flow of user home, will return false if logout else true if login
 //The user can perform view topics and posts, view his post and create new post.
@@ -449,19 +437,28 @@ void userHome() {
 bool userHomeProcess() {
 	string option = "1";
 	while (option != "0") {
-		userHome();
+		cout << endl;
+		cout << "Welcome back! Dear user: " << currentUser.getUserName() << endl;
+		cout << "---------------------------" << endl;
+		cout << "[1] Dicussion Topics " << endl;
+		cout << "[2] My Own Topics" << endl;
+		cout << "[3] My Own Posts" << endl;
+		cout << "[0] Logout" << endl;
+		cout << "---------------------------" << endl;
+		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1"){
 			system("cls");
 			displayTopics();
 		}
+
 		else if (option == "2") {
 			system("cls");
-			createTopic();
+			displayUserTopics();
 		}
 		else if (option == "3") {
 			system("cls");
-			displayUserTopics();
+			displayUserPosts();
 		}
 		else if (option == "0") {
 			system("cls");
@@ -476,43 +473,74 @@ bool userHomeProcess() {
 	return true;
 }
 
+//=========
+//Document me please.
 void displayTopics() {
 	string option = "1";
+	int totalPages = 0;
+	int currentPage = 1;
+	int targetPage = 1;
+	string sortingMethod = "Default";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
+		cout << "You are now viewing all topics." << endl;
 		cout << "--------------------------------------------------------------" << endl;
-		topicList.display("");
+		totalPages = topicList.displayPages(currentPage, "");
 		cout << "--------------------------------------------------------------" << endl;
 
 		cout << "[1] View a Topic " << endl;
-		cout << "[2] My Own Posts" << endl;
-		cout << "[0] Back to discussion topics" << endl;
+		cout << "[2] View page number" << endl;
+		cout << "[3] Sort by popularity" << endl;
+		cout << "[4] Create new topic" << endl;
+		cout << "[0] Back to user home" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
 			int topicID;
-			cout << "Enter ID: " ;
+			cout << "Enter the Topic ID: " ;
 			cin >> topicID;
-			system("cls");
-			if (topicID - 1001 < topicList.getLength() && topicID - 1001 >= 0)
+			if (topicIDValidation(topicID))
+			{
+				system("cls");
 				displayATopic(topicID);
+			}
 			else
 			{
 				system("cls");
 				cout << "Invalid Topic ID." << endl;
 			}
 		}
+		//View a page
 		else if (option == "2") {
-			system("cls");
-			displayUserPosts();
+			cout << "Enter page number: ";
+			cin >> targetPage;
+			if (targetPage <= totalPages && targetPage != 0)
+			{
+				currentPage = targetPage;
+				system("cls");
+				cout << "Now viewing page: " << targetPage << endl;
+			}
+			else {
+				system("cls");
+				cout << "Page is not found." << endl;
+			}
 		}
+		//Sort by popularity
 		else if (option == "3") {
+			sortingMethod = "Popularity";
 			system("cls");
+			cout << "Sorted by Popularity.";
 		}
+		
+		else if (option == "4") {
+			system("cls");
+			createTopic();
+		}
+
 		else if (option == "0") {
 			system("cls");
-			cout << "Back to user home. ";
+			cout << "You have back to user home. ";
 		}
 		else {
 			system("cls");
@@ -521,17 +549,8 @@ void displayTopics() {
 	}
 }
 
-void viewTopicNPost() {
-	cout << endl;
-	cout << "You are now viewing all topics and posts" << endl;
-	cout << "[1] Search by topics, posts or users " << endl;
-	cout << "[2] View a post" << endl;
-	cout << "[3] Next page" << endl;
-	cout << "[4] Create new posts" << endl;
-	cout << "[0] Back to user home" << endl;
-	cout << "Enter option: ";
-}
-
+//=========
+//Document me please.
 void displayUserTopics() {
 	string option = "1";
 	int totalPages = 0;
@@ -540,26 +559,59 @@ void displayUserTopics() {
 	string sortingMethod = "Default";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
+		cout << "You are now viewing all your Topics" << endl;
 		cout << "--------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, currentUser.getUserName());
 		cout << "--------------------------------" << endl;
-		cout << "[1] Choose topic to view " << endl;
-		cout << "[2] Delete a Topic" << endl;
+		cout << "[1] view a Topic " << endl;
+		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
-		cout << "[4] View page number" << endl;
-		cout << "[0] Back to user home" << endl;
+		cout << "[4] Delete a Topic" << endl;
+		cout << "[0] Back" << endl;
+		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		//View Topic
 		if (option == "1") {
 			int topicID;
-			cout << "Enter ID: ";
+			cout << "Enter the Topic ID: ";
 			cin >> topicID;
-			system("cls");
-			displayATopic(topicID);
+			if (topicIDValidation(topicID))
+			{
+				system("cls");
+				displayATopic(topicID);
+			}
+			else
+			{
+				system("cls");
+				cout << "Invalid Topic ID." << endl;
+			}
 		}
-		//Delete Topic
+		//View a page
 		else if (option == "2") {
+			cout << "Enter page number: ";
+			cin >> targetPage;
+			if (targetPage <= totalPages && targetPage != 0)
+			{
+				currentPage = targetPage;
+				system("cls");
+				cout << "Now viewing page: " << targetPage << endl;
+			}
+			else {
+				system("cls");
+				cout << "Page is not found." << endl;
+			}
+
+		}
+		//Sort by popularity
+		else if (option == "3") {
+			sortingMethod = "Popularity";
+			system("cls");
+			cout << "Sorted by Popularity.";
+		}
+
+		//Delete Topic
+		else if (option == "4") {
 			int topicID;
 			string confirmDelete;
 			Topic topicDeleted;
@@ -599,40 +651,78 @@ void displayUserTopics() {
 				cout << "Invalid Topic ID." << endl;
 			}
 		}
-		//Sort by popularity
-		else if (option == "3") {
-			sortingMethod = "Popularity";
-			cout << "Sorted by Popularity.";
+		
+		
+		else if (option == "0") {
+			system("cls");
+			cout << "You have back to ";
 		}
-		else if (option == "4") {
-			cout << "Enter page number: ";
-			cin >> targetPage;
-			if (targetPage <= totalPages && targetPage != 0)
-			{
-				currentPage = targetPage;
-				system("cls");
-				cout << "Now viewing page: " << targetPage << endl;
-			}
-			else {
-				system("cls");
-				cout << "Page is not found." << endl;
-			}
-
+		else {
+			system("cls");
+			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
 }
 
+//=========
+//Document me please.
+void displayATopic(int topicID) {
+	string option = "1";
+	currentTopic = topicList.get(topicID-1001);
+
+	while (option != "0") {
+		cout << "You are now viewing all posts under the topic of :" << currentTopic.getTopic() << endl;
+		cout << "Topic: " << currentTopic.getTopic() << endl;
+		cout << "---------------------------" << endl;
+		postList.topicDisplay(currentTopic.getTopic());
+		cout << "----------------------------------------------------------" << endl;
+		cout << "[1] Search by posts or users " << endl;
+		cout << "[2] View a post" << endl;
+		cout << "[3] Next page" << endl;
+		cout << "[4] Create new posts" << endl;
+		cout << "[0] Back" << endl;
+		cout << "---------------------" << endl;
+		cout << "Enter option: ";
+		cin >> option;
+		if (option == "1") {
+			cout << "Search by topics, posts or users" << endl;
+		}
+		else if (option == "2") {
+			cout << "View a post" << endl;
+		}
+		else if (option == "3") {
+			cout << "Next page" << endl;
+		}
+		else if (option == "4") {
+			cout << "Create new posts" << endl;
+			createPost();
+			system("cls");
+			
+		}
+		else if (option == "0") {
+			system("cls");
+			cout << "Back to discussion topic. ";
+		}
+		else {
+			system("cls");
+			cout << "Sorry. You have entered an invalid option." << endl;
+		}
+	}
+}
+
+//=========
+//Document me please.
 void displayUserPosts() {
 	string option = "1";
 	TopicList userTList;
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
+		cout << "You are now viewing your own Posts" << endl;
 		cout << "--------------------------------------------------------" << endl;
 		postList.userDisplay(currentUser.getUserName());
-
 		cout << endl << "[1] View a Post " << endl;
 		cout << "[2] Delete a Post" << endl;
-		cout << "[0] Back to user home" << endl;
+		cout << "[0] Back" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
@@ -686,44 +776,7 @@ void displayUserPosts() {
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Back to all topics. ";
-		}
-		else {
-			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
-		}
-	}
- }
-
-void displayATopic(int topicID) {
-	string option = "1";
-	currentTopic = topicList.get(topicID-1001);
-
-	while (option != "0") {
-		cout << "Topic: " << currentTopic.getTopic() << endl;
-		cout << "---------------------------" << endl;
-		postList.topicDisplay(currentTopic.getTopic());
-		cout << "----------------------------------------------------------" << endl;
-		viewTopicNPost();
-		cin >> option;
-		if (option == "1") {
-			cout << "Search by topics, posts or users" << endl;
-		}
-		else if (option == "2") {
-			cout << "View a post" << endl;
-		}
-		else if (option == "3") {
-			cout << "Next page" << endl;
-		}
-		else if (option == "4") {
-			cout << "Create new posts" << endl;
-			createPost();
-			system("cls");
-			
-		}
-		else if (option == "0") {
-			system("cls");
-			cout << "Back to discussion topic. ";
+			cout << "You have back to ";
 		}
 		else {
 			system("cls");
@@ -731,21 +784,37 @@ void displayATopic(int topicID) {
 		}
 	}
 }
-//void createPostForm(Post& newPost) {
-//	cout << endl;
-//	cout << "Creating new post!" << endl;
-//	cout << "---------------------------" << endl;
-//	cout << "[1] Select a topic: " << newPost.getTopic() << endl;
-//	cout << "[2] Enter title of post: " << newPost.getTitle() << endl;
-//	cout << "[3] Enter description of post: " << newPost.getDescription() << endl;
-//	cout << "[0] Back" << endl;
-//	cout << "Enter option: ";
-//}
+
+//=========
+//Document me please.
+void createTopic() {
+	cout << endl;
+	string title;
+	PostList pList;
+	cout << "Creating new Topic!" << endl;
+	cout << "------------------" << endl;
+	cout << "Naame of Topic: ";
+	cin >> title;
+	Topic newTopic(title, currentUser.getUserName(), pList);
+	if (topicList.add(newTopic)) {
+		saveTopicData(newTopic);
+		system("cls");
+		cout << "New Topic is created succesfully!" << endl;
+	}
+	else
+	{
+		system("cls");
+		cout << "Saved Error!" << endl;
+	}
+}
+
+//=========
+//Document me please.
 void createPost() {
 	cout << endl;
 	string message, title, description;
 	Post newPost;
-	cout << "Creating new post!" << endl;
+	cout << "Creating new Post!" << endl;
 	cout << "------------------" << endl;
 	cout << "Title of Post: ";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -768,102 +837,25 @@ void createPost() {
 		cout << "Saved Error!" << endl;
 }
 
-void createTopic() {
-	cout << endl;
-	string title;
-	PostList pList;
-	cout << "Creating new Topic!" << endl;
-	cout << "------------------" << endl;
-	cout << "Naame of Topic: ";
-	cin >> title;
-	Topic newTopic(title, currentUser.getUserName(), pList);
-	if (topicList.add(newTopic)) {
-		saveTopicData(newTopic);
-		system("cls");
-		cout << "New Topic is created succesfully!" << endl;
-	}
+//=========
+//Document me please.
+bool topicIDValidation(int& topicID) {
+	if (topicID - 1001 < topicList.getLength() && topicID - 1001 >= 0)
+		return true;
 	else
 	{
-		system("cls");
-		cout << "Saved Error!" << endl;
+		return false;
 	}
 }
-//void createPostFormProcess() {
-//	string postID, topic, title, description, author;
-//	Post newPost(postID, topic, title, author ,description);
-//	string option = "1";
-//	createPostForm(newPost);
-//	while (option != "0") {
-//		createPostForm(newPost);
-//		cin >> option;
-//		if (option == "1") {
-//			cout << "Select a topic" << endl;
-//		}
-//		else if (option == "2") {
-//			cout << "Enter title: ";
-//			cin >> title;
-//			system("cls");
-//			cout << "Title has entered." << endl;
-//		}
-//		else if (option == "3") {
-//			cout << "Enter description: " << endl;
-//			cin >> description;
-//			system("cls");
-//			cout << "Description has entered" << endl;
-//		}
-//		else if (option == "4") {
-//			cout << "Create new posts" << endl;
-//			if (postList.add(newPost)) {
-//				savePostData(newPost);
-//				cout << "New post is created succesfully!" << endl;
-//				break;
-//			}
-//			else
-//				cout << "Saved Error!" << endl;
-//		}
-//		else if (option == "0") {
-//			system("cls");
-//			cout << "Back to user home. ";
-//		}
-//		else {
-//			system("cls");
-//			cout << "Sorry. You have entered an invalid option." << endl;
-//		}
-//	}
-//}
 
-//void topicSelector() {
-//	topicList.display();
-//	cout << endl;
-//	cout << "[1]Select a topic" << endl;
-//	cout << "[2]Create a new topic" << endl;
-//	cout << "[0]Back" << endl;
-//}
+//=========
+//Document me please.
+bool postIDValidation(int& postID) {
+	if (postID - 1001 < postList.getLength() && postID - 1001 >= 0)
+		return true;
+	else
+	{
+		return false;
+	}
+}
 
-//void topicSelectorProcess(string& topic) {
-//	string option = "1";
-//	int index;
-//	while (option != "0") {
-//		topicSelector();
-//		cin >> option;
-//		if (option == "1") {
-//			cout << "Enter topic index: " << endl;
-//			cin >> index;
-//			topic = topicList.get(index).getTopic();
-//			system("cls");
-//			cout << "Topic has selected." << endl;
-//			break;
-//		}
-//		else if (option == "2") {
-//			cout << "Create new topic. " << endl;
-//		}
-//		else if (option == "0") {
-//			system("cls");
-//			cout << "Back to create new post. ";
-//		}
-//		else {
-//			system("cls");
-//			cout << "Sorry. You have entered an invalid option." << endl;
-//		}
-//	}
-//}
