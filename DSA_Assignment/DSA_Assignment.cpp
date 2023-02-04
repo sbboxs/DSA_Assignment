@@ -559,7 +559,14 @@ bool displayUserTopics() {
 					if (confirmDelete == "Y" || confirmDelete == "y")
 					{
 						topicList.remove(topicID - 1001);
+						
+						for (int i = 0; i < postList.getLength(); i++) {
+							Post currentPost = postList.get(i);
+							if (currentPost.getTopic() == topicDeleted.getTopic())
+								postList.remove(i);
+						}
 						updateTopicData();
+						updatePostData();
 						system("cls");
 						cout << topicDeleted.getTopic() << " is deleted." << endl;
 					}
