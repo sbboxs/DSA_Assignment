@@ -133,8 +133,10 @@ int PostList::displayPages(int targetPage, string username) {
 	Node* tempNode = firstNode;
 	if (success) {
 		//Header
-		cout << left << setw(20) << "ID" << setw(20) << "Title"
-			<< setw(30) << "Description" << setw(25) << "Author" << endl;
+		cout << left << setw(25) << "ID" << setw(30) << "Title"
+			<< setw(50) << "Description" << "Author" << endl;
+		cout << left << setw(25) << "----" << setw(30) << "-----"
+			<< setw(50) << "-----------" << "------" << endl;
 
 		int postsPrinted = 0;
 		if (username != "") {
@@ -154,8 +156,8 @@ int PostList::displayPages(int targetPage, string username) {
 				if (tempNode->item.getAuthor() == username) {
 					//Check if in the range of target page
 					if (postsFound >= postsBeSkipped) {
-						cout << left << setw(20) << count << setw(20) << tempNode->item.getTitle() << setw(30)
-							<< tempNode->item.getDescription() << setw(25) << tempNode->item.getAuthor() << endl;
+						cout << left << setw(25) << count << setw(30) << tempNode->item.getTitle() << setw(50)
+							<< tempNode->item.getDescription() << tempNode->item.getAuthor() << endl;
 						postsPrinted += 1;
 					}
 					if (postsPrinted == postsPerPage)
@@ -209,8 +211,10 @@ int PostList::displayPagesByTopics(int targetPage, string topic) {
 	Node* tempNode = firstNode;
 	if (success) {
 		//Header
-		cout << left << setw(20) << "ID" << setw(20) << "Title"
-			<< setw(30) << "Description" << setw(25) << "Author" << endl;
+		cout << left << setw(25) << "ID" << setw(30) << "Title"
+			<< setw(50) << "Description" << "Author" << endl;
+		cout << left << setw(25) << "----" << setw(30) << "-----"
+			<< setw(50) << "-----------" << "------" << endl;
 
 		int postsPrinted = 0;
 		if (topic != "") {
@@ -230,8 +234,8 @@ int PostList::displayPagesByTopics(int targetPage, string topic) {
 				if (tempNode->item.getTopic() == topic) {
 					//Check if in the range of target page
 					if (postsFound >= postsBeSkipped) {
-						cout << left << setw(20) << count << setw(20) << tempNode->item.getTitle() << setw(30)
-							<< tempNode->item.getDescription() << setw(25) << tempNode->item.getAuthor() << endl;
+						cout << left << setw(25) << count << setw(30) << tempNode->item.getTitle() << setw(50)
+							<< tempNode->item.getDescription() << tempNode->item.getAuthor() << endl;
 						postsPrinted += 1;
 					}
 					if (postsPrinted == postsPerPage)

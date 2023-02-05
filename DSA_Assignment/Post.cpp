@@ -27,12 +27,12 @@ Post::Post(string t, string desc, string msg, string user, string top)
 
 void Post::print()
 {
-	printf("%s (%s)", title.c_str(), topic.c_str());
-	cout << endl << "--------------------------------------------- " << endl;
-	cout << "About - " << description << endl;;
-	cout << "--------------------------------------------- " << endl;
+	cout << "Topic: " << endl << title.c_str() << endl;;
+	cout << "----------------------------------------------------------------------------------" << endl;
+	cout << "Description: " << endl << description << endl;;
+	cout << "----------------------------------------------------------------------------------" << endl;
 	cout << "@" + author + ":" << endl << message << endl;
-	cout << "--------------------------------------------- " << endl;
+	cout << "----------------------------------------------------------------------------------" << endl;
 }
 
 string Post::getMessage()
