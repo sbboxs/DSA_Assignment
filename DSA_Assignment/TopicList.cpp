@@ -145,13 +145,15 @@ int TopicList::displayPages(int targetPage, string username) {
 		}
 		else {
 			//Header
-			cout << left << setw(20) << "ID"
-				<< setw(30) << "Discussion Topic" << setw(20) << "Created by" << endl;
+			cout << left << setw(30) << "ID"
+				<< setw(60) << "Discussion Topic" <<  "Created by" << endl;
+			cout << left << setw(30) << "----"
+				<< setw(60) << "----------------" <<  "----------" << endl;
 			totalPages = ceil(size / (double)topicsPerPage);
 			while (tempNode != NULL) {
 				if (topicsFound >= topicsBeSkipped) {
-					cout << left << setw(20) << count
-						<< setw(30) << tempNode->item.getTopic() << tempNode->item.getAuthor() << endl;
+					cout << left << setw(30) << count
+						<< setw(60) << tempNode->item.getTopic() <<  tempNode->item.getAuthor() << endl;
 					topicsPrinted++;
 				}
 				if (topicsPrinted == topicsPerPage) {

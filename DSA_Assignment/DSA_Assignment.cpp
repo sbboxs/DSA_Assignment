@@ -73,11 +73,6 @@ string str;
 
 int main()
 {
-	//Initialize the program
-	User newUser1("test", "test", false);
-	userDictionary.add(newUser1.getUserName(), newUser1);
-	userDictionary.print();
-
 	//Load all needed data
 	loadUserData();
 	loadTopicData();
@@ -107,7 +102,7 @@ int main()
 
 			else {
 				system("cls");
-				cout << "Sorry. You have entered an invalid option." << endl;
+				cout << "Sorry. You have entered an invalid option." << endl << endl;
 			}
 		}
 
@@ -138,7 +133,6 @@ void loadUserData() {
 			userDictionary.add(username, loadUser);
 		}
 		inFile.close();
-		cout << "User data is loaded!" << endl;
 	}
 }
 
@@ -166,7 +160,6 @@ void loadTopicData() {
 			topicList.add(loadTopic);
 		}
 		inFile.close();
-		cout << "Topic data is loaded!" << endl;
 	}
 }
 
@@ -196,7 +189,6 @@ void loadPostData() {
 			postList.add(loadPost);
 		}
 		inFile.close();
-		cout << "Post data is loaded!" << endl;
 	}
 }
 
@@ -224,7 +216,6 @@ void loadReplyData() {
 			replyList.add(loadReply);
 		}
 		inFile.close();
-		cout << "Post data is loaded!" << endl;
 	}
 }
 //=========
@@ -364,7 +355,6 @@ void updateReplyData() {
 //=========
 //This function is to print the layout of the homepage. Do not have any input parameters and return value.
 void displayHome() {
-	cout << endl;
 	cout << "Welcome to Ngee Ann Discussion Forum!" << endl;
 	cout << "-------------------------------------" << endl;
 	cout << "[1] Have an account? Login!" << endl;
@@ -384,16 +374,17 @@ bool loginProcess() {
 	string promptPwd = "";
 
 	while (loginOption != "0") {
-		cout << endl;
 		cout << "Login Place!" << endl;
 		cout << "----------------------------" << endl;
 		cout << "[1] Key in login credentials. " << endl;
-		cout << "[0] Back." << endl;
+		cout << "[0] Back to home page." << endl;
 		cout << "----------------------------" << endl;
 		cout << "Enter option: ";
 		cin >> loginOption;
 		//Key in login credentials
 		if (loginOption == "1") {
+			system("cls");
+			cout << "Login Page!" << endl;
 			cout << "----------------------------" << endl;
 			cout << "Username: ";
 			cin >> promptUsername;
@@ -404,14 +395,14 @@ bool loginProcess() {
 				if (loginUser.checkPassword(promptPwd)) {
 					currentUser = loginUser;
 					cout << "----------------------------" << endl;
-					cout << "Login Success!" << endl;
+					cout << "Login Success!" << endl << endl;
 					system("pause");
 					system("cls");
 					return true;
 				}
 				else {
 					system("cls");
-					cout << "Login credentials invalid!";
+					cout << "Login credentials invalid!" << endl << endl;
 				}
 			}
 			else
@@ -419,11 +410,10 @@ bool loginProcess() {
 		}
 		else if (loginOption == "0") {
 			system("cls");
-			cout << "Has back to home. ";
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option.";
+			cout << "Sorry. You have entered an invalid option." << endl << endl;
 		}
 	}
 	return false;
@@ -490,7 +480,7 @@ void registerProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option.";
+			cout << "Sorry. You have entered an invalid option." << endl << endl;
 		}
 	}
 }
@@ -503,14 +493,13 @@ void registerProcess() {
 bool userHomeProcess() {
 	string option = "1";
 	while (option != "0") {
-		cout << endl;
-		cout << "Welcome back! Dear user: " << currentUser.getUserName() << endl;
-		cout << "---------------------------" << endl;
+		cout << "Welcome back to C++ Programming Forum" << endl;
+		cout << "-------------------------------------" << endl;
 		cout << "[1] Dicussion Topics " << endl;
 		cout << "[2] View my topics" << endl;
 		cout << "[3] View my posts" << endl;
 		cout << "[0] Logout" << endl;
-		cout << "---------------------------" << endl;
+		cout << "-------------------------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
@@ -533,7 +522,7 @@ bool userHomeProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option.";
+			cout << "Sorry. You have entered an invalid option." << endl << endl;
 		}
 	}
 	return true;
@@ -550,9 +539,9 @@ void displayTopics() {
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
 		cout << "You are now viewing all topics." << endl;
-		cout << "--------------------------------------------------------------" << endl;
+		cout << "--------------------------------------------------------------------------------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, "");
-		cout << "--------------------------------------------------------------" << endl;
+		cout << "--------------------------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Topic " << endl;
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
@@ -562,7 +551,7 @@ void displayTopics() {
 		cin >> option;
 		if (option == "1") {
 			int topicID;
-			cout << "Enter the Topic ID: ";
+			cout << "Enter Topic ID: ";
 			cin >> topicID;
 			if (topicIDValidation(topicID))
 			{
