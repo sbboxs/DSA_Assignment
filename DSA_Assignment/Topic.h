@@ -18,27 +18,26 @@ class Topic
 private:
 	string topic;
 	string author;
+	int totalPost;
 	PostList postList;
 
 public:
-
 	//Methods 
 	Topic();
-	Topic(string topic, string auth, PostList pList);
+	Topic(string topic, string auth, int totalPost);
 	bool addPost(Post& post);
-	//void deletePost(Post& post, PostList& postList);
-	bool load(string topic);
 	void print();
 
 	//Getter
 	string getTopic();
 	string getAuthor();
+	int getTotalPost();
 	PostList& getPosts();
 
 	//Setter
 	void setTopic(string topic);
 	void setAuthor(string author);
-	void setPostList(Post pList);
+	void setTotalPost(int totalPost);
 
 };
 

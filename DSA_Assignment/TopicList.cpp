@@ -171,3 +171,32 @@ int TopicList::displayPages(int targetPage, string username) {
 	return totalPages;
 }
 
+void TopicList:: mergeSort(TopicList tList, int first, int last) {
+	if (first < last) {
+		int mid = (first + last) / 2;
+		mergeSort(tList, first, mid);
+		mergeSort(tList, mid + 1, last);
+		merge(tList, first, mid, last);
+	}
+}
+
+void TopicList::merge(TopicList tList, int first, int mid, int last) {
+	TopicList tempList;
+
+	int first1 = first;
+	int last1 = mid;
+	int first2 = mid + 1;
+	int last2 = last;
+
+	int index = first1;
+	for (int i = 0; (first1 <= last1) && (first2 <= last2); i++) {
+		if (tList.get(i).getTotalPost() < tList.get(first1).getTotalPost()) {
+			tempList.get(i) = tList.get(first1);
+			first1++;
+		}
+		else {
+			tempList.get(i) = tList.get(first2);
+			first2++;
+		}
+	}
+}

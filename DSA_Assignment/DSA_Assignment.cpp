@@ -152,12 +152,13 @@ void loadTopicData() {
 	}
 	else {
 		string topic, author;
-		PostList pList;
+		int totalPost;
 		while (getline(inFile, str) && str != "") {
 			stringstream ss(str);
 			getline(ss, topic, ';');
 			getline(ss, author, ';');
-			Topic loadTopic(topic, author, pList);
+			ss >> totalPost;
+			Topic loadTopic(topic, author, totalPost);
 			topicList.add(loadTopic);
 		}
 		inFile.close();
@@ -255,12 +256,12 @@ void saveTopicData(Topic& newTopic) {
 		cout << endl << "Creating topic data file..." << endl;
 		ofstream outFile;
 		outFile.open("topic.txt");
-		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << endl;
+		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << ";" << newTopic.getTotalPost() << endl;;
 		outFile.close();
 		cout << "Topic data is saved!" << endl;
 	}
 	else {
-		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << endl;
+		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << ";" << newTopic.getTotalPost() << endl;;
 		outFile.close();
 		cout << "Topic data is saved!" << endl;
 	}
@@ -322,7 +323,7 @@ void updateTopicData() {
 	}
 	for (int i = 0; i < topicList.getLength(); i++) {
 		updateTopic = topicList.get(i);
-		outFile << updateTopic.getTopic() << ";" << updateTopic.getAuthor() << endl;
+		outFile << updateTopic.getTopic() << ";" << updateTopic.getAuthor() << ";" << updateTopic.getTotalPost() << endl;;
 	}
 	outFile.close();
 	cout << "Topic data is updated!" << endl;
@@ -778,7 +779,6 @@ void displayATopic(int topicID) {
 				system("cls");
 				cout << "Page is not found." << endl;
 			}
-
 		}
 		//Sort by popularity
 		else if (option == "3") {
@@ -1017,12 +1017,12 @@ void createReply(Post post) {
 void createTopic() {
 	cout << endl;
 	string title;
-	PostList pList;
+	int totalTopic = 0;
 	cout << "Creating new Topic!" << endl;
 	cout << "------------------" << endl;
 	cout << "Naame of Topic: ";
 	cin >> title;
-	Topic newTopic(title, currentUser.getUserName(), pList);
+	Topic newTopic(title, currentUser.getUserName(), totalTopic);
 	if (topicList.add(newTopic)) {
 		saveTopicData(newTopic);
 		system("cls");

@@ -10,13 +10,14 @@ Topic::Topic()
 {
 	topic = "";
 	author = "";
+	totalPost = 0;
 }
 
-Topic::Topic(string t, string auth, PostList pList)
+Topic::Topic(string t, string auth, int tPost)
 {
 	topic = t;
 	author = auth;
-	postList = pList;
+	totalPost = tPost;
 }
 
 bool Topic::addPost(Post& post)
@@ -33,9 +34,9 @@ bool Topic::addPost(Post& post)
 void Topic::print()
 {
 	cout << left << setw(25) << "Topic"
-		<< setw(25) << "Created By" << endl;
+		<< setw(25) << "Created By" << setw(25) << "Total Post" << endl;
 	cout << left << setw(25) << topic
-		<< setw(25) << author << endl;
+		<< setw(25) << author << setw(25) << totalPost << endl;
 }
 
 string Topic::getTopic()
@@ -47,7 +48,9 @@ string Topic::getAuthor()
 {
 	return author;
 }
-
+int Topic::getTotalPost() {
+	return totalPost;
+}
 PostList& Topic::getPosts()
 {
 	return postList;
@@ -63,3 +66,6 @@ void Topic::setAuthor(string author)
 	this->author = author;
 }
 
+void Topic::setTotalPost(int totalPost) {
+	this->totalPost = totalPost;
+}
