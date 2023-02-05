@@ -1,5 +1,3 @@
-ecawewc;1;Stack;dd;Sun Feb  5 19:53:45 2023
-wqewaceaw;1;Stack;dd;Sun Feb  5 19:53:49 2023
-e;1;Stack;dd;Sun Feb  5 19:55:17 2023
-21;1;Stack;dd;Sun Feb  5 19:55:52 2023
-eowpa;1;Stack;dd;Sun Feb  5 20:03:23 2023
+dd;wqewaceaw;Sun Feb  5 19:53:49 2023;Stack;1
+dd;21;Sun Feb  5 19:55:52 2023;Stack;1
+aerfaserf;1;Dictionary;hi;Sun Feb  5 21:41:09 2023
