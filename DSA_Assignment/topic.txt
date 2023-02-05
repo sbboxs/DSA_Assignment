@@ -1,4 +1,3 @@
-asda;1;1
 C;1;10
 topicByNewUser;Imnew;3
 31231312312312;1;4

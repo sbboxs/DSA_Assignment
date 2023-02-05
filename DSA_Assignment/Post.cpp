@@ -23,15 +23,7 @@ Post::Post(string t, string desc, string msg, string user, string top)
 	description = desc;
 }
 
-void Post::addReply(Reply& reply, ReplyList& replyList)
-{
-	replyList.add(reply);
-}
 
-//void Post::deleteReply(Reply& reply, ReplyList& replyList)
-//{
-//	replyList.remove();
-//}
 
 void Post::print()
 {
