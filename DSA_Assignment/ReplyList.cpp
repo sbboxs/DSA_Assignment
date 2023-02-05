@@ -95,8 +95,6 @@ void ReplyList::display(string title, string topic, string author) {
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
-		cout << "Topic - " + topic << endl;
-		cout << "----------------------------------------------------" << endl;
 		while (tempNode != NULL) {
 			if (tempNode->item.getTitle() == title && tempNode->item.getTopic() == topic) {
 				printf("@%s has replied: ", tempNode->item.getAuthor().c_str());

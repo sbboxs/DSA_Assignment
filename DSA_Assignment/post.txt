@@ -1,11 +1,8 @@
-ae aa;asdasd;asdas;1;Stack
-asdasdsa;asdasd;sadasd;1;Stack
+bet;nah;fine;1;Stack
 adasd;asdsad;asdsa;1;Stack
 asdasd;asdasd;asdas;1;Stack
 adasdsa;asdasd;adsad;1;Stack
 awdad;asdasds;asdasdasdasdasdasdasda;1;Stack
-adasdsawd;dadasd;asdasd;1;idk
-12312131231213;1231312123;312;1;idk
 new1;new1;new1;1;Stack
 new2;new2;new2;2;stack
 new3;new3;new3;1;Stack
@@ -20,5 +17,5 @@ new11;new11;new11;1;Stack
 new12;new12;new12;1;Stack
 new13;new13;new13;1;Stack
 new14;new14;new14;1;Stack
-
-ea sa dadas da;dsad as das;d asd as d;1;idk
+hello;hell oooo;nah h hh h h;1;Dictionary
+DDDDDDDDDDDDDDDDDDDDDD;DDDDDDDDDDDDDDDDDD;DDDDDDDDDDDDDDDDD DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD;1;Dictionary

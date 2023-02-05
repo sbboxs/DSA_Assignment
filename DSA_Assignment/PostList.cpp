@@ -82,11 +82,11 @@ void PostList::remove(int index) {
 }
 Post PostList::get(int index) {
 	if (index <= size && index >= 0) {
-		Node* temp = firstNode;
+		Node* tempNode = firstNode;
 		for (int i = 0; i < index; i++) {
-			temp = temp->next;
+			tempNode = tempNode->next;
 		}
-		return temp->item;
+		return tempNode->item;
 	}
 }
 
