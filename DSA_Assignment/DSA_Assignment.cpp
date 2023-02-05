@@ -5,6 +5,8 @@
 //======================================================
 #include <string>
 #include <iostream>
+#include <time.h>  
+#include <stdio.h> 
 #include <fstream>
 #include <sstream>
 #include "User.h"
@@ -38,6 +40,9 @@ void displayTopics();
 void displayUserTopics();
 void displayUserPosts();
 void displayATopic(int topicID);
+void displayAPost(int postID);
+void replyProcess(Post post);
+void createReply(Post post);
 void createPost();
 void createTopic();
 
@@ -50,6 +55,7 @@ Dictionary userDictionary;
 User currentUser;
 TopicList topicList;
 PostList postList;
+ReplyList replyList;
 Topic currentTopic;
 
 //===
@@ -441,8 +447,8 @@ bool userHomeProcess() {
 		cout << "Welcome back! Dear user: " << currentUser.getUserName() << endl;
 		cout << "---------------------------" << endl;
 		cout << "[1] Dicussion Topics " << endl;
-		cout << "[2] My Own Topics" << endl;
-		cout << "[3] My Own Posts" << endl;
+		cout << "[2] View ny topics" << endl;
+		cout << "[3] View my posts" << endl;
 		cout << "[0] Logout" << endl;
 		cout << "---------------------------" << endl;
 		cout << "Enter option: ";
@@ -473,6 +479,15 @@ bool userHomeProcess() {
 	return true;
 }
 
+void topicMenu() {
+	cout << "[1] view a Topic " << endl;
+	cout << "[2] View page number" << endl;
+	cout << "[3] Sort by popularity" << endl;
+	cout << "[4] Create new Topic" << endl;
+	cout << "[5] Delete a Topic" << endl;
+	cout << "[0] Back" << endl;
+	cout << "Enter option: ";
+}
 //=========
 //Document me please.
 void displayTopics() {
@@ -487,14 +502,7 @@ void displayTopics() {
 		cout << "--------------------------------------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, "");
 		cout << "--------------------------------------------------------------" << endl;
-
-		cout << "[1] View a Topic " << endl;
-		cout << "[2] View page number" << endl;
-		cout << "[3] Sort by popularity" << endl;
-		cout << "[4] Create new topic" << endl;
-		cout << "[0] Back to user home" << endl;
-		cout << "---------------------" << endl;
-		cout << "Enter option: ";
+		topicMenu();
 		cin >> option;
 		if (option == "1") {
 			int topicID;
@@ -562,14 +570,8 @@ void displayUserTopics() {
 		cout << "You are now viewing all your Topics" << endl;
 		cout << "--------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, currentUser.getUserName());
+		topicMenu();
 		cout << "--------------------------------" << endl;
-		cout << "[1] view a Topic " << endl;
-		cout << "[2] View page number" << endl;
-		cout << "[3] Sort by popularity" << endl;
-		cout << "[4] Delete a Topic" << endl;
-		cout << "[0] Back" << endl;
-		cout << "---------------------" << endl;
-		cout << "Enter option: ";
 		cin >> option;
 		//View Topic
 		if (option == "1") {
@@ -609,9 +611,11 @@ void displayUserTopics() {
 			system("cls");
 			cout << "Sorted by Popularity.";
 		}
-
-		//Delete Topic
 		else if (option == "4") {
+			createTopic();
+		}
+		//Delete Topic
+		else if (option == "5") {
 			int topicID;
 			string confirmDelete;
 			Topic topicDeleted;
@@ -683,18 +687,18 @@ void displayATopic(int topicID) {
 		cout << "[1] View a Post " << endl;
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
-		cout << "[4] Create new posts" << endl;
+		cout << "[4] Create new Post" << endl;
 		cout << "[0] Back" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
-			int topicID;
+			int postID;
 			cout << "Enter ID: ";
-			cin >> topicID;
-			if (postIDValidation(topicID)) {
+			cin >> postID;
+			if (postIDValidation(postID)) {
 				system("cls");
-				displayATopic(topicID);
+				displayAPost(postID);
 			}
 			else {
 				system("cls");
@@ -740,6 +744,44 @@ void displayATopic(int topicID) {
 	}
 }
 
+void displayAPost(int postID) {
+	Post currentPost = postList.get(postID - 1001);
+	string option = "1";
+
+	while (option != "0") {
+		currentPost.print();
+		cout << endl;
+		cout << "[1] Reply to post " << endl;
+		cout << "[2] View replies" << endl;
+		cout << "[0] Back to user home" << endl;
+		cout << "Enter option: ";
+
+		cin >> option;
+		if (option == "1") {
+			createReply(currentPost);
+		}
+		else if (option == "2") {
+			system("cls");
+			replyProcess(currentPost);
+		}
+		else if (option == "3") {
+			cout << "Next page" << endl;
+		}
+		else if (option == "4") {
+			createPost();
+			system("cls");
+
+		}
+		else if (option == "0") {
+			system("cls");
+			cout << "Back to user home. ";
+		}
+		else {
+			system("cls");
+			cout << "Sorry. You have entered an invalid option." << endl;
+		}
+	}
+}
 //=========
 //Document me please.
 void displayUserPosts() {
@@ -850,6 +892,71 @@ void displayUserPosts() {
 	}
 }
 
+void replyProcess(Post currentPost) {
+	string option = "1";
+	string title = currentPost.getTitle();
+	string topic = currentPost.getTopic();
+	string author = currentPost.getAuthor();
+	while (option != "0") {
+		replyList.display(title, topic, author);
+		cout << endl;
+		cout << "[1] Reply to post " << endl;
+		cout << "[0] Back to user home" << endl;
+		cout << "Enter option: ";
+
+		cin >> option;
+		if (option == "1") {
+			createReply(currentPost);
+		}
+		else if (option == "2") {
+			cout << "View a post" << endl;
+		}
+		else if (option == "3") {
+			cout << "Next page" << endl;
+		}
+		else if (option == "4") {
+			createPost();
+			system("cls");
+
+		}
+		else if (option == "0") {
+			system("cls");
+			cout << "Back to user home. ";
+		}
+		else {
+			system("cls");
+			cout << "Sorry. You have entered an invalid option." << endl;
+		}
+	}
+}
+void createReply(Post post) {
+	string message;
+	Reply newReply;
+	struct tm newtime;
+	__time32_t aclock;
+	char buffer[32];
+	errno_t errNum;
+	_time32(&aclock);
+	_localtime32_s(&newtime, &aclock);
+	errNum = asctime_s(buffer, 32, &newtime);
+	cout << "----------------------------------" << endl;
+	cout << "Enter your reply here: " << endl;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	getline(cin, message);
+	newReply.setReply(message);
+	newReply.setTopic(post.getTopic());
+	newReply.setAuthor(currentUser.getUserName());
+	newReply.setTitle(post.getTitle());
+	newReply.setDate(buffer);
+	if (replyList.add(newReply)) {
+		/*saveReplyData(newReply);*/
+		cout << "Reply has been added succesfully to the post!" << endl << endl;
+		system("pause");
+		system("cls");
+	}
+	else
+		cout << "Saved Error!" << endl;
+}
 //=========
 //Document me please.
 void createTopic() {
