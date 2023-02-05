@@ -91,6 +91,9 @@ Reply ReplyList::get(int index) {
 		return temp->item;
 	}
 }
+int ReplyList::getLength() {
+	return size;
+}
 void ReplyList::display(string title, string topic, string author) {
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
