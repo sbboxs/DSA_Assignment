@@ -591,12 +591,14 @@ bool forumMenuProcess() {
 		else if (option == "0") {
 			system("cls");
 			cout << "Back to user home. ";
+			return false;
 		}
 		else {
 			system("cls");
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
+	return true;
 }
 
 void topicMenu() {
