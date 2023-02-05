@@ -8,10 +8,12 @@
 
 using namespace std;
 
+// Constructor
 PostList::PostList() {
 	size = 0;
 	firstNode = NULL;
 }
+// Destructor
 PostList::~PostList() {
 	Node* temp = firstNode;
 	while (temp) {
@@ -20,6 +22,8 @@ PostList::~PostList() {
 		temp = next;
 	}
 }
+
+// Add post item into the list, return true if success
 bool PostList::add(Post item) {
 	Node* newNode = new Node;
 	newNode->item = item;
@@ -37,6 +41,8 @@ bool PostList::add(Post item) {
 	size += 1;
 	return true;
 }
+
+// Add post item into specific location of the list, return true if success
 bool PostList::add(int index, Post item) {
 	if (index <= size && index >= 0) {
 		Node* newNode = new Node;
@@ -61,6 +67,8 @@ bool PostList::add(int index, Post item) {
 		return false;
 	}
 }
+
+// Remove post from the specific index location
 void PostList::remove(int index) {
 	if (index <= size && index >= 0) {
 		if (index == 0) {
@@ -80,6 +88,8 @@ void PostList::remove(int index) {
 		size -= 1;
 	}
 }
+
+// Get the post from specific location
 Post PostList::get(int index) {
 	if (index <= size && index >= 0) {
 		Node* tempNode = firstNode;
@@ -90,24 +100,28 @@ Post PostList::get(int index) {
 	}
 }
 
+// Get the index by searching the topic
 int PostList::get(string topic) {
 	Node* tempNode = firstNode;
 	for (int i = 0; i < size; i++) {
-		if (tempNode->item.getTopic().c_str() == topic) {
+		if (tempNode->item.getTopic()== topic) {
 			return i;
 		}
 		tempNode = tempNode->next;
 	}
 }
 
+// Check if the post list is empty, return true if empty
 bool PostList::isEmpty() {
 	return size == 0;
 }
 
+// get and return the size of post list
 int PostList::getLength() {
 	return size;
 }
 
+// Display the postlist in paging and its targeted page
 int PostList::displayPages(int targetPage, string username) {
 	int count = 1001;
 	int postsPerPage = 7;
@@ -183,6 +197,7 @@ int PostList::displayPages(int targetPage, string username) {
 	return totalPages;
 }
 
+// Display all the post by the selected topics in paging.
 int PostList::displayPagesByTopics(int targetPage, string topic) {
 	int count = 1001;
 	int postsPerPage = 7;

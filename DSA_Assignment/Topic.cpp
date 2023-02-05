@@ -26,10 +26,6 @@ bool Topic::addPost(Post& post)
 	return postList.add(post);
 }
 
-//void Topic::deletePost(Post& post, PostList& postList)
-//{
-//	postList.deletePost(post);
-//}
 
 void Topic::print()
 {
@@ -68,4 +64,7 @@ void Topic::setAuthor(string author)
 
 void Topic::setTotalPost(int totalPost) {
 	this->totalPost = totalPost;
+}
+void Topic::updateTotalPost() {
+	totalPost += 1;
 }
