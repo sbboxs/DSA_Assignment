@@ -15,7 +15,7 @@ PostList::PostList() {
 PostList::~PostList() {
 	Node* temp = firstNode;
 	while (temp) {
-		Node* next = temp->next;
+ 		Node* next = temp->next;
 		delete temp;
 		temp = next;
 	}

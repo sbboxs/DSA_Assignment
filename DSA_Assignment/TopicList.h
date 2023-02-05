@@ -13,7 +13,7 @@ using namespace std;
 
 class TopicList
 {
-private:
+public:
 	struct Node
 	{
 		Topic item;	// item
@@ -22,7 +22,7 @@ private:
 	Node* firstNode;	// point to the first item
 	int  size;		// number of items in the list
 
-public:
+
 	// constructor
 	TopicList();
 
@@ -52,7 +52,11 @@ public:
 	//To display topics by pages
 	int displayPages(int targetPage, string username);
 
-	TopicList mergeSort(TopicList tList, int first, int last);
-	TopicList merge(TopicList left, TopicList right);
+	//sort the linked list using merge sort
+	void sort(TopicList& sortedList);
 
+	//Helper functions for merge sort
+	Node* sort(Node* currentNode, int listSize);
+	Node* mergeLists(Node* leftList, int leftListSize, Node* rightList, int rightListSize);
+	Node* getMiddleNode(Node* currentNode, int listSize);
 };
