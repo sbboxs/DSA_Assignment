@@ -110,7 +110,7 @@ int TopicList::displayPages(int targetPage, string username) {
 	if (success) {
 		//Header
 		cout << left << setw(20) << "ID"
-			<< setw(30) << "Discussion Topic" << setw(25) << endl;
+			<< setw(30) << "Discussion Topic" << setw(25) << "Total Posts" << endl;
 
 		int topicsPrinted = 0;
 		if (username != "") {
@@ -131,7 +131,7 @@ int TopicList::displayPages(int targetPage, string username) {
 					//Check if in the range of target page
 					if (topicsFound >= topicsBeSkipped) {
 						cout << left << setw(20) << count
-							<< setw(30) << tempNode->item.getTopic() << endl;
+							<< setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getTotalPost() << endl;
 						topicsPrinted += 1;
 					}
 					if (topicsPrinted == topicsPerPage)
@@ -171,24 +171,26 @@ int TopicList::displayPages(int targetPage, string username) {
 	return totalPages;
 }
 
-void TopicList:: mergeSort(TopicList tList, int first, int last) {
+TopicList TopicList:: mergeSort(TopicList tList, int first, int last) {
 	if (first < last) {
 		int mid = (first + last) / 2;
 		mergeSort(tList, first, mid);
 		mergeSort(tList, mid + 1, last);
-		merge(tList, first, mid, last);
+		return merge(tList, first, mid, last);
 	}
 }
 
-void TopicList::merge(TopicList tList, int first, int mid, int last) {
-	TopicList tempList;
-
-	int first1 = first;
-	int last1 = mid;
-	int first2 = mid + 1;
-	int last2 = last;
-
-	int index = first1;
+TopicList TopicList::merge(TopicList tList, int first, int mid, int last) {
+	TopicList tempList; //temporary linked list
+	//initialize the local indexes to indicate the sublinkedlist
+	int first1 = first; //beginning of first sub linkedlist
+	int last1 = mid; //end of first sub linkedlist
+	int first2 = mid + 1; //beginning of second sub linkedlist
+	int last2 = last; //end of second sub linkedlist
+	
+	//while both sub linkedlists are not empty, copy the
+	//small item into the temporary array
+	int index = first1; //next available location in temp LinkedList
 	for (int i = 0; (first1 <= last1) && (first2 <= last2); i++) {
 		if (tList.get(i).getTotalPost() < tList.get(first1).getTotalPost()) {
 			tempList.get(i) = tList.get(first1);
@@ -199,4 +201,14 @@ void TopicList::merge(TopicList tList, int first, int mid, int last) {
 			first2++;
 		}
 	}
+	//finish off the nonempty sub linkedlist
+	//finishoff the first sub linkedlist, if necessary
+	for (int i = 0; first1 <= last1; ++first1, index++) {
+		tempList.get(i) = tList.get(first2);
+	}
+	//copy the result back into the original array
+	for (index == first; index <= last; index++) {
+		tempList.get(index) = tList.get(index);
+	}
+	return tempList;
 }

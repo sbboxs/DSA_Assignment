@@ -546,17 +546,22 @@ void displayTopics() {
 	int currentPage = 1;
 	int targetPage = 1;
 	string sortingMethod = "Default";
+	TopicList sortedList;
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
 		cout << "You are now viewing all topics." << endl;
 		cout << "--------------------------------------------------------------" << endl;
-		totalPages = topicList.displayPages(currentPage, "");
+		if (sortingMethod == "Default")
+			totalPages = topicList.displayPages(currentPage, "");
+		else
+			totalPages = sortedList.displayPages(currentPage, "");
 		cout << "--------------------------------------------------------------" << endl;
 		cout << "[1] View a Topic " << endl;
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
 		cout << "[4] Create new Topic" << endl;
 		cout << "[0] Back" << endl;
+		cout << "---------------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
@@ -592,6 +597,7 @@ void displayTopics() {
 		//Sort by popularity
 		else if (option == "3") {
 			sortingMethod = "Popularity";
+			sortedList = topicList.mergeSort(topicList, 0, topicList.getLength());
 			system("cls");
 			cout << "Sorted by Popularity.";
 		}

@@ -1,6 +1,6 @@
-Dictionary;1
-asda;1
-C;1
-topicByNewUser;Imnew
-31231312312312;1
-adsad;1
+Dictionary;1;0
+asda;1;0
+C;1;0
+topicByNewUser;Imnew;0
+31231312312312;1;2
+adsad;1;1
