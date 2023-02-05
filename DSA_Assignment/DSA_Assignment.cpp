@@ -1095,7 +1095,7 @@ void createPost() {
 		cout << "New post is created succesfully!" << endl << endl;
 	}
 	else
-		cout << "Saved Error!" << endl << end;
+		cout << "Saved Error!" << endl << endl;
 }
 
 //=========
