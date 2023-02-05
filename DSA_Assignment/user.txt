@@ -30,3 +30,5 @@ d;asdadwaasdwadsad;test
 a;a;0
 12312312312312312312312312f89a8er90e12348e912;1;0
 Imnew;new;0
+xiami;a;0
+sbboxs;123;0

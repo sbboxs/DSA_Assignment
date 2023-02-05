@@ -347,8 +347,8 @@ bool loginProcess() {
 					return true;
 				}
 				else {
-					cout << "Login credentials invalid!" << endl;
-					system("pause");
+					system("cls");
+					cout << "Login credentials invalid!";
 				}
 			}
 			else
@@ -360,7 +360,7 @@ bool loginProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option.";
 		}
 	}
 	return false;
@@ -392,17 +392,11 @@ void registerProcess() {
 		registerForm();
 		cin >> registerOption;
 		if (registerOption == "1") {
-			while (true) {
-				cout << "Enter Username: ";
-				cin >> newUsername;
-				existUser = userDictionary.get(newUsername);
-				if (existUser.getUserName() != newUsername)
-					break;
-				else
-					cout << "Username is exist! Please enter another unique username." << endl;
-			}
-			
-			while (true) {
+			cout << "Enter Username: ";
+			cin >> newUsername;
+			existUser = userDictionary.get(newUsername);
+			if (existUser.getUserName() != newUsername)
+			{
 				cout << "Enter Password: ";
 				cin >> newPassword;
 				cout << "Confirm your password: ";
@@ -420,9 +414,18 @@ void registerProcess() {
 						cout << "Save Error!." << endl;
 				}
 				else {
-					cout << "Password is not matched." << endl;
+					system("cls");
+					cout << "Password is not matched.";
 				}
 			}
+			else
+			{
+				system("cls");
+				cout << "Username is exist! Please enter another unique username.";
+			}
+
+			
+			
 		} 
 		else if (registerOption == "0") {
 			system("cls");
@@ -430,7 +433,7 @@ void registerProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option.";
 		}
 	}
 }
@@ -543,7 +546,7 @@ bool userTopicMenuProcess() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option.";
 		}
 	}
 	return true;
@@ -587,15 +590,13 @@ bool forumMenuProcess() {
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Has logged out. ";
-			return false;
+			cout << "Back to user home. ";
 		}
 		else {
 			system("cls");
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
-	return true;
 }
 
 void topicMenu() {
@@ -695,7 +696,6 @@ bool postMenuProcess(Post currentPost) {
 			cout << "Sorry. You have entered an invalid option." << endl;
 		}
 	}
-	return true;
 }
 
 void createReply(Post post) {
