@@ -598,7 +598,7 @@ void displayTopics() {
 		//Sort by popularity
 		else if (option == "3") {
 			sortingMethod = "Popularity";
-			sortedList = topicList.mergeSort(topicList, 0, topicList.getLength());
+			sortedList = topicList.mergeSort(topicList, 0, topicList.getLength()-1);
 			system("cls");
 			cout << "Sorted by Popularity.";
 		}
@@ -633,12 +633,14 @@ void displayUserTopics() {
 		cout << "You are now viewing all your Topics" << endl;
 		cout << "--------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, currentUser.getUserName());
+		cout << "--------------------------------" << endl;
 		cout << "[1] View a Topic " << endl;
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
 		cout << "[4] Create new Topic" << endl;
 		cout << "[5] Delete a Topic" << endl;
 		cout << "[0] Back" << endl;
+		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		//View Topic
@@ -671,13 +673,12 @@ void displayUserTopics() {
 				system("cls");
 				cout << "Page is not found." << endl;
 			}
-
 		}
 		//Sort by popularity
 		else if (option == "3") {
 			sortingMethod = "Popularity";
 			system("cls");
-			cout << "Sorted by Popularity.";
+			cout << "Sorted by Popularity." << endl;;
 		}
 		else if (option == "4") {
 			cout << "Creating a new Topic!" << endl;
@@ -961,6 +962,7 @@ void replyProcess(Post currentPost) {
 		cout << endl;
 		cout << "[1] Reply to post " << endl;
 		cout << "[0] Back to user home" << endl;
+		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 
 		cin >> option;

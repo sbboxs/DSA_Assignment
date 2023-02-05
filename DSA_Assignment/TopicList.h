@@ -51,6 +51,6 @@ public:
 	int displayPages(int targetPage, string username);
 
 	TopicList mergeSort(TopicList tList, int first, int last);
-	TopicList merge(TopicList tList, int first, int mid, int last);
+	TopicList merge(TopicList left, TopicList right);
 
 };
