@@ -1,0 +1,2 @@
+Implement Stack?;Implementation of Stack;Stack can only be accessed from the first item and nothing else.;Syahmi123;Stack
+How to add item;Adding of an item into the Stack;It is very easy to do that.;Jiunhong123;Stack

@@ -796,7 +796,6 @@ void displayATopic(int topicID) {
 		}
 	
 		else if (option == "3") {
-			cout << "Create new posts" << endl;
 			createPost();
 			system("cls");
 
@@ -1038,7 +1037,8 @@ void createTopic() {
 	string title;
 	int totalTopic = 0;
 	cout << "Naame of Topic: ";
-	cin >> title;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	getline(cin, title);
 	if (checkTopic(title)) {
 		Topic newTopic(title, currentUser.getUserName(), totalTopic);
 		if (topicList.add(newTopic)) {

@@ -1,0 +1,2 @@
+How so? Is it possible to retrieve other items?;Jiunhong123;Stack;Implement Stack?;Sun Feb  5 23:49:46 2023
+And is there other methods as well?;Jiunhong123;Stack;Implement Stack?;Sun Feb  5 23:53:29 2023
