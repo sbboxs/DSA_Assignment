@@ -108,11 +108,11 @@ int TopicList::displayPages(int targetPage, string username) {
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
+		//Header
+		cout << left << setw(20) << "ID"<< setw(30) << "Discussion Topic" << setw(25) << "Total Posts" << endl;
+
 		int topicsPrinted = 0;
 		if (username != "") {
-			//Header
-			cout << left << setw(20) << "ID"
-				<< setw(30) << "Discussion Topic" << endl;
 			//Get total topics created by user
 			while (tempNode != NULL) {
 				if (tempNode->item.getAuthor() == username)
@@ -129,8 +129,7 @@ int TopicList::displayPages(int targetPage, string username) {
 				if (tempNode->item.getAuthor() == username) {
 					//Check if in the range of target page
 					if (topicsFound >= topicsBeSkipped) {
-						cout << left << setw(20) << count
-							<< setw(30) << tempNode->item.getTopic() << endl;
+						cout << left << setw(20) << count << setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getTotalPost() << endl;
 						topicsPrinted += 1;
 					}
 					if (topicsPrinted == topicsPerPage)
@@ -175,32 +174,52 @@ int TopicList::displayPages(int targetPage, string username) {
 	return totalPages;
 }
 
-void TopicList:: mergeSort(TopicList tList, int first, int last) {
-	if (first < last) {
-		int mid = (first + last) / 2;
-		mergeSort(tList, first, mid);
-		mergeSort(tList, mid + 1, last);
-		merge(tList, first, mid, last);
+TopicList TopicList::mergeSort(TopicList tList, int first, int last)
+{
+	int mid = (first + last) / 2;
+	if (first < last)
+	{
+		TopicList left = mergeSort(tList, first, mid);
+		TopicList right = mergeSort(tList, mid + 1, last);
+		merge(left, right);
+	}
+	else
+	{
+		TopicList result;
+		result.add(tList.get(first));
+		return result;
 	}
 }
 
-void TopicList::merge(TopicList tList, int first, int mid, int last) {
-	TopicList tempList;
-
-	int first1 = first;
-	int last1 = mid;
-	int first2 = mid + 1;
-	int last2 = last;
-
-	int index = first1;
-	for (int i = 0; (first1 <= last1) && (first2 <= last2); i++) {
-		if (tList.get(i).getTotalPost() < tList.get(first1).getTotalPost()) {
-			tempList.get(i) = tList.get(first1);
-			first1++;
+TopicList TopicList::merge(TopicList left, TopicList right)
+{
+	TopicList result;
+	int i = 0, j = 0;
+	int leftSize = left.getLength();
+	int rightSize = right.getLength();
+	while (i < leftSize && j < rightSize)
+	{
+		if (left.get(i).getTopic() <= right.get(j).getTopic())
+		{
+			result.add(left.get(i));
+			i++;
 		}
-		else {
-			tempList.get(i) = tList.get(first2);
-			first2++;
+		else
+		{
+			result.add(right.get(j));
+			j++;
 		}
 	}
+	//Add remaining
+	while (i < leftSize)
+	{
+		result.add(left.get(i));
+		i++;
+	}
+	while (j < rightSize)
+	{
+		result.add(right.get(j));
+		j++;
+	}
+	return result;
 }

@@ -50,7 +50,7 @@ public:
 	//To display topics by pages
 	int displayPages(int targetPage, string username);
 
-	void mergeSort(TopicList tList, int first, int last);
-	void merge(TopicList tList, int first, int mid, int last);
+	TopicList mergeSort(TopicList tList, int first, int last);
+	TopicList merge(TopicList left, TopicList right);
 
 };
