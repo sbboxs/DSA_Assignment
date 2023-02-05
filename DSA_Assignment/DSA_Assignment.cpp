@@ -598,9 +598,9 @@ void displayTopics() {
 		//Sort by popularity
 		else if (option == "3") {
 			sortingMethod = "Popularity";
-			sortedList = topicList.mergeSort(topicList, 0, topicList.getLength()-1);
+			topicList.sort(sortedList);
 			system("cls");
-			cout << "Sorted by Popularity.";
+			cout << "Sorted by Popularity." << endl;
 		}
 
 		else if (option == "4") {

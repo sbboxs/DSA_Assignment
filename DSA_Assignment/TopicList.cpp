@@ -8,6 +8,7 @@
 #include <iomanip>
 using namespace std;
 
+
 TopicList::TopicList() {
 	size = 0;
 	firstNode = NULL;
@@ -99,12 +100,16 @@ int TopicList::getLength() {
 }
 
 int TopicList::displayPages(int targetPage, string username) {
+	if (isEmpty()) {
+		cout << "No Topics yet" << endl;
+		return 0;
+	}
 	int count = 1001;
 	int topicsPerPage = 7;
 	int totalTopics = 0;
 	int totalPages = 0;
 	int topicsFound = 0;
-	int topicsBeSkipped = (targetPage - 1) * 7;
+	int topicsBeSkipped = (targetPage - 1) * topicsPerPage;
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
@@ -168,52 +173,51 @@ int TopicList::displayPages(int targetPage, string username) {
 	return totalPages;
 }
 
-TopicList TopicList::mergeSort(TopicList tList, int first, int last)
-{
-	int mid = (first + last) / 2;
-	if (first < last)
-	{
-		TopicList left = mergeSort(tList, first, mid);
-		TopicList right = mergeSort(tList, mid + 1, last);
-		merge(left, right);
-	}
-	else
-	{
-		TopicList result;
-		result.add(tList.get(first));
-		return result;
-	}
+void TopicList::sort(TopicList& sortedList) {
+	Node* sortedListHead = sort(firstNode, size);
+	sortedList.firstNode = sortedListHead;
+	sortedList.size = size;
 }
 
-TopicList TopicList::merge(TopicList left, TopicList right)
-{
-	TopicList result;
-	int i = 0, j = 0;
-	int leftSize = left.getLength();
-	int rightSize = right.getLength();
-	while (i < leftSize && j < rightSize)
-	{
-		if (left.get(i).getTopic() <= right.get(j).getTopic())
-		{
-			result.add(left.get(i));
-			i++;
+TopicList::Node* TopicList::sort(Node* currentNode, int listSize) {
+	//Base case
+	if (listSize == 1) 
+		return currentNode;
+
+	Node* middleNode = getMiddleNode(currentNode, listSize);
+	int leftListSize = listSize / 2;
+	int rightListSize = listSize - leftListSize;
+	Node* leftList = sort(currentNode, leftListSize);
+	Node* rightList = sort(middleNode, rightListSize);
+	return mergeLists(leftList, leftListSize, rightList, rightListSize);
+}
+
+TopicList::Node* TopicList::mergeLists(Node* leftList, int leftListSize, Node* rightList, int rightListSize) {
+	Node tempNode;
+	Node* tail = &tempNode;
+	tempNode.next = NULL;
+	while (leftListSize > 0 && rightListSize > 0) {
+		if (leftList->item.getTotalPost() < rightList->item.getTotalPost()) {
+			tail->next = leftList;
+			leftList = leftList->next;
+			leftListSize -= 1;
 		}
-		else
-		{
-			result.add(right.get(j));
-			j++;
+		else {
+			tail->next = rightList;
+			rightList = rightList->next;
+			rightListSize -= 1;
 		}
+		tail = tail->next;
 	}
-	//Add remaining
-	while (i < leftSize)
-	{
-		result.add(left.get(i));
-		i++;
+	if (leftListSize > 0) tail->next = leftList;
+	else tail->next = rightList;
+	return tempNode.next;
+}
+
+TopicList::Node* TopicList::getMiddleNode(Node* currentNode, int listSize) {
+	Node* temp = currentNode;
+	for (int i = 0; i < listSize / 2; i++) {
+		temp = temp->next;
 	}
-	while (j < rightSize)
-	{
-		result.add(right.get(j));
-		j++;
-	}
-	return result;
+	return temp;
 }
