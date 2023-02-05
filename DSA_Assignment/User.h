@@ -37,7 +37,7 @@ public:
 	void setUserName(string name);
 	void setPassword(string pwd);
 	void setIsLogin(bool login);
-	
+
 
 };
 

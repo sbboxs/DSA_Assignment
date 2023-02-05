@@ -47,12 +47,6 @@ public:
 	// check the size of the list
 	int getLength();
 
-	// display all the items in the list
-	void display(string username);
-
-	//TopicList userDisplay(string username);
-	void userDisplay(string username);
-
 	//To display topics by pages
 	int displayPages(int targetPage, string username);
 };
