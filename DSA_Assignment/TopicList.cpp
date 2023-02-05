@@ -110,7 +110,7 @@ Topic TopicList::get(int index) {
 int TopicList::get(string topic) {
 	Node* tempNode = firstNode;
 	for (int i = 0; i < size; i++) {
-		if (tempNode->item.getTopic().c_str() == topic) {
+		if (tempNode->item.getTopic() == topic) {
 			return i;
 		}
 		tempNode = tempNode->next;
@@ -211,6 +211,17 @@ void TopicList::sort(TopicList& sortedList) {
 	Node* sortedListHead = sort(firstNode, size);
 	sortedList.firstNode = sortedListHead;
 	sortedList.size = size;
+	//Trying to avoid node pointed to unsorted list changed.
+	
+	//Node* sortedListHead = sort(firstNode, size);
+	//sortedList.firstNode = NULL;
+	//sortedList.size = 0;
+
+	//Node* tempNode = sortedListHead;
+	//while (tempNode != NULL) {
+	//	sortedList.add(tempNode->item);
+	//	tempNode = tempNode->next;
+	//}
 }
 
 //Helper function for merge sort to separete link to to half and sort

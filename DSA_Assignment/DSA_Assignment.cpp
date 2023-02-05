@@ -52,7 +52,9 @@ void editPost(int postID, Post currentPost);
 bool checkTopic(string title);
 void createTopic();
 
+void deletePostsRecursive(PostList& postList, int index, Topic& topicDeleted);
 void deleteRelavantPostData(Post& postDeleted);
+void deleteReplyRecursive(ReplyList& replyList, int index, Post& postDeleted);
 
 bool topicIDValidation(int topicID);
 bool postIDValidation(int postID);
@@ -619,13 +621,16 @@ void displayUserTopics() {
 	int totalPages = 0;
 	int currentPage = 1;
 	int targetPage = 1;
+	TopicList sortedList;
 	string sortingMethod = "Default";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
-		cout << "---------------------" << endl;
-		cout << "Viewing all your topics..." << endl;
-		cout << endl <<  "----------------------------------------------------------------------------------------" << endl;
-		totalPages = topicList.displayPages(currentPage, currentUser.getUserName());
+		cout << "You are now viewing all your Topics" << endl;
+		cout << "----------------------------------------------------------------------------------------" << endl;
+		if (sortingMethod == "Default")
+			totalPages = topicList.displayPages(currentPage, "");
+		else
+			totalPages = sortedList.displayPages(currentPage, "");
 		cout << "----------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Topic " << endl;
 		cout << "[2] View page number" << endl;
@@ -671,9 +676,18 @@ void displayUserTopics() {
 		}
 		//Sort by popularity
 		else if (option == "3") {
-			sortingMethod = "Popularity";
-			system("cls");
-			cout << "Sorted by Popularity." << endl;;
+			if (sortingMethod == "Default")
+			{
+				sortingMethod = "Popularity";
+				topicList.sort(sortedList);
+				system("cls");
+				cout << "Sorted by Popularity." << endl;
+			}
+			else {
+				sortingMethod = "Default";
+				system("cls");
+				cout << "Sorted by Default." << endl;
+			}
 		}
 		else if (option == "4") {
 			cout << "Creating a new Topic!" << endl;
@@ -696,15 +710,7 @@ void displayUserTopics() {
 					{
 						topicList.remove(topicID - 1001);
 						//Remove relavant post list
-						
-						for (int i = 0; i < postList.getLength(); i++) {
-							Post deletedPost = postList.get(i);
-							cout << deletedPost.getTopic().c_str() << endl;
-							if (deletedPost.getTopic() == topicDeleted.getTopic()) {
-								deleteRelavantPostData(deletedPost);
-								postList.remove(i);
-							}
-						}
+						deletePostsRecursive(postList, 0, topicDeleted);
 						updateTopicData();
 						updatePostData();
 
@@ -761,8 +767,7 @@ void displayATopic(int topicID) {
 		cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Post " << endl;
 		cout << "[2] View page number" << endl;
-		cout << "[3] Sort by popularity" << endl;
-		cout << "[4] Create new Post" << endl;
+		cout << "[3] Create new Post" << endl;
 		cout << "[0] Back" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
@@ -789,13 +794,9 @@ void displayATopic(int topicID) {
 			cin >> targetPage;
 			currentPage = choosePageNo(targetPage, totalPages, currentPage);
 		}
-		//Sort by popularity
+	
 		else if (option == "3") {
-			sortingMethod = "Popularity";
-			system("cls");
-			cout << "Sorted by Popularity." << endl << endl;
-		}
-		else if (option == "4") {
+			cout << "Create new posts" << endl;
 			createPost();
 			system("cls");
 
@@ -853,12 +854,7 @@ void displayAPost(int postID, int topicID) {
 				if (confirmDelete == "Y" || confirmDelete == "y")
 				{
 					postList.remove(postID - 1001);
-					//Should look for relavant replies and delete
-					/*for (int i = 0; i < postList.getLength(); i++) {
-						Post currentPost = postList.get(i);
-						if (currentPost.getTopic() == postDeleted.getTopic())
-							postList.remove(i);
-					}*/
+					deleteRelavantPostData(postDeleted);
 					updatePostData();
 					system("cls");
 					cout << postDeleted.getTopic() << " is deleted." << endl << endl;
@@ -907,7 +903,7 @@ void displayUserPosts() {
 		cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Post " << endl;
 		cout << "[2] View page number" << endl;
-		cout << "[3] Sort by popularity" << endl;
+		cout << "[3] Create new post" << endl;
 		cout << "[0] Back" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
@@ -936,11 +932,10 @@ void displayUserPosts() {
 			currentPage = choosePageNo(targetPage, totalPages, currentPage);
 
 		}
-		//Sort by popularity
 		else if (option == "3") {
-			sortingMethod = "Popularity";
+			cout << "Create new posts" << endl;
+			createPost();
 			system("cls");
-			cout << "Sorted by Popularity." << endl << endl;
 		}
 		else if (option == "0") {
 			system("cls");
@@ -1088,9 +1083,10 @@ void createPost() {
 	newPost.setTopic(currentTopic.getTopic());
 	newPost.setAuthor(currentUser.getUserName());
 	if (currentTopic.addPost(newPost)) {
-		savePostData(newPost);
 		currentTopic.updateTotalPost();
+		savePostData(newPost);
 		updateTopicData();
+		cout << currentTopic.getTotalPost()<<endl;
 		postList.add(newPost);
 		cout << "New post is created succesfully!" << endl << endl;
 	}
@@ -1157,13 +1153,32 @@ void editPost(int postID, Post currentPost) {
 //This function is use to delete all the relavant post data such as the reply, if the post is to be deleted.
 void deleteRelavantPostData(Post& postDeleted) {
 	//look for relavant replies and delete
-	for (int i = 0; i < replyList.getLength(); i++) {
-		Reply deletedReply = replyList.get(i);
-		if (deletedReply.getAuthor() == postDeleted.getAuthor() && deletedReply.getTitle() == postDeleted.getTitle())
-			replyList.remove(i);
-	}
+	deleteReplyRecursive(replyList, 0, postDeleted);
 }
 
+//This function is to recursivly to start delete the post when it reach the last post.
+void deletePostsRecursive(PostList& postList, int index, Topic& topicDeleted) {
+	if (index == postList.getLength()) {
+		return;
+	}
+	deletePostsRecursive(postList, index + 1, topicDeleted);
+	Post deletedPost = postList.get(index);
+	if (deletedPost.getTopic() == topicDeleted.getTopic()) {
+		deleteRelavantPostData(deletedPost);
+		postList.remove(index);
+	}
+}
+//This function is to recursivly start delete the reply when it reach the last reply.
+void deleteReplyRecursive(ReplyList& replyList, int index, Post& postDeleted) {
+	if (index == replyList.getLength()) {
+		return;
+	}
+	deleteReplyRecursive(replyList, index + 1, postDeleted);
+	Reply deletedReply = replyList.get(index);
+	if (deletedReply.getTitle() == postDeleted.getTitle()) {
+		replyList.remove(index);
+	}
+}
 //=========
 //This function is used to check if the topicID key in is a valid one.
 bool topicIDValidation(int topicID) {

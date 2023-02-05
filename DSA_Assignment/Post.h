@@ -26,8 +26,6 @@ public:
 	//Methods
 	Post();
 	Post(string t, string desc, string msg, string user, string top);
-	void addReply(Reply& reply, ReplyList& replyList);
-	//void deleteReply(Reply& reply, ReplyList& replyList);
 	void print();
 
 	//Getter
