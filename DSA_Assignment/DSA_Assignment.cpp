@@ -669,29 +669,59 @@ void displayUserTopics() {
 void displayATopic(int topicID) {
 	string option = "1";
 	currentTopic = topicList.get(topicID-1001);
+	int totalPages = 0;
+	int currentPage = 1;
+	int targetPage = 1;
+	string sortingMethod = "Default";
 
 	while (option != "0") {
 		cout << "You are now viewing all posts under the topic of :" << currentTopic.getTopic() << endl;
 		cout << "Topic: " << currentTopic.getTopic() << endl;
-		cout << "---------------------------" << endl;
-		postList.topicDisplay(currentTopic.getTopic());
-		cout << "----------------------------------------------------------" << endl;
-		cout << "[1] Search by posts or users " << endl;
-		cout << "[2] View a post" << endl;
-		cout << "[3] Next page" << endl;
+		cout << "--------------------------------" << endl;
+		totalPages = postList.displayPagesByTopics(currentPage, currentTopic.getTopic());
+		cout << "--------------------------------" << endl;
+		cout << "[1] View a Post " << endl;
+		cout << "[2] View page number" << endl;
+		cout << "[3] Sort by popularity" << endl;
 		cout << "[4] Create new posts" << endl;
 		cout << "[0] Back" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
-			cout << "Search by topics, posts or users" << endl;
+			int topicID;
+			cout << "Enter ID: ";
+			cin >> topicID;
+			if (postIDValidation(topicID)) {
+				system("cls");
+				displayATopic(topicID);
+			}
+			else {
+				system("cls");
+				cout << "Invalid Post ID." << endl;
+			}
 		}
+		//View a page
 		else if (option == "2") {
-			cout << "View a post" << endl;
+			cout << "Enter page number: ";
+			cin >> targetPage;
+			if (targetPage <= totalPages && targetPage != 0)
+			{
+				currentPage = targetPage;
+				system("cls");
+				cout << "Now viewing page: " << targetPage << endl;
+			}
+			else {
+				system("cls");
+				cout << "Page is not found." << endl;
+			}
+
 		}
+		//Sort by popularity
 		else if (option == "3") {
-			cout << "Next page" << endl;
+			sortingMethod = "Popularity";
+			system("cls");
+			cout << "Sorted by Popularity.";
 		}
 		else if (option == "4") {
 			cout << "Create new posts" << endl;
@@ -714,25 +744,60 @@ void displayATopic(int topicID) {
 //Document me please.
 void displayUserPosts() {
 	string option = "1";
-	TopicList userTList;
+	int totalPages = 0;
+	int currentPage = 1;
+	int targetPage = 1;
+	string sortingMethod = "Default";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
 		cout << "You are now viewing your own Posts" << endl;
-		cout << "--------------------------------------------------------" << endl;
-		postList.userDisplay(currentUser.getUserName());
-		cout << endl << "[1] View a Post " << endl;
-		cout << "[2] Delete a Post" << endl;
+		cout << "--------------------------------" << endl;
+		totalPages = postList.displayPages(currentPage, currentUser.getUserName());
+		cout << "--------------------------------" << endl;
+		cout << "[1] View a Post " << endl;
+		cout << "[2] View page number" << endl;
+		cout << "[3] Sort by popularity" << endl;
+		cout << "[4] Delete a Post" << endl;	
 		cout << "[0] Back" << endl;
+		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
 			int topicID;
 			cout << "Enter ID: ";
 			cin >> topicID;
-			system("cls");
-			displayATopic(topicID);
+			if (postIDValidation(topicID)) {
+				system("cls");
+				displayATopic(topicID);
+			}
+			else {
+				system("cls");
+				cout << "Invalid Post ID." << endl;
+			}
 		}
+		//View a page
 		else if (option == "2") {
+			cout << "Enter page number: ";
+			cin >> targetPage;
+			if (targetPage <= totalPages && targetPage != 0)
+			{
+				currentPage = targetPage;
+				system("cls");
+				cout << "Now viewing page: " << targetPage << endl;
+			}
+			else {
+				system("cls");
+				cout << "Page is not found." << endl;
+			}
+
+		}
+		//Sort by popularity
+		else if (option == "3") {
+			sortingMethod = "Popularity";
+			system("cls");
+			cout << "Sorted by Popularity.";
+		}
+		else if (option == "4") {
 			int postID;
 			string confirmDelete;
 			Post postDeleted;
