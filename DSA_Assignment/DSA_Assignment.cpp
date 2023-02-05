@@ -46,6 +46,7 @@ void displayAPost(int postID);
 void replyProcess(Post post);
 void createReply(Post post);
 void createPost();
+void editPost(int postID, Post currentPost);
 void createTopic();
 
 void deleteRelavantPostData(Post& postDeleted);
@@ -343,7 +344,6 @@ void updatePostData() {
 		outFile <<updatePost.getTitle() << ";" << updatePost.getDescription() << ";" << updatePost.getMessage() << ";" << updatePost.getAuthor() << ";" << updatePost.getTopic() << endl;
 	}
 	outFile.close();
-	cout << "Post data is updated!" << endl;
 }
 
 void updateReplyData() {
@@ -394,9 +394,9 @@ bool loginProcess() {
 		//Key in login credentials
 		if (loginOption == "1") {
 			cout << "----------------------------" << endl;
-			cout << "Your Username: ";
+			cout << "Username: ";
 			cin >> promptUsername;
-			cout << "Your Password: ";
+			cout << "Password: ";
 			cin >> promptPwd;
 			if (promptUsername != "" && promptPwd != "") {
 				User loginUser = userDictionary.get(promptUsername);
@@ -506,7 +506,7 @@ bool userHomeProcess() {
 		cout << "Welcome back! Dear user: " << currentUser.getUserName() << endl;
 		cout << "---------------------------" << endl;
 		cout << "[1] Dicussion Topics " << endl;
-		cout << "[2] View ny topics" << endl;
+		cout << "[2] View my topics" << endl;
 		cout << "[3] View my posts" << endl;
 		cout << "[0] Logout" << endl;
 		cout << "---------------------------" << endl;
@@ -538,15 +538,6 @@ bool userHomeProcess() {
 	return true;
 }
 
-void topicMenu() {
-	cout << "[1] view a Topic " << endl;
-	cout << "[2] View page number" << endl;
-	cout << "[3] Sort by popularity" << endl;
-	cout << "[4] Create new Topic" << endl;
-	cout << "[5] Delete a Topic" << endl;
-	cout << "[0] Back" << endl;
-	cout << "Enter option: ";
-}
 //=========
 //Document me please.
 void displayTopics() {
@@ -561,7 +552,12 @@ void displayTopics() {
 		cout << "--------------------------------------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, "");
 		cout << "--------------------------------------------------------------" << endl;
-		topicMenu();
+		cout << "[1] View a Topic " << endl;
+		cout << "[2] View page number" << endl;
+		cout << "[3] Sort by popularity" << endl;
+		cout << "[4] Create new Topic" << endl;
+		cout << "[0] Back" << endl;
+		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
 			int topicID;
@@ -629,7 +625,13 @@ void displayUserTopics() {
 		cout << "You are now viewing all your Topics" << endl;
 		cout << "--------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, currentUser.getUserName());
-		topicMenu();
+		cout << "[1] View a Topic " << endl;
+		cout << "[2] View page number" << endl;
+		cout << "[3] Sort by popularity" << endl;
+		cout << "[4] Create new Topic" << endl;
+		cout << "[5] Delete a Topic" << endl;
+		cout << "[0] Back" << endl;
+		cout << "Enter option: ";
 		cout << "--------------------------------" << endl;
 		cin >> option;
 		//View Topic
@@ -804,14 +806,18 @@ void displayATopic(int topicID) {
 }
 
 void displayAPost(int postID) {
-	Post currentPost = postList.get(postID - 1001);
+	Post userPost = postList.get(postID - 1001);
 	string option = "1";
-
+	bool success = userPost.getAuthor() == currentUser.getUserName();
 	while (option != "0") {
+		Post currentPost = postList.get(postID - 1001);
 		currentPost.print();
-		cout << endl;
 		cout << "[1] Reply to post " << endl;
 		cout << "[2] View replies" << endl;
+		if (success) {
+			cout << "[3] Delete post" << endl;
+			cout << "[4] Edit post" << endl;
+		}
 		cout << "[0] Back to user home" << endl;
 		cout << "Enter option: ";
 
@@ -823,12 +829,32 @@ void displayAPost(int postID) {
 			system("cls");
 			replyProcess(currentPost);
 		}
-		else if (option == "3") {
-			cout << "Next page" << endl;
+		else if (option == "3" && success) {
+			string confirmDelete;
+			Post postDeleted;
+			postDeleted = postList.get(postID - 1001);
+			cout << "Confirm delete? (Y/N): ";
+			cin >> confirmDelete;
+			if (confirmDelete == "Y" || confirmDelete == "y")
+			{
+				postList.remove(postID - 1001);
+				//Should look for relavant replies and delete
+				/*for (int i = 0; i < postList.getLength(); i++) {
+					Post currentPost = postList.get(i);
+					if (currentPost.getTopic() == postDeleted.getTopic())
+						postList.remove(i);
+				}*/
+				updatePostData();
+				system("cls");
+				cout << postDeleted.getTopic() << " is deleted." << endl;
+			}
+			else {
+				system("cls");
+			}
 		}
-		else if (option == "4") {
-			createPost();
+		else if (option == "4" && success) {
 			system("cls");
+			editPost(postID, currentPost);
 
 		}
 		else if (option == "0") {
@@ -858,18 +884,17 @@ void displayUserPosts() {
 		cout << "[1] View a Post " << endl;
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
-		cout << "[4] Delete a Post" << endl;
 		cout << "[0] Back" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
-			int topicID;
+			int postID;
 			cout << "Enter ID: ";
-			cin >> topicID;
-			if (postIDValidation(topicID)) {
+			cin >> postID;
+			if (postIDValidation(postID)) {
 				system("cls");
-				displayATopic(topicID);
+				displayAPost(postID);
 			}
 			else {
 				system("cls");
@@ -898,41 +923,6 @@ void displayUserPosts() {
 			system("cls");
 			cout << "Sorted by Popularity.";
 		}
-		else if (option == "4") {
-			int postID;
-			string confirmDelete;
-			Post postDeleted;
-			cout << "Enter Post ID to be deleted: ";
-			cin >> postID;
-			if (postID - 1001 < postList.getLength() && postID - 1001 >= 0) {
-				postDeleted = postList.get(postID - 1001);
-				if (postDeleted.getAuthor() == currentUser.getUserName()) {
-					cout << "Do you sure want to remove post index of " << postID << "? (Y/N): ";
-					cin >> confirmDelete;
-					if (confirmDelete == "Y" || confirmDelete == "y")
-					{
-						postList.remove(postID - 1001);
-						deleteRelavantPostData(postDeleted);
-						updatePostData();
-						updateReplyData();
-						system("cls");
-						cout << postDeleted.getTitle() << " is deleted." << endl;
-					}
-					else {
-						system("cls");
-					}
-				}
-				else {
-					system("cls");
-					cout << "You do not have the permission to delete other user' post" << endl;
-				}
-
-			}
-			else {
-				system("cls");
-				cout << "Invalid Post ID." << endl;
-			}
-		}
 		else if (option == "3") {
 			cout << "Create new posts" << endl;
 		}
@@ -953,6 +943,10 @@ void replyProcess(Post currentPost) {
 	string topic = currentPost.getTopic();
 	string author = currentPost.getAuthor();
 	while (option != "0") {
+		cout << "Topic - " + topic << endl;
+		cout << "----------------------------------------------------" << endl;
+		cout << currentPost.getMessage() << endl;
+		cout << "----------------------------------------------------" << endl;
 		replyList.display(title, topic, author);
 		cout << endl;
 		cout << "[1] Reply to post " << endl;
@@ -1062,6 +1056,60 @@ void createPost() {
 	}
 	else
 		cout << "Saved Error!" << endl;
+}
+
+void editPost(int postID, Post currentPost) {
+	string option = "1";
+	Post newPost = currentPost;
+	while (option != "0") {
+		newPost.print();
+		cout << "[1] Edit title " << endl;
+		cout << "[2] Edit description" << endl;
+		cout << "[3] Edit message" << endl;
+		cout << "[0] Back to user home" << endl;
+		cout << "Enter option: ";
+		cin >> option;
+		if (option == "1") {
+			string title;
+			cout << "-----------------------" << endl;
+			cout << "New title: ";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			getline(cin, title);
+			newPost.setTitle(title);
+			system("cls");
+			cout << "Title has been updated successfuly." << endl << endl;
+		}
+		else if (option == "2") {
+			string description;
+			cout << "-----------------------" << endl;
+			cout << "New description: ";
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			getline(cin, description);
+			newPost.setDescription(description);
+			system("cls");
+			cout << "Description has been updated successfuly." << endl << endl;
+		}
+		else if (option == "3") {
+			string message;
+			cout << "-----------------------" << endl;
+			cout << "New message: " << endl;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			getline(cin, message);
+			newPost.setMessage(message);
+			system("cls");
+			cout << "Message has been updated successfuly." << endl << endl;
+		}
+		else if (option == "0") {
+			system("cls");
+		}
+		else {
+			system("cls");
+			cout << "Sorry. You have entered an invalid option." << endl;
+		}
+		postList.remove(postID - 1001);
+		postList.add(postID - 1001, newPost);
+		updatePostData();
+	}
 }
 void deleteRelavantPostData(Post& postDeleted) {
 	//look for relavant replies and delete

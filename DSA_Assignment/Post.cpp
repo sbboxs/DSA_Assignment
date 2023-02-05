@@ -35,7 +35,7 @@ void Post::addReply(Reply& reply, ReplyList& replyList)
 
 void Post::print()
 {
-	printf("%s - %s (%s)", "Title", title.c_str(), topic.c_str());
+	printf("%s (%s)", title.c_str(), topic.c_str());
 	cout << endl << "--------------------------------------------- " << endl;
 	cout << "About - " << description << endl;;
 	cout << "--------------------------------------------- " << endl;
