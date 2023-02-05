@@ -7,10 +7,13 @@
 #include <iomanip>
 using namespace std;
 
+// Constructor
 ReplyList::ReplyList() {
 	size = 0;
 	firstNode = NULL;
 }
+
+// Destructor
 ReplyList::~ReplyList() {
 	Node* temp = firstNode;
 	while (temp) {
@@ -19,6 +22,8 @@ ReplyList::~ReplyList() {
 		temp = next;
 	}
 }
+
+// Check if reply list is empty, return true if empty
 bool ReplyList::isEmpty() {
 	return firstNode == NULL;
 }
@@ -39,6 +44,8 @@ bool ReplyList::add(Reply item) {
 	size += 1;
 	return true;
 }
+
+// Add a reply to a specfic location of the reply list
 bool ReplyList::add(int index, Reply item) {
 	if (index <= size && index >= 0) {
 		Node* newNode = new Node;
@@ -63,6 +70,8 @@ bool ReplyList::add(int index, Reply item) {
 		return false;
 	}
 }
+
+// Remove a reply by the specific location
 void ReplyList::remove(int index) {
 	if (index <= size && index >= 0) {
 		if (index == 0) {
@@ -82,6 +91,8 @@ void ReplyList::remove(int index) {
 		size -= 1;
 	}
 }
+
+// Get the reply by its index
 Reply ReplyList::get(int index) {
 	if (index <= size && index >= 0) {
 		Node* temp = firstNode;
@@ -91,19 +102,23 @@ Reply ReplyList::get(int index) {
 		return temp->item;
 	}
 }
+
+// Get the length of reply list
 int ReplyList::getLength() {
 	return size;
 }
+
+// Display the replies
 void ReplyList::display(string title, string topic, string author) {
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
 		while (tempNode != NULL) {
 			if (tempNode->item.getTitle() == title && tempNode->item.getTopic() == topic) {
-				printf("@%s ", tempNode->item.getAuthor().c_str());
+				printf("@%s ", tempNode->item.getAuthor());
 				cout << endl << "----------------------------" << endl;
-				cout << tempNode->item.getReply().c_str() << endl << endl;
-				cout << "Replied on " << tempNode->item.getDate().c_str() << endl;
+				cout << tempNode->item.getReply() << endl << endl;
+				cout << "Replied on " << tempNode->item.getDate() << endl;
 				cout << "----------------------------------------------------" << endl;
 			}
 			tempNode = tempNode->next;

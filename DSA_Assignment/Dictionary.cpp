@@ -13,6 +13,7 @@ Dictionary::Dictionary() {
 	}
 }
 
+//Destructor
 Dictionary::~Dictionary() {
 	for (int i = 0; i < MAX_SIZE; i++) {
 		Node* current = items[i];

@@ -136,9 +136,10 @@ void loadUserData() {
 }
 
 //=========
-//Document me please.
+//This function is used to load all the topics data and store into the global topicList
 void loadTopicData() {
 	//Loading topic data
+	//Check if file exist, if not create one.
 	inFile.open("topic.txt");
 	if (inFile.fail()) {
 		ofstream outFile;
@@ -161,9 +162,10 @@ void loadTopicData() {
 }
 
 //=========
-//Document me please.
+//This function is used to load the post data and store it into the global postList
 void loadPostData() {
 	//Load post data
+	//Check if file exist if not create one
 	string filename = "post.txt";
 	inFile.open(filename);
 	if (inFile.fail()) {
@@ -186,9 +188,11 @@ void loadPostData() {
 		inFile.close();
 	}
 }
-
+//=========
+//This function is used to load the reply data and store it into the global replyList
 void loadReplyData() {
 	//Load post data
+	//Check if file exist if not create one
 	string filename = "reply.txt";
 	inFile.open(filename);
 	if (inFile.fail()) {
@@ -211,8 +215,9 @@ void loadReplyData() {
 		inFile.close();
 	}
 }
+
 //=========
-//This function is to save user data into the file. The newest user data will be appended to the end of the file.
+//This function is to save user data into the file. The newest user data will be appended to the end of the file instead of overwritting the whole file.
 //The user is the parameter.
 void saveUserData(User& newUser) {
 	//Second flag 'ios::app' allows to open the file in append mode.
@@ -232,7 +237,7 @@ void saveUserData(User& newUser) {
 }
 
 //=========
-//Document me please.
+//This function will save topic data into the file by appending to the last line instead of overwritting.
 void saveTopicData(Topic& newTopic) {
 	outFile.open("topic.txt", ios::app);
 	if (outFile.fail()) {
@@ -250,7 +255,7 @@ void saveTopicData(Topic& newTopic) {
 }
 
 //=========
-//Document me please.
+//This function will save the post data into the file by appending to the last line instead of overwritting.
 void savePostData(Post& newPost) {
 	//Second flag 'ios::app' allows to open the file in append mode.
 	//Therefore, there no need to overwritten the file everytime when save.
@@ -270,7 +275,7 @@ void savePostData(Post& newPost) {
 }
 
 //=========
-//Document me please.
+//This function will sasve the reply data into the file by appending to the last line instead of overwritting
 void saveReplyData(Reply &newReply) {
 	string filename = "reply.txt";
 	outFile.open(filename, ios::app);
@@ -287,7 +292,7 @@ void saveReplyData(Reply &newReply) {
 }
 
 //=========
-//Document me please.
+//This function is used to update the topic data by overwritting the whole data file. 
 void updateTopicData() {
 	Topic updateTopic;
 	outFile.open("topic.txt");
@@ -301,7 +306,7 @@ void updateTopicData() {
 }
 
 //=========
-//Document me please.
+//This function is used to update the post data by overwritting the whole data file.
 void updatePostData() {
 	Post updatePost;
 	outFile.open("post.txt");
@@ -314,6 +319,8 @@ void updatePostData() {
 	outFile.close();
 }
 
+//=========
+//This function is used to update the reply data by overwritting the whole data file.
 void updateReplyData() {
 	Reply updateReply;
 	outFile.open("reply.txt");
@@ -325,6 +332,7 @@ void updateReplyData() {
 	}
 	outFile.close();
 }
+
 //=========
 //This function is to print the layout of the homepage. Do not have any input parameters and return value.
 void displayHome() {
@@ -498,6 +506,10 @@ bool userHomeProcess() {
 	return true;
 }
 
+//=========
+//This function is used to choose the page number to be viewed
+//It will check if the target page number is not null and not higher than the total pages.
+//If success it will return target pages else the current pages.
 int choosePageNo(int target, int total, int current) {
 	if (target <= total && target != 0)
 	{
@@ -512,8 +524,10 @@ int choosePageNo(int target, int total, int current) {
 		return current;
 	}
 }
+
 //=========
-//Document me please.
+//This function is used to display the layout of all topics with paging and control of the flow.
+//The user is allow to do several action such as view a topic, view a specific page number or sort by popularity
 void displayTopics() {
 	string option = "1";
 	int totalPages = 0;
@@ -533,7 +547,10 @@ void displayTopics() {
 		cout << "----------------------------------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Topic " << endl;
 		cout << "[2] View page number" << endl;
-		cout << "[3] Sort by popularity" << endl;
+		if (sortingMethod == "Default")
+			cout << "[3] Sort by popularity" << endl;
+		else
+			cout << "[3] Sort by default" << endl;
 		cout << "[4] Create new Topic" << endl;
 		cout << "[0] Back to home page" << endl;
 		cout << "---------------------------" << endl;
@@ -562,10 +579,18 @@ void displayTopics() {
 		}
 		//Sort by popularity
 		else if (option == "3") {
-			sortingMethod = "Popularity";
-			topicList.sort(sortedList);
-			system("cls");
-			cout << "Sorted by Popularity." << endl;
+			if (sortingMethod == "Default")
+			{
+				sortingMethod = "Popularity";
+				topicList.sort(sortedList);
+				system("cls");
+				cout << "Sorted by Popularity." << endl;
+			}
+			else {
+				sortingMethod = "Default";
+				system("cls");
+				cout << "Sorted by Default." << endl;
+			}
 		}
 
 		else if (option == "4") {
@@ -586,7 +611,9 @@ void displayTopics() {
 }
 
 //=========
-//Document me please.
+//This function is used to display the layouts of all topics with paging created by the user. 
+//The action can peformed by the user is overall same as displayAll topics 
+//just the user can do action such as delete a topic from here.
 void displayUserTopics() {
 	string option = "1";
 	int totalPages = 0;
@@ -714,7 +741,8 @@ void displayUserTopics() {
 }
 
 //=========
-//Document me please.
+//This function will display all the post with paging under the selected topics.
+//The user can do action such as view a post and create new post from here.
 void displayATopic(int topicID) {
 	string option = "1";
 	currentTopic = topicList.get(topicID - 1001);
@@ -782,6 +810,10 @@ void displayATopic(int topicID) {
 	}
 }
 
+//=========
+//This function will display the details of a selected posts.
+//The user will be able to delete or edit the post if they are the owner of the post 
+//else they an only reply and view replies here.
 void displayAPost(int postID, int topicID) {
 	Post userPost = postList.get(postID - 1001);
 	Topic currentTopic = topicList.get(topicID - 1001);
@@ -858,7 +890,8 @@ void displayAPost(int postID, int topicID) {
 	}
 }
 //=========
-//Document me please.
+//This function will display all the post with paging that belongs to the user.
+//The user can view post and create post from here.
 void displayUserPosts() {
 	string option = "1";
 	int totalPages = 0;
@@ -919,6 +952,8 @@ void displayUserPosts() {
 	}
 }
 
+//=========
+//This function display the replies and control the process of replies.
 void replyProcess(Post currentPost) {
 	string option = "1";
 	string title = currentPost.getTitle();
@@ -954,6 +989,9 @@ void replyProcess(Post currentPost) {
 		}
 	}
 }
+
+//=========
+//This function is use to handle reply created of the post.
 void createReply(Post post) {
 	string message;
 	Reply newReply;
@@ -983,6 +1021,9 @@ void createReply(Post post) {
 	else
 		cout << "Saved Error!" << endl;
 }
+
+//=========
+//This function is to check the uniqueness of the topic. This avoid duplicate topic to be created.
 bool checkTopic(string title) {
 	string topic;
 	transform(title.begin(), title.end(), title.begin(), ::toupper);
@@ -995,8 +1036,9 @@ bool checkTopic(string title) {
 	}
 	return true;
 }
+
 //=========
-//Document me please.
+//This function is used to control the flow of creating topic,
 void createTopic() {
 	string title;
 	int totalTopic = 0;
@@ -1022,8 +1064,9 @@ void createTopic() {
 	}
 }
 
+
 //=========
-//Document me please.
+//This function is use to control the process of create post.
 void createPost() {
 	cout << endl;
 	string message, title, description;
@@ -1046,6 +1089,8 @@ void createPost() {
 	newPost.setAuthor(currentUser.getUserName());
 	if (currentTopic.addPost(newPost)) {
 		savePostData(newPost);
+		currentTopic.updateTotalPost();
+		updateTopicData();
 		postList.add(newPost);
 		cout << "New post is created succesfully!" << endl << endl;
 	}
@@ -1053,6 +1098,8 @@ void createPost() {
 		cout << "Saved Error!" << endl << end;
 }
 
+//=========
+//This function is use to control the process of user editing their post.
 void editPost(int postID, Post currentPost) {
 	string option = "1";
 	Post newPost = currentPost;
@@ -1106,6 +1153,8 @@ void editPost(int postID, Post currentPost) {
 		updatePostData();
 	}
 }
+
+//This function is use to delete all the relavant post data such as the reply, if the post is to be deleted.
 void deleteRelavantPostData(Post& postDeleted) {
 	//look for relavant replies and delete
 	for (int i = 0; i < replyList.getLength(); i++) {
@@ -1114,8 +1163,9 @@ void deleteRelavantPostData(Post& postDeleted) {
 			replyList.remove(i);
 	}
 }
+
 //=========
-//Document me please.
+//This function is used to check if the topicID key in is a valid one.
 bool topicIDValidation(int topicID) {
 	if (topicID - 1001 < topicList.getLength() && topicID - 1001 >= 0) {
 		return true;
@@ -1124,7 +1174,7 @@ bool topicIDValidation(int topicID) {
 }
 
 //=========
-//Document me please.
+//This function is used to check if the postID key in is a valid one.
 bool postIDValidation(int postID) {
 	if (postID - 1001 < postList.getLength() && postID - 1001 >= 0) {
 		return true;

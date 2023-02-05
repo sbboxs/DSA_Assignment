@@ -25,6 +25,7 @@ public:
 	//Methods 
 	Topic();
 	Topic(string topic, string auth, int totalPost);
+	void updateTotalPost();
 	bool addPost(Post& post);
 	void print();
 

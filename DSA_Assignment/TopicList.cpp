@@ -8,11 +8,13 @@
 #include <iomanip>
 using namespace std;
 
-
+// Constructor
 TopicList::TopicList() {
 	size = 0;
 	firstNode = NULL;
 }
+
+// Destructor
 TopicList::~TopicList() {
 	Node* temp = firstNode;
 	while (temp) {
@@ -21,9 +23,13 @@ TopicList::~TopicList() {
 		temp = next;
 	}
 }
+
+// Check if empty
 bool TopicList::isEmpty() {
 	return firstNode == NULL;
 }
+
+// Add a topic item into the list, if success return true
 bool TopicList::add(Topic item) {
 	Node* newNode = new Node;
 	newNode->item = item;
@@ -41,6 +47,8 @@ bool TopicList::add(Topic item) {
 	size += 1;
 	return true;
 }
+
+// Add a topic item into a specfic location in the list, if succeess return true
 bool TopicList::add(int index, Topic item) {
 	if (index <= size && index >= 0) {
 		Node* newNode = new Node;
@@ -65,6 +73,8 @@ bool TopicList::add(int index, Topic item) {
 		return false;
 	}
 }
+
+// Remove a topic item in the specfic index
 void TopicList::remove(int index) {
 	if (index <= size && index >= 0) {
 		if (index == 0) {
@@ -85,6 +95,7 @@ void TopicList::remove(int index) {
 	}
 }
 
+// Return the topic item found at the index
 Topic TopicList::get(int index) {
 	if (index <= size && index >= 0) {
 		Node* temp = firstNode;
@@ -95,6 +106,7 @@ Topic TopicList::get(int index) {
 	}
 }
 
+// Get the index by searching of the topic
 int TopicList::get(string topic) {
 	Node* tempNode = firstNode;
 	for (int i = 0; i < size; i++) {
@@ -105,10 +117,12 @@ int TopicList::get(string topic) {
 	}
 }
 
+// Get the length of the list
 int TopicList::getLength() {
 	return size;
 }
 
+// Display the topics in list by paging and the targeted page
 int TopicList::displayPages(int targetPage, string username) {
 	if (isEmpty()) {
 		cout << "No Topics yet" << endl;
@@ -192,12 +206,14 @@ int TopicList::displayPages(int targetPage, string username) {
 	return totalPages;
 }
 
+//Use to mergesort link list from small to large
 void TopicList::sort(TopicList& sortedList) {
 	Node* sortedListHead = sort(firstNode, size);
 	sortedList.firstNode = sortedListHead;
 	sortedList.size = size;
 }
 
+//Helper function for merge sort to separete link to to half and sort
 TopicList::Node* TopicList::sort(Node* currentNode, int listSize) {
 	//Base case
 	if (listSize == 1) 
@@ -211,6 +227,7 @@ TopicList::Node* TopicList::sort(Node* currentNode, int listSize) {
 	return mergeLists(leftList, leftListSize, rightList, rightListSize);
 }
 
+// helper function of merge sort to merge the left and right list
 TopicList::Node* TopicList::mergeLists(Node* leftList, int leftListSize, Node* rightList, int rightListSize) {
 	Node tempNode;
 	Node* tail = &tempNode;
@@ -233,6 +250,7 @@ TopicList::Node* TopicList::mergeLists(Node* leftList, int leftListSize, Node* r
 	return tempNode.next;
 }
 
+// helper function of merge sort to get the middle node
 TopicList::Node* TopicList::getMiddleNode(Node* currentNode, int listSize) {
 	Node* temp = currentNode;
 	for (int i = 0; i < listSize / 2; i++) {

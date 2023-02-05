@@ -41,6 +41,7 @@ public:
 	// get an item at a specified position of the list (retrieve)
 	Topic get(int index);
 
+	// get the index by search topic
 	int get(string topic);
 
 	// check if the list is empty
