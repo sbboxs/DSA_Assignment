@@ -94,6 +94,16 @@ Topic TopicList::get(int index) {
 	}
 }
 
+int TopicList::get(string topic) {
+	Node* tempNode = firstNode;
+	for (int i = 0; i < size; i++) {
+		if (tempNode->item.getTopic().c_str() == topic) {
+			return i;
+		}
+		tempNode = tempNode->next;
+	}
+}
+
 int TopicList::getLength() {
 	return size;
 }

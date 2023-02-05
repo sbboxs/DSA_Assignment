@@ -40,6 +40,7 @@ public:
 	// get an item at a specified position of the list (retrieve)
 	Post get(int index);
 
+	int get(string topic);
 	// check if the list is empty
 	bool isEmpty();
 

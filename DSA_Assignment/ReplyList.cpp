@@ -102,7 +102,7 @@ void ReplyList::display(string title, string topic, string author) {
 			if (tempNode->item.getTitle() == title && tempNode->item.getTopic() == topic) {
 				printf("@%s has replied: ", tempNode->item.getAuthor().c_str());
 				cout << endl << tempNode->item.getReply().c_str() << endl << endl;
-				cout << "Replied on " << tempNode->item.getDate().c_str();
+				cout << "Replied on " << tempNode->item.getDate().c_str() << endl;
 				cout << "----------------------------------------------------" << endl;
 			}
 			tempNode = tempNode->next;
