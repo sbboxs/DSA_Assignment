@@ -68,10 +68,6 @@ string Post::getDescription()
 	return description;
 }
 
-ReplyList& Post::getReplies()
-{
-	return replyList;
-}
 
 void Post::setMessage(string msg)
 {

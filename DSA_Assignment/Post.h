@@ -21,7 +21,6 @@ private:
 	string title;
 	string author;
 	string description;
-	ReplyList replyList;
 
 public:
 	//Methods
@@ -37,7 +36,6 @@ public:
 	string getTitle();
 	string getAuthor();
 	string getDescription();
-	ReplyList& getReplies();
 
 	//Setter
 	void setMessage(string msg);

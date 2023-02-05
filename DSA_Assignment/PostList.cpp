@@ -90,6 +90,16 @@ Post PostList::get(int index) {
 	}
 }
 
+int PostList::get(string topic) {
+	Node* tempNode = firstNode;
+	for (int i = 0; i < size; i++) {
+		if (tempNode->item.getTopic().c_str() == topic) {
+			return i;
+		}
+		tempNode = tempNode->next;
+	}
+}
+
 bool PostList::isEmpty() {
 	return size == 0;
 }

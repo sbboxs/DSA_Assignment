@@ -95,6 +95,16 @@ Topic TopicList::get(int index) {
 	}
 }
 
+int TopicList::get(string topic) {
+	Node* tempNode = firstNode;
+	for (int i = 0; i < size; i++) {
+		if (tempNode->item.getTopic().c_str() == topic) {
+			return i;
+		}
+		tempNode = tempNode->next;
+	}
+}
+
 int TopicList::getLength() {
 	return size;
 }
@@ -113,11 +123,12 @@ int TopicList::displayPages(int targetPage, string username) {
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
-		//Header
-		cout << left << setw(20) << "ID"<< setw(30) << "Discussion Topic" << setw(25) << "Total Posts" << endl;
-
 		int topicsPrinted = 0;
 		if (username != "") {
+			//Header
+			cout << left << setw(25) << "ID" << setw(50) << "Discussion Topic" << "Total Posts" << endl;
+			cout << left << setw(25) << "----"
+				<< setw(50) << "----------------" << "----------" << endl;
 			//Get total topics created by user
 			while (tempNode != NULL) {
 				if (tempNode->item.getAuthor() == username)
@@ -134,7 +145,8 @@ int TopicList::displayPages(int targetPage, string username) {
 				if (tempNode->item.getAuthor() == username) {
 					//Check if in the range of target page
 					if (topicsFound >= topicsBeSkipped) {
-						cout << left << setw(20) << count << setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getTotalPost() << endl;
+						cout << left << setw(25) << count << setw(50) << tempNode->item.getTopic()
+							<< setw(25) << tempNode->item.getTotalPost() << endl;
 						topicsPrinted += 1;
 					}
 					if (topicsPrinted == topicsPerPage)
@@ -148,10 +160,17 @@ int TopicList::displayPages(int targetPage, string username) {
 			}
 		}
 		else {
+			//Header
+			cout << left << setw(25) << "ID" << setw(50) << "Discussion Topic" << setw(25)
+				<< "Total Posts" << "Created by" << endl;
+			cout << left << setw(25) << "----"
+				<< setw(50) << "----------------" << setw(25) << "-----------" << "----------" << endl;
 			totalPages = ceil(size / (double)topicsPerPage);
 			while (tempNode != NULL) {
 				if (topicsFound >= topicsBeSkipped) {
-					cout << left << setw(20) << count << setw(30) << tempNode->item.getTopic() << setw(25) << tempNode->item.getTotalPost() << endl;
+					cout << left << setw(25) << count
+						<< setw(50) << tempNode->item.getTopic() << setw(25) << tempNode->item.getTotalPost()
+						<< tempNode->item.getAuthor() << endl;
 					topicsPrinted++;
 				}
 				if (topicsPrinted == topicsPerPage) {
