@@ -1,4 +1,3 @@
-Dictionary;1;18
 asda;1;1
 C;1;10
 topicByNewUser;Imnew;3
@@ -10,12 +9,12 @@ C;1;8
 topicByNewUser;Imnew;17
 31231312312312;1;2
 adsad;1;1
-Dictionary;1
-asda;1
-C;1
-topicByNewUser;Imnew
-31231312312312;1
-adsad;1
+Dictionary;1;1
+asda;1;1
+C;1;1
+topicByNewUser;Imnew;1
+31231312312312;1;1
+adsad;1;1
 c;1;0
 lame;1;0
 c;1;0
@@ -30,3 +29,4 @@ ce;1;0
 daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;1;0
 adsfa;1;0
 dasdas;1;0
+awerdfqwe;1;0

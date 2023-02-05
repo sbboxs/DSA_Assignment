@@ -115,8 +115,6 @@ int main()
 void loadUserData() {
 	inFile.open("user.txt");
 	if (inFile.fail()) {
-		cout << "No user data exist!" << endl;
-		cout << "Creating user data file..." << endl;
 		ofstream outFile;
 		outFile.open("user.txt");
 		outFile.close();
@@ -144,8 +142,6 @@ void loadTopicData() {
 	//Check if file exist, if not create one.
 	inFile.open("topic.txt");
 	if (inFile.fail()) {
-		cout << "No topic is exist!" << endl;
-		cout << "Creating topic file..." << endl;
 		ofstream outFile;
 		outFile.open("topic.txt");
 		outFile.close();
@@ -173,8 +169,6 @@ void loadPostData() {
 	string filename = "post.txt";
 	inFile.open(filename);
 	if (inFile.fail()) {
-		cout << "No post is exist!" << endl;
-		cout << "Creating post file..." << endl;
 		ofstream outFile;
 		outFile.open(filename);
 		outFile.close();
@@ -202,8 +196,6 @@ void loadReplyData() {
 	string filename = "reply.txt";
 	inFile.open(filename);
 	if (inFile.fail()) {
-		cout << "No reply is exist!" << endl;
-		cout << "Creating reply file..." << endl;
 		ofstream outFile;
 		outFile.open(filename);
 		outFile.close();
@@ -233,18 +225,14 @@ void saveUserData(User& newUser) {
 	//Newest data will just be appended at the end of the file.
 	outFile.open("user.txt", ios::app);
 	if (outFile.fail()) {
-		cout << endl << "No user data file is found!" << endl;
-		cout << endl << "Creating user data file..." << endl;
 		ofstream outFile;
 		outFile.open("user.txt");
 		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
 		outFile.close();
-		cout << "User data is saved!" << endl;
 	}
 	else {
 		outFile << newUser.getUserName() << ";" << newUser.getPassword() << ";" << newUser.getIsLogin() << endl;
 		outFile.close();
-		cout << "User data is saved!" << endl;
 	}
 }
 
@@ -259,12 +247,10 @@ void saveTopicData(Topic& newTopic) {
 		outFile.open("topic.txt");
 		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << ";" << newTopic.getTotalPost() << endl;;
 		outFile.close();
-		cout << "Topic data is saved!" << endl;
 	}
 	else {
 		outFile << newTopic.getTopic() << ";" << newTopic.getAuthor() << ";" << newTopic.getTotalPost() << endl;;
 		outFile.close();
-		cout << "Topic data is saved!" << endl;
 	}
 }
 
@@ -277,18 +263,14 @@ void savePostData(Post& newPost) {
 	string filename = "post.txt";
 	outFile.open(filename, ios::app);
 	if (outFile.fail()) {
-		cout << endl << "No post data file is found!" << endl;
-		cout << endl << "Creating post data file..." << endl;
 		ofstream outFile;
 		outFile.open(filename);
 		outFile << newPost.getTitle() << ";" << newPost.getDescription() << ";" << newPost.getMessage() << ";" << newPost.getAuthor() << ";" << newPost.getTopic() << endl;
 		outFile.close();
-		cout << "Post data is saved!" << endl;
 	}
 	else {
 		outFile << newPost.getTitle() << ";" << newPost.getDescription() << ";" << newPost.getMessage() << ";" << newPost.getAuthor() << ";" << newPost.getTopic() << endl;
 		outFile.close();
-		cout << "Post data is saved!" << endl;
 	}
 }
 
@@ -298,8 +280,6 @@ void saveReplyData(Reply &newReply) {
 	string filename = "reply.txt";
 	outFile.open(filename, ios::app);
 	if (outFile.fail()) {
-		cout << endl << "No reply data file is found!" << endl;
-		cout << endl << "Creating reply data file..." << endl;
 		ofstream outFile;
 		outFile.open(filename);
 		outFile << newReply.getReply() << ";" << newReply.getAuthor() << ";" << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getDate() << endl;
@@ -317,15 +297,12 @@ void updateTopicData() {
 	Topic updateTopic;
 	outFile.open("topic.txt");
 	if (outFile.fail()) {
-		cout << endl << "No topic data file is found!" << endl;
-		cout << endl << "Creating topic data file..." << endl;
 	}
 	for (int i = 0; i < topicList.getLength(); i++) {
 		updateTopic = topicList.get(i);
 		outFile << updateTopic.getTopic() << ";" << updateTopic.getAuthor() << ";" << updateTopic.getTotalPost() << endl;;
 	}
 	outFile.close();
-	cout << "Topic data is updated!" << endl;
 }
 
 //=========
@@ -334,8 +311,6 @@ void updatePostData() {
 	Post updatePost;
 	outFile.open("post.txt");
 	if (outFile.fail()) {
-		cout << endl << "No post data file is found!" << endl;
-		cout << endl << "Creating post data file..." << endl;
 	}
 	for (int i = 0; i < postList.getLength(); i++) {
 		updatePost = postList.get(i);
@@ -350,15 +325,12 @@ void updateReplyData() {
 	Reply updateReply;
 	outFile.open("reply.txt");
 	if (outFile.fail()) {
-		cout << endl << "No reply data file is found!" << endl;
-		cout << endl << "Creating reply data file..." << endl;
 	}
 	for (int i = 0; i < replyList.getLength(); i++) {
 		updateReply = replyList.get(i);
 		outFile << updateReply.getTopic() << ";" << updateReply.getTitle() << ";" << updateReply.getAuthor() << ";" << updateReply.getDate() << ";" << updateReply.getReply() << endl;
 	}
 	outFile.close();
-	cout << "Post data is updated!" << endl;
 }
 
 //=========
@@ -385,8 +357,8 @@ bool loginProcess() {
 	while (loginOption != "0") {
 		cout << "Login Place!" << endl;
 		cout << "----------------------------" << endl;
-		cout << "[1] Key in login credentials. " << endl;
-		cout << "[0] Back to home page." << endl;
+		cout << "[1] Key in login credentials " << endl;
+		cout << "[0] Back to home page" << endl;
 		cout << "----------------------------" << endl;
 		cout << "Enter option: ";
 		cin >> loginOption;
@@ -441,8 +413,8 @@ void registerProcess() {
 	while (registerOption != "0") {
 		cout << "Registration Place!" << endl;
 		cout << "-----------------------" << endl;
-		cout << "[1] Key in registration credentials: " << endl;
-		cout << "[0] Back to login." << endl;
+		cout << "[1] Key in registration credentials " << endl;
+		cout << "[0] Back to login" << endl;
 		cout << "-----------------------" << endl;
 		cout << "Enter option: ";
 		cin >> registerOption;
@@ -722,16 +694,20 @@ void displayUserTopics() {
 					{
 						topicList.remove(topicID - 1001);
 						//Remove relavant post list
+						
 						for (int i = 0; i < postList.getLength(); i++) {
 							Post deletedPost = postList.get(i);
-							if (deletedPost.getTopic() == topicDeleted.getTopic())
+							cout << deletedPost.getTopic().c_str() << endl;
+							if (deletedPost.getTopic() == topicDeleted.getTopic()) {
 								deleteRelavantPostData(deletedPost);
+								postList.remove(i);
+							}
 						}
 						updateTopicData();
 						updatePostData();
+
 						updateReplyData();
-						system("cls");
-						cout << topicDeleted.getTopic() << " is deleted." << endl;
+						cout << topicDeleted.getTopic() << " is deleted." << endl << endl;
 					}
 					else {
 						system("cls");
@@ -744,8 +720,10 @@ void displayUserTopics() {
 
 			}
 			else {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				system("cls");
-				cout << "Invalid Topic ID." << endl;
+				cout << "Invalid Topic ID. Please try again." << endl << endl;
 			}
 		}
 
@@ -935,10 +913,6 @@ void displayUserPosts() {
 				system("cls");
 				Post currentPost = postList.get(postID-1001);
 				int topicID = topicList.get(currentPost.getTopic().c_str());
-				cout << topicID << endl;
-				cout << topicList.get(topicID).getTopic().c_str();
-				cout << currentPost.getTopic().c_str() << endl;
-				cout << postList.getLength();
 				displayAPost(postID, topicID+1001);
 			}
 			else {
