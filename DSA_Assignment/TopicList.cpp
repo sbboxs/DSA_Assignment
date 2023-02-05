@@ -108,12 +108,18 @@ int TopicList::displayPages(int targetPage, string username) {
 	bool success = !isEmpty();
 	Node* tempNode = firstNode;
 	if (success) {
+<<<<<<< HEAD
 		//Header
 		cout << left << setw(20) << "ID"
 			<< setw(30) << "Discussion Topic" << setw(25) << "Total Posts" << endl;
 
+=======
+>>>>>>> 942b6bbf81cc350a1d13ef3bac77887100686fa0
 		int topicsPrinted = 0;
 		if (username != "") {
+			//Header
+			cout << left << setw(20) << "ID"
+				<< setw(30) << "Discussion Topic" << endl;
 			//Get total topics created by user
 			while (tempNode != NULL) {
 				if (tempNode->item.getAuthor() == username)
@@ -145,11 +151,14 @@ int TopicList::displayPages(int targetPage, string username) {
 			}
 		}
 		else {
+			//Header
+			cout << left << setw(20) << "ID"
+				<< setw(30) << "Discussion Topic" << setw(20) << "Created by" << endl;
 			totalPages = ceil(size / (double)topicsPerPage);
 			while (tempNode != NULL) {
 				if (topicsFound >= topicsBeSkipped) {
 					cout << left << setw(20) << count
-						<< setw(30) << tempNode->item.getTopic() << endl;
+						<< setw(30) << tempNode->item.getTopic() << tempNode->item.getAuthor() << endl;
 					topicsPrinted++;
 				}
 				if (topicsPrinted == topicsPerPage) {

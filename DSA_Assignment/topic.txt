@@ -1,6 +1,26 @@
+<<<<<<< HEAD
 Dictionary;1;0
 asda;1;0
 C;1;0
 topicByNewUser;Imnew;0
 31231312312312;1;2
 adsad;1;1
+=======
+Dictionary;1
+asda;1
+C;1
+topicByNewUser;Imnew
+31231312312312;1
+adsad;1
+c;1;0
+lame;1;0
+c;1;0
+ASDA;1;0
+TOPICBYNEWUSER;1;0
+topicbynewuser;1;0
+fine;1;0
+0;1;0
+bye;1;0
+ca;1;0
+ce;1;0
+>>>>>>> 942b6bbf81cc350a1d13ef3bac77887100686fa0
