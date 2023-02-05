@@ -39,6 +39,7 @@ bool loginProcess();
 void registerProcess();
 
 bool userHomeProcess();
+int choosePageNo(int target, int total, int current);
 void displayTopics();
 void displayUserTopics();
 void displayUserPosts();
@@ -207,11 +208,11 @@ void loadReplyData() {
 		string topic, title, author, date, reply;
 		while (getline(inFile, str) && str != "") {
 			stringstream ss(str);
+			getline(ss, reply, ';');
+			getline(ss, author, ';');
 			getline(ss, topic, ';');
 			getline(ss, title, ';');
-			getline(ss, author, ';');
 			getline(ss, date, ';');
-			getline(ss, reply, ';');
 			Reply loadReply(reply, author, topic, title, date);
 			replyList.add(loadReply);
 		}
@@ -296,11 +297,11 @@ void saveReplyData(Reply &newReply) {
 		cout << endl << "Creating reply data file..." << endl;
 		ofstream outFile;
 		outFile.open(filename);
-		outFile << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getAuthor() << ";" << newReply.getDate() << ";" << newReply.getReply() << endl;
+		outFile << newReply.getReply() << ";" << newReply.getAuthor() << ";" << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getDate() << endl;
 		outFile.close();
 	}
 	else {
-		outFile << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getAuthor() << ";" << newReply.getDate() << ";" << newReply.getReply() << endl;
+		outFile << newReply.getReply() << ";" << newReply.getAuthor() << ";" << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getDate() << endl;
 		outFile.close();
 	}
 }
@@ -525,6 +526,20 @@ bool userHomeProcess() {
 	return true;
 }
 
+int choosePageNo(int target, int total, int current) {
+	if (target <= total && target != 0)
+	{
+		system("cls");
+		return target;
+	}
+	else {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		system("cls");
+		cout << "Page is not found." << endl << endl;
+		return current;
+	}
+}
 //=========
 //Document me please.
 void displayTopics() {
@@ -570,18 +585,7 @@ void displayTopics() {
 		else if (option == "2") {
 			cout << "Enter page number: ";
 			cin >> targetPage;
-			if (targetPage <= totalPages && targetPage != 0)
-			{
-				currentPage = targetPage;
-				system("cls");
-				cout << "Now viewing page: " << targetPage << endl;
-			}
-			else {
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				system("cls");
-				cout << "Page is not found." << endl << endl;
-			}
+			currentPage = choosePageNo(targetPage, totalPages, currentPage);
 		}
 		//Sort by popularity
 		else if (option == "3") {
@@ -662,18 +666,7 @@ void displayUserTopics() {
 		else if (option == "2") {
 			cout << "Enter page number: ";
 			cin >> targetPage;
-			if (targetPage <= totalPages && targetPage != 0)
-			{
-				currentPage = targetPage;
-				system("cls");
-				cout << "Now viewing page: " << targetPage << endl;
-			}
-			else {
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				system("cls");
-				cout << "Page is not found." << endl << endl;
-			}
+			currentPage = choosePageNo(targetPage, totalPages, currentPage);
 		}
 		//Sort by popularity
 		else if (option == "3") {
@@ -784,16 +777,7 @@ void displayATopic(int topicID) {
 		else if (option == "2") {
 			cout << "Enter page number: ";
 			cin >> targetPage;
-			if (targetPage <= totalPages && targetPage != 0)
-			{
-				currentPage = targetPage;
-				system("cls");
-				cout << "Now viewing page: " << targetPage << endl;
-			}
-			else {
-				system("cls");
-				cout << "Page is not found." << endl;
-			}
+			currentPage = choosePageNo(targetPage, totalPages, currentPage);
 		}
 		//Sort by popularity
 		else if (option == "3") {
@@ -935,16 +919,7 @@ void displayUserPosts() {
 		else if (option == "2") {
 			cout << "Enter page number: ";
 			cin >> targetPage;
-			if (targetPage <= totalPages && targetPage != 0)
-			{
-				currentPage = targetPage;
-				system("cls");
-				cout << "Now viewing page: " << targetPage << endl;
-			}
-			else {
-				system("cls");
-				cout << "Page is not found." << endl;
-			}
+			currentPage = choosePageNo(targetPage, totalPages, currentPage);
 
 		}
 		//Sort by popularity
@@ -977,6 +952,8 @@ void replyProcess(Post currentPost) {
 		cout << "----------------------------------------------------" << endl;
 		printf("@%s: %s",author.c_str(), currentPost.getMessage().c_str());
 		cout << endl;
+		cout << "----------------------------------------------------" << endl;
+		cout << "Replies from all the users - " << endl;
 		cout << "----------------------------------------------------" << endl;
 		replyList.display(title, topic, author);
 		cout << endl;
@@ -1015,11 +992,12 @@ void createReply(Post post) {
 	Reply newReply;
 	struct tm newtime;
 	__time32_t aclock;
-	char buffer[32];
+	char date[32];
 	errno_t errNum;
 	_time32(&aclock);
 	_localtime32_s(&newtime, &aclock);
-	errNum = asctime_s(buffer, 32, &newtime);
+	errNum = asctime_s(date, 32, &newtime);
+	date[strlen(date) - 1] = '\0';
 	cout << "----------------------------------" << endl;
 	cout << "Enter your reply here: " << endl;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -1028,7 +1006,7 @@ void createReply(Post post) {
 	newReply.setTopic(post.getTopic());
 	newReply.setAuthor(currentUser.getUserName());
 	newReply.setTitle(post.getTitle());
-	newReply.setDate(buffer);
+	newReply.setDate(date);
 	if (replyList.add(newReply)) {
 		saveReplyData(newReply);
 		cout << "Reply has been added succesfully to the post!" << endl << endl;
@@ -1072,7 +1050,7 @@ void createTopic() {
 	}
 	else {
 		cout << "Name cannot be the same as existing topics! Please try again." << endl;
-		cout << "--------------------------------------------------------------" << endl << endl;
+		cout << "--------------------------------------------------------------" << endl;
 		createTopic();
 	}
 }
