@@ -1,4 +1,4 @@
-bet;nah;fine;1;Stack
+dd;nah;fine;1;Stack
 adasd;asdsad;asdsa;1;Stack
 asdasd;asdasd;asdas;1;Stack
 adasdsa;asdasd;adsad;1;Stack
@@ -22,5 +22,4 @@ new11;new11;new11;1;Stack
 new12;new12;new12;1;Stack
 new13;new13;new13;1;Stack
 new14;new14;new14;1;Stack
-
-ea sa dadas da;dsad as das;d asd as d;1;idk
+hi;nah bruh;ok its fine;1;Dictionary

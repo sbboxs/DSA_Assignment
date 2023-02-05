@@ -4,3 +4,14 @@ C;1
 topicByNewUser;Imnew
 31231312312312;1
 adsad;1
+c;1;0
+lame;1;0
+c;1;0
+ASDA;1;0
+TOPICBYNEWUSER;1;0
+topicbynewuser;1;0
+fine;1;0
+0;1;0
+bye;1;0
+ca;1;0
+ce;1;0

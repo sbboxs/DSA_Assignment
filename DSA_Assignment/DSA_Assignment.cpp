@@ -7,6 +7,7 @@
 #include <iostream>
 #include <time.h>  
 #include <stdio.h> 
+#include <algorithm> 
 #include <fstream>
 #include <sstream>
 #include "User.h"
@@ -47,6 +48,7 @@ void replyProcess(Post post);
 void createReply(Post post);
 void createPost();
 void editPost(int postID, Post currentPost);
+bool checkTopic(string title);
 void createTopic();
 
 void deleteRelavantPostData(Post& postDeleted);
@@ -80,6 +82,7 @@ int main()
 	loadUserData();
 	loadTopicData();
 	loadPostData();
+	loadReplyData();
 
 	//Controlling of Login & Registration
 	bool ifLogin = false;
@@ -304,12 +307,10 @@ void saveReplyData(Reply &newReply) {
 		outFile.open(filename);
 		outFile << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getAuthor() << ";" << newReply.getDate() << ";" << newReply.getReply() << endl;
 		outFile.close();
-		cout << "Reply data is saved!" << endl;
 	}
 	else {
 		outFile << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getAuthor() << ";" << newReply.getDate() << ";" << newReply.getReply() << endl;
 		outFile.close();
-		cout << "Reply data is saved!" << endl;
 	}
 }
 
@@ -597,13 +598,14 @@ void displayTopics() {
 		}
 
 		else if (option == "4") {
-			system("cls");
+			cout << "--------------------------------------------------------------" << endl;
+			cout << "Creating a new Topic!" << endl;
+			cout << "---------------------" << endl;
 			createTopic();
 		}
 
 		else if (option == "0") {
 			system("cls");
-			cout << "You have back to user home. ";
 		}
 		else {
 			system("cls");
@@ -632,7 +634,6 @@ void displayUserTopics() {
 		cout << "[5] Delete a Topic" << endl;
 		cout << "[0] Back" << endl;
 		cout << "Enter option: ";
-		cout << "--------------------------------" << endl;
 		cin >> option;
 		//View Topic
 		if (option == "1") {
@@ -673,6 +674,8 @@ void displayUserTopics() {
 			cout << "Sorted by Popularity.";
 		}
 		else if (option == "4") {
+			cout << "Creating a new Topic!" << endl;
+			cout << "---------------------" << endl;
 			createTopic();
 		}
 		//Delete Topic
@@ -945,7 +948,8 @@ void replyProcess(Post currentPost) {
 	while (option != "0") {
 		cout << "Topic - " + topic << endl;
 		cout << "----------------------------------------------------" << endl;
-		cout << currentPost.getMessage() << endl;
+		printf("@%s: %s",author.c_str(), currentPost.getMessage().c_str());
+		cout << endl;
 		cout << "----------------------------------------------------" << endl;
 		replyList.display(title, topic, author);
 		cout << endl;
@@ -1006,26 +1010,42 @@ void createReply(Post post) {
 	else
 		cout << "Saved Error!" << endl;
 }
+bool checkTopic(string title) {
+	string topic;
+	transform(title.begin(), title.end(), title.begin(), ::toupper);
+	for (int i = 0; i < topicList.getLength(); i++) {
+		topic = topicList.get(i).getTopic();
+		transform(topic.begin(), topic.end(), topic.begin(), ::toupper);
+		if (topic == title) {
+			return false;
+		}
+	}
+	return true;
+}
 //=========
 //Document me please.
 void createTopic() {
-	cout << endl;
 	string title;
 	int totalTopic = 0;
-	cout << "Creating new Topic!" << endl;
-	cout << "------------------" << endl;
 	cout << "Naame of Topic: ";
 	cin >> title;
-	Topic newTopic(title, currentUser.getUserName(), totalTopic);
-	if (topicList.add(newTopic)) {
-		saveTopicData(newTopic);
-		system("cls");
-		cout << "New Topic is created succesfully!" << endl;
+	if (checkTopic(title)) {
+		Topic newTopic(title, currentUser.getUserName(), totalTopic);
+		if (topicList.add(newTopic)) {
+			saveTopicData(newTopic);
+			system("cls");
+			cout << "New Topic is created succesfully!" << endl;
+		}
+		else
+		{
+			system("cls");
+			cout << "Saved Error!" << endl;
+		}
 	}
-	else
-	{
-		system("cls");
-		cout << "Saved Error!" << endl;
+	else {
+		cout << "Name cannot be the same as existing topics! Please try again." << endl;
+		cout << "--------------------------------------------------------------" << endl << endl;
+		createTopic();
 	}
 }
 

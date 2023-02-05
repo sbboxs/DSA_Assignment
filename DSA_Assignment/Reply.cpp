@@ -14,11 +14,11 @@ Reply::Reply()
 	date = "";
 }
 
-Reply::Reply(string message, string auth, string topic, string title, string dateTime)
+Reply::Reply(string message, string auth, string top, string title, string dateTime)
 {
 	replyMessage = message;
 	author = auth;
-	topic = topic;
+	topic = top;
 	postTitle = title;
 	date = dateTime;
 }
