@@ -22,14 +22,16 @@ using namespace std;
 void loadUserData();
 void loadTopicData();
 void loadPostData();
+void loadReplyData();
 
 void saveUserData(User& newUser);
 void saveTopicData(Topic& newTopic);
 void savePostData(Post& newPost);
-void saveReplyData();
+void saveReplyData(Reply& newReply);
 
 void updateTopicData();
 void updatePostData();
+void updateReplyData();
 
 void displayHome();
 bool loginProcess();
@@ -46,6 +48,8 @@ void createReply(Post post);
 void createPost();
 void editPost(int postID, Post currentPost);
 void createTopic();
+
+void deleteRelavantPostData(Post& postDeleted);
 
 bool topicIDValidation(int& topicID);
 bool postIDValidation(int& postID);
@@ -154,8 +158,8 @@ void loadTopicData() {
 			stringstream ss(str);
 			getline(ss, topic, ';');
 			getline(ss, author, ';');
-			Topic currentTopic(topic, author, pList);
-			topicList.add(currentTopic);
+			Topic loadTopic(topic, author, pList);
+			topicList.add(loadTopic);
 		}
 		inFile.close();
 		cout << "Topic data is loaded!" << endl;
@@ -166,7 +170,6 @@ void loadTopicData() {
 //Document me please.
 void loadPostData() {
 	//Load post data
-	/*string filename = "topic_" + currentTopic.getTopic() + "_Postdata.txt";*/
 	string filename = "post.txt";
 	inFile.open(filename);
 	if (inFile.fail()) {
@@ -185,14 +188,41 @@ void loadPostData() {
 			getline(ss, message, ';');
 			getline(ss, author, ';');
 			getline(ss, topic, ';');
-			Post currentPost(title, description, message, author, topic);
-			postList.add(currentPost);
+			Post loadPost(title, description, message, author, topic);
+			postList.add(loadPost);
 		}
 		inFile.close();
 		cout << "Post data is loaded!" << endl;
 	}
 }
 
+void loadReplyData() {
+	//Load post data
+	string filename = "reply.txt";
+	inFile.open(filename);
+	if (inFile.fail()) {
+		cout << "No reply is exist!" << endl;
+		cout << "Creating reply file..." << endl;
+		ofstream outFile;
+		outFile.open(filename);
+		outFile.close();
+	}
+	else {
+		string topic, title, author, date, reply;
+		while (getline(inFile, str) && str != "") {
+			stringstream ss(str);
+			getline(ss, topic, ';');
+			getline(ss, title, ';');
+			getline(ss, author, ';');
+			getline(ss, date, ';');
+			getline(ss, reply, ';');
+			Reply loadReply(reply, author, topic, title, date);
+			replyList.add(loadReply);
+		}
+		inFile.close();
+		cout << "Post data is loaded!" << endl;
+	}
+}
 //=========
 //This function is to save user data into the file. The newest user data will be appended to the end of the file.
 //The user is the parameter.
@@ -244,7 +274,6 @@ void savePostData(Post& newPost) {
 	//Therefore, there no need to overwritten the file everytime when save.
 	//Newest data will just be appended at the end of the file.
 	string filename = "post.txt";
-	//string filename = "topic_" + currentTopic.getTopic() + "_post_" + newPost.getPostID() + ".txt";
 	outFile.open(filename, ios::app);
 	if (outFile.fail()) {
 		cout << endl << "No post data file is found!" << endl;
@@ -264,22 +293,37 @@ void savePostData(Post& newPost) {
 
 //=========
 //Document me please.
-void saveReplyData() {
-
+void saveReplyData(Reply &newReply) {
+	string filename = "reply.txt";
+	outFile.open(filename, ios::app);
+	if (outFile.fail()) {
+		cout << endl << "No reply data file is found!" << endl;
+		cout << endl << "Creating reply data file..." << endl;
+		ofstream outFile;
+		outFile.open(filename);
+		outFile << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getAuthor() << ";" << newReply.getDate() << ";" << newReply.getReply() << endl;
+		outFile.close();
+		cout << "Reply data is saved!" << endl;
+	}
+	else {
+		outFile << newReply.getTopic() << ";" << newReply.getTitle() << ";" << newReply.getAuthor() << ";" << newReply.getDate() << ";" << newReply.getReply() << endl;
+		outFile.close();
+		cout << "Reply data is saved!" << endl;
+	}
 }
 
 //=========
 //Document me please.
 void updateTopicData() {
-	Topic currentTopic;
+	Topic updateTopic;
 	outFile.open("topic.txt");
 	if (outFile.fail()) {
 		cout << endl << "No topic data file is found!" << endl;
 		cout << endl << "Creating topic data file..." << endl;
 	}
 	for (int i = 0; i < topicList.getLength(); i++) {
-		currentTopic = topicList.get(i);
-		outFile << currentTopic.getTopic() << ";" << currentTopic.getAuthor() << endl;
+		updateTopic = topicList.get(i);
+		outFile << updateTopic.getTopic() << ";" << updateTopic.getAuthor() << endl;
 	}
 	outFile.close();
 	cout << "Topic data is updated!" << endl;
@@ -288,19 +332,33 @@ void updateTopicData() {
 //=========
 //Document me please.
 void updatePostData() {
-	Post currentPost;
+	Post updatePost;
 	outFile.open("post.txt");
 	if (outFile.fail()) {
 		cout << endl << "No post data file is found!" << endl;
 		cout << endl << "Creating post data file..." << endl;
 	}
 	for (int i = 0; i < postList.getLength(); i++) {
-		currentPost = postList.get(i);
-		outFile << currentPost.getTitle() << ";" << currentPost.getDescription() << ";" << currentPost.getMessage() << ";" << currentPost.getAuthor() << ";" << currentPost.getTopic() << endl;
+		updatePost = postList.get(i);
+		outFile <<updatePost.getTitle() << ";" << updatePost.getDescription() << ";" << updatePost.getMessage() << ";" << updatePost.getAuthor() << ";" << updatePost.getTopic() << endl;
 	}
 	outFile.close();
 }
 
+void updateReplyData() {
+	Reply updateReply;
+	outFile.open("reply.txt");
+	if (outFile.fail()) {
+		cout << endl << "No reply data file is found!" << endl;
+		cout << endl << "Creating reply data file..." << endl;
+	}
+	for (int i = 0; i < replyList.getLength(); i++) {
+		updateReply = replyList.get(i);
+		outFile << updateReply.getTopic() << ";" << updateReply.getTitle() << ";" << updateReply.getAuthor() << ";" << updateReply.getDate() << ";" << updateReply.getReply() << endl;
+	}
+	outFile.close();
+	cout << "Post data is updated!" << endl;
+}
 //=========
 //This function is to print the layout of the homepage. Do not have any input parameters and return value.
 void displayHome() {
@@ -633,12 +691,13 @@ void displayUserTopics() {
 						topicList.remove(topicID - 1001);
 						//Remove relavant post list
 						for (int i = 0; i < postList.getLength(); i++) {
-							Post currentPost = postList.get(i);
-							if (currentPost.getTopic() == topicDeleted.getTopic())
-								postList.remove(i);
+							Post deletedPost = postList.get(i);
+							if (deletedPost.getTopic() == topicDeleted.getTopic())
+								deleteRelavantPostData(deletedPost);
 						}
 						updateTopicData();
 						updatePostData();
+						updateReplyData();
 						system("cls");
 						cout << topicDeleted.getTopic() << " is deleted." << endl;
 					}
@@ -939,7 +998,7 @@ void createReply(Post post) {
 	newReply.setTitle(post.getTitle());
 	newReply.setDate(buffer);
 	if (replyList.add(newReply)) {
-		/*saveReplyData(newReply);*/
+		saveReplyData(newReply);
 		cout << "Reply has been added succesfully to the post!" << endl << endl;
 		system("pause");
 		system("cls");
@@ -1050,6 +1109,14 @@ void editPost(int postID, Post currentPost) {
 		postList.remove(postID - 1001);
 		postList.add(postID - 1001, newPost);
 		updatePostData();
+	}
+}
+void deleteRelavantPostData(Post& postDeleted) {
+	//look for relavant replies and delete
+	for (int i = 0; i < replyList.getLength(); i++) {
+		Reply deletedReply = replyList.get(i);
+		if (deletedReply.getAuthor() == postDeleted.getAuthor() && deletedReply.getTitle() == postDeleted.getTitle())
+			replyList.remove(i);
 	}
 }
 //=========
