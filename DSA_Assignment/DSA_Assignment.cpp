@@ -523,8 +523,9 @@ void displayTopics() {
 	TopicList sortedList;
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
-		cout << "You are now viewing all topics." << endl;
-		cout << "----------------------------------------------------------------------------------------------------------------" << endl;
+		cout << "---------------------" << endl;
+		cout << "Viewing all the topics..." << endl;
+		cout << endl <<  "----------------------------------------------------------------------------------------------------------------" << endl;
 		if (sortingMethod == "Default")
 			totalPages = topicList.displayPages(currentPage, "");
 		else
@@ -534,7 +535,7 @@ void displayTopics() {
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
 		cout << "[4] Create new Topic" << endl;
-		cout << "[0] Back" << endl;
+		cout << "[0] Back to home page" << endl;
 		cout << "---------------------------" << endl;
 		cout << "Enter option: ";
 		cin >> option;
@@ -594,8 +595,9 @@ void displayUserTopics() {
 	string sortingMethod = "Default";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
-		cout << "You are now viewing all your Topics" << endl;
-		cout << "----------------------------------------------------------------------------------------" << endl;
+		cout << "---------------------" << endl;
+		cout << "Viewing all your topics..." << endl;
+		cout << endl <<  "----------------------------------------------------------------------------------------" << endl;
 		totalPages = topicList.displayPages(currentPage, currentUser.getUserName());
 		cout << "----------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Topic " << endl;
@@ -706,7 +708,7 @@ void displayUserTopics() {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option." << endl << endl;
 		}
 	}
 }
@@ -723,10 +725,12 @@ void displayATopic(int topicID) {
 	string sortingMethod = "Default";
 
 	while (option != "0") {
-		cout << "Topic: " << currentTopic.getTopic() << endl;
-		cout << "--------------------------------" << endl;
+		cout << "C++ Programming Forum" << endl;
+		cout << "---------------------" << endl;
+		cout << "Viewing " + currentTopic.getTopic() + "..." << endl;
+		cout << endl << "-----------------------------------------------------------------------------------------------------------------"  << endl;
 		totalPages = postList.displayPagesByTopics(currentPage, currentTopic.getTopic());
-		cout << "--------------------------------" << endl;
+		cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Post " << endl;
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
@@ -761,21 +765,19 @@ void displayATopic(int topicID) {
 		else if (option == "3") {
 			sortingMethod = "Popularity";
 			system("cls");
-			cout << "Sorted by Popularity.";
+			cout << "Sorted by Popularity." << endl << endl;
 		}
 		else if (option == "4") {
-			cout << "Create new posts" << endl;
 			createPost();
 			system("cls");
 
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Back to discussion topic. ";
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << " You have entered an invalid option. Please try again." << endl << endl;
 		}
 	}
 }
@@ -788,6 +790,10 @@ void displayAPost(int postID, int topicID) {
 	while (option != "0") {
 		Post currentPost = postList.get(postID - 1001);
 		if (currentPost.getTopic() == currentTopic.getTopic()) {
+			cout << "C++ Programming Forum" << endl;
+			cout << "---------------------" << endl;
+			cout << "Viewing post..." << endl;
+			cout << endl << "----------------------------------------------------------------------------------" << endl;
 			currentPost.print();
 			cout << "[1] Reply to post " << endl;
 			cout << "[2] View replies" << endl;
@@ -795,7 +801,7 @@ void displayAPost(int postID, int topicID) {
 				cout << "[3] Delete post" << endl;
 				cout << "[4] Edit post" << endl;
 			}
-			cout << "[0] Back to user home" << endl;
+			cout << "[0] Back" << endl;
 			cout << "Enter option: ";
 
 			cin >> option;
@@ -823,7 +829,7 @@ void displayAPost(int postID, int topicID) {
 					}*/
 					updatePostData();
 					system("cls");
-					cout << postDeleted.getTopic() << " is deleted." << endl;
+					cout << postDeleted.getTopic() << " is deleted." << endl << endl;
 				}
 				else {
 					system("cls");
@@ -836,7 +842,6 @@ void displayAPost(int postID, int topicID) {
 			}
 			else if (option == "0") {
 				system("cls");
-				cout << "Back to user home. ";
 			}
 			else {
 				system("cls");
@@ -862,9 +867,11 @@ void displayUserPosts() {
 	string sortingMethod = "Default";
 	while (option != "0") {
 		cout << "C++ Programming Forum" << endl;
-		cout << "--------------------------------" << endl;
+		cout << "---------------------" << endl;
+		cout << "Viewing all your posts..." << endl;
+		cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
 		totalPages = postList.displayPages(currentPage, currentUser.getUserName());
-		cout << "--------------------------------" << endl;
+		cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
 		cout << "[1] View a Post " << endl;
 		cout << "[2] View page number" << endl;
 		cout << "[3] Sort by popularity" << endl;
@@ -900,18 +907,14 @@ void displayUserPosts() {
 		else if (option == "3") {
 			sortingMethod = "Popularity";
 			system("cls");
-			cout << "Sorted by Popularity.";
-		}
-		else if (option == "3") {
-			cout << "Create new posts" << endl;
+			cout << "Sorted by Popularity." << endl << endl;
 		}
 		else if (option == "0") {
 			system("cls");
-			cout << "You have back to ";
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "You have entered an invalid option. Please try again." << endl << endl;
 		}
 	}
 }
@@ -922,17 +925,19 @@ void replyProcess(Post currentPost) {
 	string topic = currentPost.getTopic();
 	string author = currentPost.getAuthor();
 	while (option != "0") {
-		cout << "Topic - " + topic << endl;
-		cout << "----------------------------------------------------" << endl;
+		cout << "C++ Programming Forum" << endl;
+		cout << "---------------------" << endl;
+		cout << "Viewing replies..." << endl;
+		cout << endl << "----------------------------------------------------------------------------------" << endl;
+		cout << "Topic: " + topic << endl;
+		cout << "----------------------------------------------------------------------------------" << endl;
 		printf("@%s: %s",author.c_str(), currentPost.getMessage().c_str());
 		cout << endl;
-		cout << "----------------------------------------------------" << endl;
-		cout << "Replies from all the users - " << endl;
-		cout << "----------------------------------------------------" << endl;
+		cout << "----------------------------------------------------------------------------------" << endl;
 		replyList.display(title, topic, author);
 		cout << endl;
-		cout << "[1] Reply to post " << endl;
-		cout << "[0] Back to user home" << endl;
+		cout << "[1] Reply post " << endl;
+		cout << "[0] Back" << endl;
 		cout << "---------------------" << endl;
 		cout << "Enter option: ";
 
@@ -940,24 +945,12 @@ void replyProcess(Post currentPost) {
 		if (option == "1") {
 			createReply(currentPost);
 		}
-		else if (option == "2") {
-			cout << "View a post" << endl;
-		}
-		else if (option == "3") {
-			cout << "Next page" << endl;
-		}
-		else if (option == "4") {
-			createPost();
-			system("cls");
-
-		}
 		else if (option == "0") {
 			system("cls");
-			cout << "Back to user home. ";
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "You have entered an invalid option. Please try again." << endl << endl;
 		}
 	}
 }
@@ -1036,14 +1029,16 @@ void createPost() {
 	string message, title, description;
 	Post newPost;
 	cout << "Creating new Post!" << endl;
-	cout << "------------------" << endl;
+	cout << "----------------------" << endl;
 	cout << "Title of Post: ";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	getline(cin, title);
 	newPost.setTitle(title);
+	cout << "----------------------" << endl;
 	cout << "Description of Post: " << endl;;
 	getline(cin, description);
 	newPost.setDescription(description);
+	cout << "----------------------" << endl;
 	cout << "Post your message here: " << endl;;
 	getline(cin, message);
 	newPost.setMessage(message);
@@ -1052,10 +1047,10 @@ void createPost() {
 	if (currentTopic.addPost(newPost)) {
 		savePostData(newPost);
 		postList.add(newPost);
-		cout << "New post is created succesfully!" << endl;
+		cout << "New post is created succesfully!" << endl << endl;
 	}
 	else
-		cout << "Saved Error!" << endl;
+		cout << "Saved Error!" << endl << end;
 }
 
 void editPost(int postID, Post currentPost) {
@@ -1066,7 +1061,7 @@ void editPost(int postID, Post currentPost) {
 		cout << "[1] Edit title " << endl;
 		cout << "[2] Edit description" << endl;
 		cout << "[3] Edit message" << endl;
-		cout << "[0] Back to user home" << endl;
+		cout << "[0] Back " << endl;
 		cout << "Enter option: ";
 		cin >> option;
 		if (option == "1") {
@@ -1104,7 +1099,7 @@ void editPost(int postID, Post currentPost) {
 		}
 		else {
 			system("cls");
-			cout << "Sorry. You have entered an invalid option." << endl;
+			cout << "Sorry. You have entered an invalid option." << endl << endl;
 		}
 		postList.remove(postID - 1001);
 		postList.add(postID - 1001, newPost);

@@ -35,12 +35,12 @@ void Post::addReply(Reply& reply, ReplyList& replyList)
 
 void Post::print()
 {
-	printf("%s (%s)", title.c_str(), topic.c_str());
-	cout << endl << "--------------------------------------------- " << endl;
-	cout << "About - " << description << endl;;
-	cout << "--------------------------------------------- " << endl;
+	cout << "Topic: " << endl << title.c_str() << endl;;
+	cout << "----------------------------------------------------------------------------------" << endl;
+	cout << "Description: " << endl << description << endl;;
+	cout << "----------------------------------------------------------------------------------" << endl;
 	cout << "@" + author + ":" << endl << message << endl;
-	cout << "--------------------------------------------- " << endl;
+	cout << "----------------------------------------------------------------------------------" << endl;
 }
 
 string Post::getMessage()
